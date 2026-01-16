@@ -192,6 +192,13 @@ public class RobotContainer {
 
     controller.a().onTrue(shooter.simpleShoot());
 
+    controller.y().onTrue(shooter.controllerShoot(3000));
+    
+    controller.b().onTrue(shooter.controllerShoot(100));
+
+
+
+
 
     // Reset gyro to 0° when B button is pressed
     controller
