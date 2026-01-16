@@ -34,6 +34,7 @@ import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import frc.robot.subsystems.Shooter;
 
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Vision vision;
+  private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -73,8 +75,13 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement,
-                new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation));
-                //new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation));
+                new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation),
+                new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation),
+                new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
+                new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
+
+        shooter = new Shooter();
+
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -107,6 +114,9 @@ public class RobotContainer {
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
+
+        shooter = new Shooter();
+
         break;
 
       default:
@@ -120,6 +130,9 @@ public class RobotContainer {
                 new ModuleIO() {});
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+
+        shooter = new Shooter();
+
 
         break;
     }
@@ -178,21 +191,14 @@ public class RobotContainer {
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-    controller.a().onTrue(Commands.sequence(
-                AutoBuilder.followPath(
-                    new PathPlannerPath(
-                        createBottomStation(),
-                        constraints,
-                        null,
-                        new GoalEndState(0.0, Rotation2d.fromDegrees(0))))));
 
-    controller.y().onTrue(Commands.sequence(
-        AutoBuilder.followPath(
-            new PathPlannerPath(
-                createTopStation(),
-                constraints,
-                null,
-                new GoalEndState(0.0, Rotation2d.fromDegrees(0))))));
+    controller.a().onTrue(shooter.simpleShoot());
+
+    controller.y().onTrue(shooter.controllerShoot(3000));
+    
+    controller.b().onTrue(shooter.controllerShoot(100));
+
+
 
 
 
@@ -216,18 +222,5 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autoChooser.get();
   }
-
-  public List<Waypoint> createBottomStation() {
-    return PathPlannerPath.waypointsFromPoses(
-        new Pose2d(2.19, 4.18, Rotation2d.fromDegrees(0)),
-        new Pose2d(1.198, 7, Rotation2d.fromDegrees(0)));
-  }
-
-  public List<Waypoint> createTopStation() {
-    return PathPlannerPath.waypointsFromPoses(
-        new Pose2d(2.19, 4.18, Rotation2d.fromDegrees(0)),
-        new Pose2d(1.113, 1, Rotation2d.fromDegrees(0)));
-  }
-
 
 }
