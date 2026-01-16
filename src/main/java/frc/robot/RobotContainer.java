@@ -194,6 +194,13 @@ public class RobotContainer {
 
     controller.a().onTrue(shooter.simpleShoot());
 
+    controller.y().onTrue(shooter.controllerShoot(3000));
+    
+    controller.b().onTrue(shooter.controllerShoot(100));
+
+
+
+
 
     // Reset gyro to 0° when B button is pressed
     controller
@@ -215,18 +222,5 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autoChooser.get();
   }
-
-  public List<Waypoint> createBottomStation() {
-    return PathPlannerPath.waypointsFromPoses(
-        new Pose2d(2.19, 4.18, Rotation2d.fromDegrees(0)),
-        new Pose2d(1.198, 7, Rotation2d.fromDegrees(0)));
-  }
-
-  public List<Waypoint> createTopStation() {
-    return PathPlannerPath.waypointsFromPoses(
-        new Pose2d(2.19, 4.18, Rotation2d.fromDegrees(0)),
-        new Pose2d(1.113, 1, Rotation2d.fromDegrees(0)));
-  }
-
 
 }

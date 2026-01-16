@@ -47,4 +47,11 @@ public class Shooter extends SubsystemBase{
             Commands.run(() -> setShooter(0)));
     }
 
+    public Command controllerShoot(double rpm) {
+        return Commands.sequence(
+            Commands.run(() -> setShooter2(rpm)), 
+            new WaitCommand(2), 
+            Commands.run(() -> setShooter2(0)));
+    }
+
 }
