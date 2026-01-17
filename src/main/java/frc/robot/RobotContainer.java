@@ -179,7 +179,7 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // Lock to 0° when A button is held
+    // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
     controller
         .a()
         .toggleOnTrue(
