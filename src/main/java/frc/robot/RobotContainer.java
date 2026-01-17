@@ -168,9 +168,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    PathConstraints constraints =
-        new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
@@ -193,12 +190,8 @@ public class RobotContainer {
     controller.a().onTrue(shooter.simpleShoot());
 
     controller.y().onTrue(shooter.controllerShoot(3000));
-    
+
     controller.b().onTrue(shooter.controllerShoot(100));
-
-
-
-
 
     // Reset gyro to 0° when B button is pressed
     controller
