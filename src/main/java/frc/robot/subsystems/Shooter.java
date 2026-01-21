@@ -36,22 +36,30 @@ public class Shooter extends SubsystemBase{
         gunWheel.setControl(new VelocityVoltage(rpm));
     }
 
+    public void stopShooter() {
+        gunWheel.stopMotor();
+    }
+
     @Override
     public void periodic() {
     }
 
     public Command simpleShoot() {
         return Commands.sequence(
-            Commands.run(() -> setShooter(1)), 
-            new WaitCommand(2), 
-            Commands.run(() -> setShooter(0)));
+            Commands.runOnce(() -> setShooter(1)), 
+            Commands.waitSeconds(2), 
+            Commands.runOnce(() -> setShooter(0)));
+    }
+
+    public Command IBegTheeStop() {
+        return Commands.run(() -> stopShooter());
     }
 
     public Command controllerShoot(double rpm) {
         return Commands.sequence(
-            Commands.run(() -> setShooter2(rpm)), 
+            Commands.runOnce(() -> setShooter2(rpm)), 
             new WaitCommand(2), 
-            Commands.run(() -> setShooter2(0)));
+            Commands.runOnce(() -> setShooter2(0)));
     }
 
 }

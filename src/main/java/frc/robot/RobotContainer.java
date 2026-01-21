@@ -185,11 +185,10 @@ public class RobotContainer {
 
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    controller.a().onTrue(shooter.simpleShoot());
+    controller.x().onTrue(shooter.simpleShoot());
 
-    controller.y().onTrue(shooter.controllerShoot(3000));
+    controller.y().onTrue(shooter.IBegTheeStop());
 
     controller.b().onTrue(shooter.controllerShoot(100));
 
