@@ -209,6 +209,10 @@ public class Drive extends SubsystemBase {
 
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
+
+    System.out.println("PITCH:" + gyroInputs.pitchPosition);
+    System.out.println("ROLL:" + gyroInputs.rollPosition);
+
   }
 
   /**

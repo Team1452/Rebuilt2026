@@ -202,6 +202,9 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+    
+    
+
   }
 
   /**
@@ -212,18 +215,5 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autoChooser.get();
   }
-
-  public List<Waypoint> createBottomStation() {
-    return PathPlannerPath.waypointsFromPoses(
-        new Pose2d(2.19, 4.18, Rotation2d.fromDegrees(0)),
-        new Pose2d(1.198, 7, Rotation2d.fromDegrees(0)));
-  }
-
-  public List<Waypoint> createTopStation() {
-    return PathPlannerPath.waypointsFromPoses(
-        new Pose2d(2.19, 4.18, Rotation2d.fromDegrees(0)),
-        new Pose2d(1.113, 1, Rotation2d.fromDegrees(0)));
-  }
-  
 
 }

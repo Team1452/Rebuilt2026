@@ -24,8 +24,7 @@ public class Shooter extends SubsystemBase{
     
     public Shooter() {
         gunWheel = new TalonFX(37, "");
-        gunConfig.Slot0 = gunGains;
-
+        //gunConfig.Slot0 = gunGains;
     }
 
     public void setShooter(double velocity) {
@@ -46,19 +45,19 @@ public class Shooter extends SubsystemBase{
 
     public Command simpleShoot() {
         return Commands.sequence(
-            Commands.runOnce(() -> setShooter(1)), 
+            Commands.runOnce(() -> setShooter(0.1)), 
             Commands.waitSeconds(2), 
             Commands.runOnce(() -> setShooter(0)));
     }
 
     public Command IBegTheeStop() {
-        return Commands.run(() -> stopShooter());
+        return Commands.runOnce(() -> stopShooter());
     }
 
     public Command controllerShoot(double rpm) {
         return Commands.sequence(
             Commands.runOnce(() -> setShooter2(rpm)), 
-            new WaitCommand(2), 
+            Commands.waitSeconds(2), 
             Commands.runOnce(() -> setShooter2(0)));
     }
 
