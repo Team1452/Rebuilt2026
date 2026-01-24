@@ -60,6 +60,8 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
+    long startTime = System.nanoTime();
+
     for (int i = 0; i < io.length; i++) {
       io[i].updateInputs(inputs[i]);
       Logger.processInputs("Vision/Camera" + Integer.toString(i), inputs[i]);
@@ -109,7 +111,7 @@ public class Vision extends SubsystemBase {
         // Add pose to log
         robotPoses.add(observation.pose());
         if (rejectPose) {
-          robotPosesAccepted.add(observation.pose());
+          robotPosesRejected.add(observation.pose());
         } else {
           robotPosesAccepted.add(observation.pose());
         }
@@ -133,11 +135,17 @@ public class Vision extends SubsystemBase {
           angularStdDev *= cameraStdDevFactors[cameraIndex];
         }
 
-        // Send vision observation
-        consumer.accept(
-            observation.pose().toPose2d(),
-            observation.timestamp(),
-            VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
+    // Send vision observation and log that it was sent
+    Logger.recordOutput(
+      "Vision/Camera" + Integer.toString(cameraIndex) + "/SentPose",
+      observation.pose().toPose2d());
+    Logger.recordOutput(
+      "Vision/Camera" + Integer.toString(cameraIndex) + "/SentTimestamp",
+      observation.timestamp());
+    consumer.accept(
+      observation.pose().toPose2d(),
+      observation.timestamp(),
+      VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
       }
 
       // Log camera metadata
@@ -175,4 +183,7 @@ public class Vision extends SubsystemBase {
         double timestampSeconds,
         Matrix<N3, N1> visionMeasurementStdDevs);
   }
+  // Existing periodic code
+long endTime = System.nanoTime();
+Logger.recordOutput("Vision/PeriodicTime", (endTime - startTime) / 1e6); // In milliseconds logging for periodic time
 }

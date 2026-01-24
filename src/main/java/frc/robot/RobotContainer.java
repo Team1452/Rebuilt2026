@@ -39,6 +39,7 @@ import frc.robot.subsystems.Shooter;
 import java.util.List;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.Logger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -139,6 +140,12 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
+        // Record runtime mode and which Vision implementation was created for debugging
+        Logger.recordOutput("Robot/Mode", Constants.currentMode.toString());
+        if (vision != null) {
+            Logger.recordOutput("Robot/VisionImpl", vision.getClass().getSimpleName());
+        }
 
     // Set up SysId routines
     autoChooser.addOption(
