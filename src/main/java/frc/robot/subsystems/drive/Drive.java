@@ -154,7 +154,6 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
-    long startTime = System.nanoTime();
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
@@ -214,8 +213,6 @@ public class Drive extends SubsystemBase {
    // System.out.println("PITCH:" + gyroInputs.pitchPosition);
     //System.out.println("ROLL:" + gyroInputs.rollPosition);
      // Existing periodic code
-long endTime = System.nanoTime();
-Logger.recordOutput("Vision/PeriodicTime", (endTime - startTime) / 1e6); // In milliseconds logging for periodic time
   }
 
   /**
