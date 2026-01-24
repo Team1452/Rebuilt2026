@@ -60,7 +60,6 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    long startTime = System.nanoTime();
 
     for (int i = 0; i < io.length; i++) {
       io[i].updateInputs(inputs[i]);
@@ -142,6 +141,7 @@ public class Vision extends SubsystemBase {
     Logger.recordOutput(
       "Vision/Camera" + Integer.toString(cameraIndex) + "/SentTimestamp",
       observation.timestamp());
+      
     consumer.accept(
       observation.pose().toPose2d(),
       observation.timestamp(),
@@ -174,9 +174,6 @@ public class Vision extends SubsystemBase {
         "Vision/Summary/RobotPosesAccepted", allRobotPosesAccepted.toArray(new Pose3d[0]));
     Logger.recordOutput(
         "Vision/Summary/RobotPosesRejected", allRobotPosesRejected.toArray(new Pose3d[0]));
-  // Log periodic execution time (ms)
-  long endTime = System.nanoTime();
-  Logger.recordOutput("Vision/PeriodicTime", (endTime - startTime) / 1e6);
   }
 
   @FunctionalInterface

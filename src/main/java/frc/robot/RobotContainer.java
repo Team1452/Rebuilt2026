@@ -51,7 +51,7 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Vision vision;
-  private final Shooter shooter;
+  //private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -81,7 +81,7 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
-        shooter = new Shooter();
+        //shooter = new Shooter();
 
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
@@ -116,7 +116,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
-        shooter = new Shooter();
+        //shooter = new Shooter();
 
         break;
 
@@ -130,9 +130,9 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
-        shooter = new Shooter();
+        //shooter = new Shooter();
 
 
         break;
@@ -193,11 +193,11 @@ public class RobotContainer {
 
     // Switch to X pattern when X button is pressed
 
-    controller.x().onTrue(shooter.simpleShoot());
+    //controller.x().onTrue(shooter.simpleShoot());
 
-    controller.y().onTrue(shooter.IBegTheeStop());
+    //controller.y().onTrue(shooter.IBegTheeStop());
 
-    controller.b().onTrue(shooter.controllerShoot(100));
+    //controller.b().onTrue(shooter.controllerShoot(100));
 
     // Reset gyro to 0° when B button is pressed
     controller
