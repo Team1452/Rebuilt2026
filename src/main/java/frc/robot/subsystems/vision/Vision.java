@@ -174,6 +174,9 @@ public class Vision extends SubsystemBase {
         "Vision/Summary/RobotPosesAccepted", allRobotPosesAccepted.toArray(new Pose3d[0]));
     Logger.recordOutput(
         "Vision/Summary/RobotPosesRejected", allRobotPosesRejected.toArray(new Pose3d[0]));
+  // Log periodic execution time (ms)
+  long endTime = System.nanoTime();
+  Logger.recordOutput("Vision/PeriodicTime", (endTime - startTime) / 1e6);
   }
 
   @FunctionalInterface
@@ -183,7 +186,4 @@ public class Vision extends SubsystemBase {
         double timestampSeconds,
         Matrix<N3, N1> visionMeasurementStdDevs);
   }
-  // Existing periodic code
-long endTime = System.nanoTime();
-Logger.recordOutput("Vision/PeriodicTime", (endTime - startTime) / 1e6); // In milliseconds logging for periodic time
 }
