@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import static frc.robot.util.PhoenixUtil.*;
+
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,7 +27,9 @@ public class Shooter extends SubsystemBase{
     
     public Shooter() {
         gunWheel = new TalonFX(37, "");
-        //gunConfig.Slot0 = gunGains;
+        gunConfig = new TalonFXConfiguration();
+        gunConfig.Slot0 = gunGains;
+        tryUntilOk(5, () -> gunWheel.getConfigurator().apply(gunConfig, 0.25));
     }
 
     public void setShooter(double velocity) {
