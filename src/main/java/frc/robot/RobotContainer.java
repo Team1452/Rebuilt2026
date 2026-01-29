@@ -35,6 +35,7 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.CANdleExample;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
+    private final CANdleExample ledSystem = new CANdleExample();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -179,15 +181,14 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> Rotation2d.kZero));
+
+    // Build the center-on-hopper command and attach LED side-effects
+    Command centerCmd = DriveCommands.centerOnHopperCommand(
+                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX())
+            .beforeStarting(() -> ledSystem.startAnimation("Larson"))
+            .finallyDo(interrupted -> ledSystem.startAnimation("Rainbow"));
+
+    controller.a().toggleOnTrue(centerCmd);
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
