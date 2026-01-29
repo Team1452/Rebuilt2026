@@ -209,6 +209,15 @@ public class Drive extends SubsystemBase {
 
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
+
+   // System.out.println("PITCH:" + gyroInputs.pitchPosition);
+    //System.out.println("ROLL:" + gyroInputs.rollPosition);
+     // Existing periodic code
+
+    // Record outputs that would otherwise be auto-logged so they appear in AdvantageScope
+    Logger.recordOutput("SwerveStates/Measured", getModuleStates());
+    Logger.recordOutput("SwerveChassisSpeeds/Measured", getChassisSpeeds());
+    Logger.recordOutput("Odometry/Robot", getPose());
   }
 
   /**
@@ -336,8 +345,11 @@ public class Drive extends SubsystemBase {
       Pose2d visionRobotPoseMeters,
       double timestampSeconds,
       Matrix<N3, N1> visionMeasurementStdDevs) {
-    poseEstimator.addVisionMeasurement(
-        visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
+  // Log incoming vision measurement for debugging end-to-end delivery
+  Logger.recordOutput("Drive/Vision/ReceivedPose", visionRobotPoseMeters);
+  Logger.recordOutput("Drive/Vision/ReceivedTimestamp", timestampSeconds);
+  poseEstimator.addVisionMeasurement(
+    visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
   }
 
   /** Returns the maximum linear speed in meters per sec. */

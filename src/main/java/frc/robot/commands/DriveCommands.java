@@ -287,13 +287,4 @@ public class DriveCommands {
     Rotation2d lastAngle = Rotation2d.kZero;
     double gyroDelta = 0.0;
   }
-
-  public static Command centerOnHopperCommand(Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier){
-      final Translation2d blueHopper = new Translation2d(4, 6);
-    // returns x supplier, y supplier and angle supplier that updates
-
-     return joystickDriveAtAngle(drive, xSupplier, ySupplier, () -> blueHopper.minus(drive.getPose().getTranslation()).getAngle());
-
-  };
-
 }

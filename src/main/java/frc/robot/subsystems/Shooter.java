@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import static frc.robot.util.PhoenixUtil.*;
+
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,8 +27,9 @@ public class Shooter extends SubsystemBase{
     
     public Shooter() {
         gunWheel = new TalonFX(37, "");
+        gunConfig = new TalonFXConfiguration();
         gunConfig.Slot0 = gunGains;
-
+        tryUntilOk(5, () -> gunWheel.getConfigurator().apply(gunConfig, 0.25));
     }
 
     public void setShooter(double velocity) {
@@ -36,22 +40,31 @@ public class Shooter extends SubsystemBase{
         gunWheel.setControl(new VelocityVoltage(rpm));
     }
 
+    public void stopShooter() {
+        gunWheel.stopMotor();
+    }
+
     @Override
     public void periodic() {
     }
 
     public Command simpleShoot() {
         return Commands.sequence(
-            Commands.run(() -> setShooter(1)), 
-            new WaitCommand(2), 
-            Commands.run(() -> setShooter(0)));
+            Commands.runOnce(() -> setShooter(0.1)), 
+            Commands.waitSeconds(2), 
+            Commands.runOnce(() -> setShooter(0)));
+    }
+
+    public Command IBegTheeStop() {
+        return Commands.runOnce(() -> stopShooter());
     }
 
     public Command controllerShoot(double rpm) {
         return Commands.sequence(
-            Commands.run(() -> setShooter2(rpm)), 
-            new WaitCommand(2), 
-            Commands.run(() -> setShooter2(0)));
+            Commands.runOnce(() -> setShooter2(rpm)), 
+            Commands.waitSeconds(2), 
+            Commands.runOnce(() -> setShooter2(0)));
     }
+    
 
 }

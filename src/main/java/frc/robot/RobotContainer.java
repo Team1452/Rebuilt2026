@@ -40,6 +40,7 @@ import frc.robot.subsystems.CANdleExample;
 import java.util.List;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.Logger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -53,6 +54,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Shooter shooter;
     private final CANdleExample ledSystem = new CANdleExample();
+  //private final Shooter shooter;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -82,7 +84,7 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
-        shooter = new Shooter();
+        //shooter = new Shooter();
 
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
@@ -117,7 +119,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
-        shooter = new Shooter();
+        //shooter = new Shooter();
 
         break;
 
@@ -131,9 +133,9 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {});
 
-        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {});
+        vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
-        shooter = new Shooter();
+        //shooter = new Shooter();
 
 
         break;
@@ -141,6 +143,12 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
+        // Record runtime mode and which Vision implementation was created for debugging
+        Logger.recordOutput("Robot/Mode", Constants.currentMode.toString());
+        if (vision != null) {
+            Logger.recordOutput("Robot/VisionImpl", vision.getClass().getSimpleName());
+        }
 
     // Set up SysId routines
     autoChooser.addOption(
@@ -170,9 +178,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    PathConstraints constraints =
-        new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
-
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
@@ -181,27 +186,23 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-
-    // Build the center-on-hopper command and attach LED side-effects
-    Command centerCmd = DriveCommands.centerOnHopperCommand(
-                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX())
-            .beforeStarting(() -> ledSystem.startAnimation("Larson"))
-            .finallyDo(interrupted -> ledSystem.startAnimation("Rainbow"));
-
-    controller.a().toggleOnTrue(centerCmd);
+    // Lock to 0° when A button is held
+    controller
+        .a()
+        .whileTrue(
+            DriveCommands.joystickDriveAtAngle(
+                drive,
+                () -> -controller.getLeftY(),
+                () -> -controller.getLeftX(),
+                () -> Rotation2d.kZero));
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    controller.a().onTrue(shooter.simpleShoot());
+    //controller.x().onTrue(shooter.simpleShoot());
 
-    controller.y().onTrue(shooter.controllerShoot(3000));
-    
-    controller.b().onTrue(shooter.controllerShoot(100));
+    //controller.y().onTrue(shooter.IBegTheeStop());
 
-
-
-
+    //controller.b().onTrue(shooter.controllerShoot(100));
 
     // Reset gyro to 0° when B button is pressed
     controller
@@ -213,6 +214,9 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+    
+    
+
   }
 
   /**
