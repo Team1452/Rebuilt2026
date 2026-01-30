@@ -57,6 +57,30 @@ public class LEDSubsystem extends SubsystemBase {
         cfg.LED.StripType = StripTypeValue.GRB;
         cfg.LED.BrightnessScalar = 0.5;
         m_candle.getConfigurator().apply(cfg);
+        /* clear all previous animations */
+        for (int i = 0; i < 8; ++i) {
+            m_candle.setControl(new EmptyAnimation(i));
+        }
+        /* set the onboard LEDs to a solid color */
+        m_candle.setControl(new SolidColor(0, 3).withColor(kGreen));
+        m_candle.setControl(new SolidColor(4, 7).withColor(kWhite));
+
+        /* add animations to chooser for slot 0 */
+        m_anim0Chooser.setDefaultOption("Color Flow", AnimationType.ColorFlow);
+        m_anim0Chooser.addOption("Rainbow", AnimationType.Rainbow);
+        m_anim0Chooser.addOption("Twinkle", AnimationType.Twinkle);
+        m_anim0Chooser.addOption("Twinkle Off", AnimationType.TwinkleOff);
+        m_anim0Chooser.addOption("Fire", AnimationType.Fire);
+
+        /* add animations to chooser for slot 1 */
+        m_anim1Chooser.setDefaultOption("Larson", AnimationType.Larson);
+        m_anim1Chooser.addOption("RGB Fade", AnimationType.RgbFade);
+        m_anim1Chooser.addOption("Single Fade", AnimationType.SingleFade);
+        m_anim1Chooser.addOption("Strobe", AnimationType.Strobe);
+        m_anim1Chooser.addOption("Fire", AnimationType.Fire);
+
+        SmartDashboard.putData("Animation 0", m_anim0Chooser);
+        SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
 
 
