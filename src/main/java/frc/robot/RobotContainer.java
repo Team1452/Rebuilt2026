@@ -35,6 +35,7 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.CANdleExample;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   //private final Shooter shooter;
+  private final CANdleExample ledSystem = new CANdleExample();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -184,11 +186,12 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
-    controller
-        .a()
-        .toggleOnTrue(
-            DriveCommands.centerOnHopperCommand(
-                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+    // Build the center-on-hopper command and attach LED side-effects
+    Command centerCmd = DriveCommands.centerOnHopperCommand(
+                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
+            ;
+
+    controller.a().toggleOnTrue(centerCmd);
 
 
     // Switch to X pattern when X button is pressed
