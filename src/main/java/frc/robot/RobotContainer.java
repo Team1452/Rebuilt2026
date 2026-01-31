@@ -220,6 +220,8 @@ public class RobotContainer {
     controller.a().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
     
     controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
+
+    controller.b().onTrue(Commands.runOnce(() -> ledSystem.setLights(50,60)));
   }
 
   /**

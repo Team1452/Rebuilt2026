@@ -89,7 +89,9 @@ public class LEDSubsystem extends SubsystemBase {
         SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
 
-
+    public void setLights(int startIdx,int endIdx){
+        m_candle.setControl(new SolidColor(startIdx, endIdx).withColor(kViolet));
+    }
 
     public void setAnimation(AnimationType type, int slot) {
         int startIdx, endIdx;//gets start location and end location for different light sections
@@ -165,8 +167,4 @@ public class LEDSubsystem extends SubsystemBase {
         }
     }
 
-    // Can add methods to set animations directly-can incoroprate with robot container on button press logic
-    public void setAnimation(AnimationType type) {
-        // Logic to switch the CANdle animation
-    }
 }
