@@ -53,7 +53,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
-    private final CANdleExample ledSystem = new CANdleExample();
+
   //private final Shooter shooter;
   private final CANdleExample ledSystem = new CANdleExample();
 
