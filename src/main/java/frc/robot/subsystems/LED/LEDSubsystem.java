@@ -37,11 +37,11 @@ public class LEDSubsystem extends SubsystemBase {
      * CANdle supports 8 animation slots (0-7).
      */
 
-    private static final int kSlot0StartIdx = 8;
-    private static final int kSlot0EndIdx = 37;
+    private static final int kSlot0StartIdx = 0;
+    private static final int kSlot0EndIdx = 7;
 
-    private static final int kSlot1StartIdx = 38;
-    private static final int kSlot1EndIdx = 67;
+    private static final int kSlot1StartIdx = 8;
+    private static final int kSlot1EndIdx = 66;
 
     private final CANdle m_candle = new CANdle(5, TunerConstants.kCANBus.getName());
     
@@ -84,87 +84,71 @@ public class LEDSubsystem extends SubsystemBase {
     }
 
 
-    @Override
-    public void periodic() {
-        
-        /* if the selection for slot 0 changes, change animations */
-        final var anim0Selection = m_anim0Chooser.getSelected();
-        if (m_anim0State != anim0Selection) {
-            m_anim0State = anim0Selection;
 
-            switch (m_anim0State) {
+    public void setAnimation(AnimationType type, int slot) {
+        int startIdx, endIdx;
+        if (slot == 0) {
+            startIdx = kSlot0StartIdx;
+            endIdx = kSlot0EndIdx;
+        } else {
+            startIdx = kSlot1StartIdx;
+            endIdx = kSlot1EndIdx;
+        }
+
+
+        switch (type) {
                 default:
                 case ColorFlow:
                     m_candle.setControl(
-                        new ColorFlowAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                        new ColorFlowAnimation(startIdx, endIdx).withSlot(slot)
                             .withColor(kViolet)
                     );
                     break;
                 case Rainbow:
                     m_candle.setControl(
-                        new RainbowAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                        new RainbowAnimation(startIdx, endIdx).withSlot(slot)
                     );
                     break;
                 case Twinkle:
                     m_candle.setControl(
-                        new TwinkleAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                        new TwinkleAnimation(startIdx, endIdx).withSlot(slot)
                             .withColor(kViolet)
                     );
                     break;
                 case TwinkleOff:
                     m_candle.setControl(
-                        new TwinkleOffAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                        new TwinkleOffAnimation(startIdx, endIdx).withSlot(slot)
                             .withColor(kViolet)
                     );
                     break;
                 case Fire:
                     m_candle.setControl(
-                        new FireAnimation(kSlot0StartIdx, kSlot0EndIdx).withSlot(0)
+                        new FireAnimation(startIdx, endIdx).withSlot(slot)
                     );
                     break;
-            }
+        }
+    }
+
+
+
+    @Override
+    public void periodic() {
+        
+        /* if the selection for slot 0 changes, change animations */
+        final var anim0Selection = m_anim0Chooser.getSelected();
+        if (anim0Selection != null && m_anim0State != anim0Selection) {
+            m_anim0State = anim0Selection;
+
+            setAnimation(m_anim0State, 0);
         }
 
         /* if the selection for slot 1 changes, change animations */
         final var anim1Selection = m_anim1Chooser.getSelected();
-        if (m_anim1State != anim1Selection) {
+        if (anim1Selection != null && m_anim1State != anim1Selection) {
             m_anim1State = anim1Selection;
 
-            switch (m_anim1State) {
-                default:
-                case Larson:
-                    m_candle.setControl(
-                        new LarsonAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
-                            .withColor(kRed)
-                    );
-                    break;
-                case RgbFade:
-                    m_candle.setControl(
-                        new RgbFadeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
-                    );
-                    break;
-                case SingleFade:
-                    m_candle.setControl(
-                        new SingleFadeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
-                            .withColor(kRed)
-                    );
-                    break;
-                case Strobe:
-                    m_candle.setControl(
-                        new StrobeAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
-                            .withColor(kRed)
-                    );
-                    break;
-                case Fire:
-                    /* direction can be reversed by either the Direction parameter or switching start and end */
-                    m_candle.setControl(
-                        new FireAnimation(kSlot1StartIdx, kSlot1EndIdx).withSlot(1)
-                            .withDirection(AnimationDirectionValue.Backward)
-                            .withCooling(0.4)
-                            .withSparking(0.5)
-                    );
-                    break;
-            }
+            setAnimation(m_anim1State, 1);
+            
         }
     }
 
