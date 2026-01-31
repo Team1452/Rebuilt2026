@@ -68,7 +68,8 @@ public class LEDSubsystem extends SubsystemBase {
 
         //seems to assign different animation types for different sections of the lights.
         /* add animations to chooser for slot 0 */
-        m_anim0Chooser.setDefaultOption("Color Flow", AnimationType.ColorFlow);
+        // m_anim0Chooser.setDefaultOption("Color Flow", AnimationType.ColorFlow);
+        m_anim0Chooser.setDefaultOption("Rainbow", AnimationType.Rainbow);
         m_anim0Chooser.addOption("Rainbow", AnimationType.Rainbow);
         m_anim0Chooser.addOption("Twinkle", AnimationType.Twinkle);
         m_anim0Chooser.addOption("Twinkle Off", AnimationType.TwinkleOff);
@@ -80,6 +81,9 @@ public class LEDSubsystem extends SubsystemBase {
         m_anim1Chooser.addOption("Single Fade", AnimationType.SingleFade);
         m_anim1Chooser.addOption("Strobe", AnimationType.Strobe);
         m_anim1Chooser.addOption("Fire", AnimationType.Fire);
+        m_anim1Chooser.addOption("Color Flow", AnimationType.ColorFlow);
+        m_anim1Chooser.addOption("Rainbow", AnimationType.Rainbow);
+        m_anim1Chooser.addOption("Twinkle", AnimationType.Twinkle);
 
         SmartDashboard.putData("Animation 0", m_anim0Chooser);
         SmartDashboard.putData("Animation 1", m_anim1Chooser);
