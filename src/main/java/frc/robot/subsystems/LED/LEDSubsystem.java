@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 
 public class LEDSubsystem extends SubsystemBase {
+    private final  int CANdleID = 5;
 
 
     /* color can be constructed from RGBW, a WPILib Color/Color8Bit, HSV, or hex */
@@ -43,7 +44,7 @@ public class LEDSubsystem extends SubsystemBase {
     private static final int kSlot1StartIdx = 8;
     private static final int kSlot1EndIdx = 66;
 
-    private final CANdle m_candle = new CANdle(5, TunerConstants.kCANBus.getName());
+    private final CANdle m_candle = new CANdle(CANdleID, TunerConstants.kCANBus.getName());
     
     private AnimationType m_anim0State = AnimationType.None;
     private AnimationType m_anim1State = AnimationType.None;
@@ -65,6 +66,7 @@ public class LEDSubsystem extends SubsystemBase {
         m_candle.setControl(new SolidColor(0, 3).withColor(kGreen));
         m_candle.setControl(new SolidColor(4, 7).withColor(kWhite));
 
+        //seems to assign different animation types for different sections of the lights.
         /* add animations to chooser for slot 0 */
         m_anim0Chooser.setDefaultOption("Color Flow", AnimationType.ColorFlow);
         m_anim0Chooser.addOption("Rainbow", AnimationType.Rainbow);
@@ -86,7 +88,7 @@ public class LEDSubsystem extends SubsystemBase {
 
 
     public void setAnimation(AnimationType type, int slot) {
-        int startIdx, endIdx;
+        int startIdx, endIdx;//gets start location and end location for different light sections
         if (slot == 0) {
             startIdx = kSlot0StartIdx;
             endIdx = kSlot0EndIdx;
@@ -97,6 +99,7 @@ public class LEDSubsystem extends SubsystemBase {
 
 
         switch (type) {
+            // Still need to add all animation types,is incomplete as is
                 default:
                 case ColorFlow:
                     m_candle.setControl(
@@ -126,6 +129,12 @@ public class LEDSubsystem extends SubsystemBase {
                         new FireAnimation(startIdx, endIdx).withSlot(slot)
                     );
                     break;
+                case Larson:
+                    m_candle.setControl(
+                        new LarsonAnimation(startIdx, endIdx).withSlot(slot)
+                            .withColor(kViolet)
+                    );
+                    break;
         }
     }
 
@@ -152,7 +161,7 @@ public class LEDSubsystem extends SubsystemBase {
         }
     }
 
-    // Can add methods to set animations directly
+    // Can add methods to set animations directly-can incoroprate with robot container on button press logic
     public void setAnimation(AnimationType type) {
         // Logic to switch the CANdle animation
     }
