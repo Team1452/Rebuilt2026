@@ -4,6 +4,7 @@ import static frc.robot.util.PhoenixUtil.*;
 
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,6 +25,9 @@ public class Shooter extends SubsystemBase{
         .withKP(100).withKI(0).withKD(0.5)
         .withKS(0.1).withKV(2.66).withKA(0)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+      private final Spark m_motor = new Spark(0);
+      
+  
     
     public Shooter() {
         gunWheel = new TalonFX(37, "");
@@ -43,6 +47,17 @@ public class Shooter extends SubsystemBase{
     public void stopShooter() {
         gunWheel.stopMotor();
     }
+
+    public void runPWM() {
+    m_motor.set(0.8);
+  }
+
+   public void stopPWM() {
+    m_motor.set(0.0);
+    }
+ // testing
+
+  
 
     @Override
     public void periodic() {
