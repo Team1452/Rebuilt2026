@@ -52,6 +52,8 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Vision vision;
+  private final Shooter shooter;
+    private final CANdleExample ledSystem = new CANdleExample();
   //private final Shooter shooter;
   private final CANdleExample ledSystem = new CANdleExample();
 
@@ -83,8 +85,8 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
-        //shooter = new Shooter();
-
+        shooter = new Shooter();
+        
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -118,7 +120,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
-        //shooter = new Shooter();
+        shooter = new Shooter();
 
         break;
 
@@ -134,7 +136,7 @@ public class RobotContainer {
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
-        //shooter = new Shooter();
+        shooter = new Shooter();
 
 
         break;
