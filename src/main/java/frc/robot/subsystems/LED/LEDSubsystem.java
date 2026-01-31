@@ -98,9 +98,13 @@ public class LEDSubsystem extends SubsystemBase {
         if (slot == 0) {
             startIdx = kSlot0StartIdx;
             endIdx = kSlot0EndIdx;
-        } else {
+        } else if (slot == 1) {
             startIdx = kSlot1StartIdx;
             endIdx = kSlot1EndIdx;
+        }
+        else {
+            startIdx = 0;
+            endIdx = 66;
         }
 
 
