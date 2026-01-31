@@ -56,6 +56,7 @@ public class RobotContainer {
   private final Shooter shooter;
     private final LEDSubsystem ledSystem = new LEDSubsystem();
   //private final Shooter shooter;
+  private final CANdleExample ledSystem = new CANdleExample();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -187,15 +188,14 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> Rotation2d.kZero));
+    // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
+    // Build the center-on-hopper command and attach LED side-effects
+    Command centerCmd = DriveCommands.centerOnHopperCommand(
+                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
+            ;
+
+    controller.a().toggleOnTrue(centerCmd);
+
 
     // Switch to X pattern when X button is pressed
 
