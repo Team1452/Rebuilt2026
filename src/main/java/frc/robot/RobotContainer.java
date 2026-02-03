@@ -39,6 +39,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.LED.AnimationType;
 import frc.robot.subsystems.LED.LEDSubsystem;
 import frc.robot.subsystems.CANdleExample;
+import frc.robot.subsystems.Hood;
 
 import java.util.List;
 
@@ -56,8 +57,11 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
+
     private final LEDSubsystem ledSystem = new LEDSubsystem();
-  //private final Shooter shooter;
+ 
+  private final Hood hood = new Hood(0);
+
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -87,8 +91,7 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
-        shooter = new Shooter();
-        
+        shooter = new Shooter();        
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -189,15 +192,14 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> Rotation2d.kZero));
+    // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
+    // Build the center-on-hopper command and attach LED side-effects
+    Command centerCmd = DriveCommands.centerOnHopperCommand(
+                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
+            ;
+
+    controller.a().toggleOnTrue(centerCmd);
+
 
     // Switch to X pattern when X button is pressed
 
