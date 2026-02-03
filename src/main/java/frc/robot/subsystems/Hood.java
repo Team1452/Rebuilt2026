@@ -76,7 +76,7 @@ public class Hood extends SubsystemBase {
 
 @Override
   public void periodic() {
-    System.out.println("Hood Position: " + getPositionCentimeters() + " cm");
+    // System.out.println("Hood Position: " + getPositionCentimeters() + " cm");
   }
 
 }
