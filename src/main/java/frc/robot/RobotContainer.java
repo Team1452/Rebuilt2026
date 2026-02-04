@@ -35,6 +35,8 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.LED.AnimationType;
+import frc.robot.subsystems.LED.LEDSubsystem;
 import frc.robot.subsystems.CANdleExample;
 import frc.robot.subsystems.Hood;
 
@@ -54,7 +56,9 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
-  private final CANdleExample ledSystem = new CANdleExample();
+    private final LEDSubsystem ledSystem = new LEDSubsystem();
+  //private final Shooter shooter;
+//   private final CANdleExample ledSystem = new CANdleExample();
   private final Hood hood = new Hood(0);
 
   // Controller
@@ -214,7 +218,12 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
     
+    controller.a().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
     
+    controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
+
+    controller.b().onTrue(Commands.runOnce(() -> ledSystem.setLights(50,60)));
+    controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Fire, 1)));
 
   }
 
