@@ -65,18 +65,15 @@ public class Hood extends SubsystemBase {
   }
 
   public Command setPositionCommand(double position) {
-    System.out.println("Setting hood position to: " + position);
     return Commands.runOnce(() -> setPosition(position), this);
   }
 
   public Command setSpeedCommand(double speed) {  
-    System.out.println("Setting hood speed to: " + speed);
     return Commands.runOnce(() -> setSpeed(speed), this);
   }
 
 @Override
   public void periodic() {
-    System.out.println("Hood Position: " + getPositionCentimeters() + " cm");
   }
 
 }
