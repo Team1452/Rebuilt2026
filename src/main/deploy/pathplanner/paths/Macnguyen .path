@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.268396606248675,
+        "x": 3.0,
         "y": 3.0
       },
       "isLocked": false,
@@ -20,119 +20,7 @@
         "y": 3.0
       },
       "prevControl": {
-        "x": 3.75,
-        "y": 3.0
-      },
-      "nextControl": {
-        "x": 4.25,
-        "y": 3.0
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 2.7814442467378413,
-        "y": 3.0502906287069997
-      },
-      "nextControl": {
-        "x": 1.2185557532621587,
-        "y": 2.9497093712930003
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 4.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 3.637480723606168,
-        "y": 2.965726571767497
-      },
-      "nextControl": {
-        "x": 4.362519276393832,
-        "y": 3.034273428232503
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 1.75,
-        "y": 3.0
-      },
-      "nextControl": {
-        "x": 2.25,
-        "y": 3.0
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 4.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 3.7500000000000004,
-        "y": 3.0
-      },
-      "nextControl": {
-        "x": 4.25,
-        "y": 3.0
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 1.75,
-        "y": 3.0
-      },
-      "nextControl": {
-        "x": 2.25,
-        "y": 3.0
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 4.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 3.75,
-        "y": 3.0
-      },
-      "nextControl": {
-        "x": 4.25,
-        "y": 3.0
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.0,
-        "y": 3.0
-      },
-      "prevControl": {
-        "x": 1.75,
+        "x": 3.0,
         "y": 3.0
       },
       "nextControl": null,
@@ -145,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 7.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
