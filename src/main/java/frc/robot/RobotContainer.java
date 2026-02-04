@@ -35,8 +35,10 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.LED.AnimationType;
 import frc.robot.subsystems.LED.LEDSubsystem;
 import frc.robot.subsystems.CANdleExample;
+import frc.robot.subsystems.Hood;
 
 import java.util.List;
 
@@ -56,7 +58,8 @@ public class RobotContainer {
   private final Shooter shooter;
     private final LEDSubsystem ledSystem = new LEDSubsystem();
   //private final Shooter shooter;
-  private final CANdleExample ledSystem = new CANdleExample();
+//   private final CANdleExample ledSystem = new CANdleExample();
+  private final Hood hood = new Hood(0);
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -86,8 +89,7 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
-        shooter = new Shooter();
-        
+        shooter = new Shooter();        
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -216,7 +218,12 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
     
+    controller.a().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
     
+    controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
+
+    controller.b().onTrue(Commands.runOnce(() -> ledSystem.setLights(50,60)));
+    controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Fire, 1)));
 
   }
 
