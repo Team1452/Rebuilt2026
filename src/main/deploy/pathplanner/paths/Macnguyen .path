@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.148018979830851,
-        "y": 3.223890865949552
+        "x": 2.268396606248675,
+        "y": 3.0
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +20,12 @@
         "y": 3.0
       },
       "prevControl": {
-        "x": 3.8708896797153014,
-        "y": 3.2582206405693945
+        "x": 3.75,
+        "y": 3.0
       },
       "nextControl": {
-        "x": 4.129110320284699,
-        "y": 2.7417793594306055
+        "x": 4.25,
+        "y": 3.0
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +36,104 @@
         "y": 3.0
       },
       "prevControl": {
-        "x": 2.070000000000001,
-        "y": 2.7600000000000007
+        "x": 2.7814442467378413,
+        "y": 3.0502906287069997
+      },
+      "nextControl": {
+        "x": 1.2185557532621587,
+        "y": 2.9497093712930003
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 3.637480723606168,
+        "y": 2.965726571767497
+      },
+      "nextControl": {
+        "x": 4.362519276393832,
+        "y": 3.034273428232503
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 1.75,
+        "y": 3.0
+      },
+      "nextControl": {
+        "x": 2.25,
+        "y": 3.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 3.7500000000000004,
+        "y": 3.0
+      },
+      "nextControl": {
+        "x": 4.25,
+        "y": 3.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 1.75,
+        "y": 3.0
+      },
+      "nextControl": {
+        "x": 2.25,
+        "y": 3.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 3.75,
+        "y": 3.0
+      },
+      "nextControl": {
+        "x": 4.25,
+        "y": 3.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 1.75,
+        "y": 3.0
       },
       "nextControl": null,
       "isLocked": false,

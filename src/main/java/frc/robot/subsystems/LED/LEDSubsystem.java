@@ -85,8 +85,8 @@ public class LEDSubsystem extends SubsystemBase {
         m_anim1Chooser.addOption("Rainbow", AnimationType.Rainbow);
         m_anim1Chooser.addOption("Twinkle", AnimationType.Twinkle);
 
-        SmartDashboard.putData("Animation 0", m_anim0Chooser);
-        SmartDashboard.putData("Animation 1", m_anim1Chooser);
+        // SmartDashboard.putData("Animation 0", m_anim0Chooser);
+        // SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
 
     public void setLights(int startIdx,int endIdx){
