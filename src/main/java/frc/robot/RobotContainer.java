@@ -37,7 +37,6 @@ import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.LED.AnimationType;
 import frc.robot.subsystems.LED.LEDSubsystem;
-import frc.robot.subsystems.CANdleExample;
 import frc.robot.subsystems.Hood;
 
 import java.util.List;
