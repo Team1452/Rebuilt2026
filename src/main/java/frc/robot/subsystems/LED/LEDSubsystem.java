@@ -66,7 +66,8 @@ public class LEDSubsystem extends SubsystemBase {
         m_candle.setControl(new SolidColor(0, 3).withColor(kGreen));
         m_candle.setControl(new SolidColor(4, 7).withColor(kWhite));
 
-        //seems to assign different animation types for different sections of the lights.
+        //seems to assign different animation types for different sections of the lights.- not sure if it breaks if we try something not explictly added
+        //not sure if we can add our own custom types
         /* add animations to chooser for slot 0 */
         // m_anim0Chooser.setDefaultOption("Color Flow", AnimationType.ColorFlow);
         m_anim0Chooser.setDefaultOption("Rainbow", AnimationType.Rainbow);
@@ -88,11 +89,16 @@ public class LEDSubsystem extends SubsystemBase {
         // SmartDashboard.putData("Animation 0", m_anim0Chooser);
         // SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
-
+    /*  doesnt work but ideally sets a solid color(currently hard coded to violet) for the lights between startIdx and endIdx */
     public void setLights(int startIdx,int endIdx){
-        m_candle.setControl(new SolidColor(startIdx, endIdx).withColor(kViolet));
+        // m_candle.setControl(new SolidColor(startIdx, endIdx).withColor(kViolet));
+        for (int i=startIdx;i<endIdx;i++){
+            m_candle.setControl(new EmptyAnimation(i));
+        }
+        m_candle.setControl(new SolidColor(startIdx, endIdx).withColor(kGreen));
     }
 
+    /* sets the animation for a given slot(0 or 1) to a set of predefined types */
     public void setAnimation(AnimationType type, int slot) {
         int startIdx, endIdx;//gets start location and end location for different light sections
         if (slot == 0) {
@@ -154,21 +160,21 @@ public class LEDSubsystem extends SubsystemBase {
     public void periodic() {
         
         /* if the selection for slot 0 changes, change animations */
-        final var anim0Selection = m_anim0Chooser.getSelected();
-        if (anim0Selection != null && m_anim0State != anim0Selection) {
-            m_anim0State = anim0Selection;
+        // final var anim0Selection = m_anim0Chooser.getSelected();
+        // if (anim0Selection != null && m_anim0State != anim0Selection) {
+        //     m_anim0State = anim0Selection;
 
-            setAnimation(m_anim0State, 0);
-        }
+        //     setAnimation(m_anim0State, 0);
+        // }
 
-        /* if the selection for slot 1 changes, change animations */
-        final var anim1Selection = m_anim1Chooser.getSelected();
-        if (anim1Selection != null && m_anim1State != anim1Selection) {
-            m_anim1State = anim1Selection;
+        // /* if the selection for slot 1 changes, change animations */
+        // final var anim1Selection = m_anim1Chooser.getSelected();
+        // if (anim1Selection != null && m_anim1State != anim1Selection) {
+        //     m_anim1State = anim1Selection;
 
-            setAnimation(m_anim1State, 1);
+        //     setAnimation(m_anim1State, 1);
             
-        }
+        // }
     }
 
 }
