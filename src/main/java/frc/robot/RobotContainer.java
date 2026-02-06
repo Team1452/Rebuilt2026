@@ -35,7 +35,7 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.CANdleExample;
+//import frc.robot.subsystems.CANdleExample;
 import frc.robot.subsystems.Hood;
 
 import java.util.List;
@@ -54,7 +54,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
-  private final CANdleExample ledSystem = new CANdleExample();
+  //private final CANdleExample ledSystem = new CANdleExample();
   private final Hood hood = new Hood(0);
 
   // Controller
