@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Macnguyen "
+            "pathName": "Copy of Macnguyen "
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Back1"
+            "pathName": "slowf Back1"
           }
         }
       ]
     }
   },
-  "resetOdom": false,
+  "resetOdom": true,
   "folder": null,
   "choreoAuto": false
 }

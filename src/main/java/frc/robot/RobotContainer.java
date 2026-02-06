@@ -222,6 +222,8 @@ public class RobotContainer {
     controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
 
     controller.b().onTrue(Commands.runOnce(() -> ledSystem.setLights(50,60)));
+    //this b press currently does nothing, maybe 
+
     controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Fire, 1)));
 
   }
