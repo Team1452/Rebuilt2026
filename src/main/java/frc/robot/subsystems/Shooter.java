@@ -65,6 +65,10 @@ public class Shooter extends SubsystemBase{
             Commands.waitSeconds(2), 
             Commands.runOnce(() -> setShooter2(0)));
     }
+
+    public Command setShooterCommand(double fractional) {
+        return Commands.runOnce(() -> setShooter(fractional));
+    }
     
 
 }
