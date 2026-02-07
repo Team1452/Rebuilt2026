@@ -289,7 +289,7 @@ public class DriveCommands {
   }
 
   public static Command centerOnHopperCommand(Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier){
-      final Translation2d blueHopper = new Translation2d(4, 6);
+      final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
     // returns x supplier, y supplier and angle supplier that updates
 
      return joystickDriveAtAngle(drive, xSupplier, ySupplier, () -> blueHopper.minus(drive.getPose().getTranslation()).getAngle());
