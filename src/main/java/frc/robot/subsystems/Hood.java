@@ -1,11 +1,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.drive.Drive;
+
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
@@ -71,6 +74,12 @@ public class Hood extends SubsystemBase {
   public Command setSpeedCommand(double speed) {  
     return Commands.runOnce(() -> setSpeed(speed), this);
   }
+
+  /*public static Command constantUpdateCommand(Drive drive) {
+    final Translation2d blueHopper = new Translation2d(4.623, 4.01);
+    DoubleSupplier distance = () -> Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
+
+  } */
 
 @Override
   public void periodic() {

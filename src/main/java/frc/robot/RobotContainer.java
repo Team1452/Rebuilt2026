@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -163,6 +164,9 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, null, null));
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -184,13 +188,9 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
-    // Build the center-on-hopper command and attach LED side-effects
-    Command centerCmd = DriveCommands.centerOnHopperCommand(
-                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
-            ;
 
-    controller.a().toggleOnTrue(centerCmd);
-
+    controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+    
     controller.x().toggleOnTrue(MultiCommands.PushAndShootCommand(indexer, shooter, hood));
 
 
