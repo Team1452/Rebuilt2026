@@ -85,8 +85,8 @@ public class LEDSubsystem extends SubsystemBase {
         m_anim1Chooser.addOption("Rainbow", AnimationType.Rainbow);
         m_anim1Chooser.addOption("Twinkle", AnimationType.Twinkle);
 
-        SmartDashboard.putData("Animation 0", m_anim0Chooser);
-        SmartDashboard.putData("Animation 1", m_anim1Chooser);
+        // SmartDashboard.putData("Animation 0", m_anim0Chooser);
+        // SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
 
     public void setLights(int startIdx,int endIdx){
@@ -153,22 +153,22 @@ public class LEDSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         
-        /* if the selection for slot 0 changes, change animations */
-        final var anim0Selection = m_anim0Chooser.getSelected();
-        if (anim0Selection != null && m_anim0State != anim0Selection) {
-            m_anim0State = anim0Selection;
+        // /* if the selection for slot 0 changes, change animations */
+        // final var anim0Selection = m_anim0Chooser.getSelected();
+        // if (anim0Selection != null && m_anim0State != anim0Selection) {
+        //     m_anim0State = anim0Selection;
 
-            setAnimation(m_anim0State, 0);
-        }
+        //     setAnimation(m_anim0State, 0);
+        // }
 
-        /* if the selection for slot 1 changes, change animations */
-        final var anim1Selection = m_anim1Chooser.getSelected();
-        if (anim1Selection != null && m_anim1State != anim1Selection) {
-            m_anim1State = anim1Selection;
+        // /* if the selection for slot 1 changes, change animations */
+        // final var anim1Selection = m_anim1Chooser.getSelected();
+        // if (anim1Selection != null && m_anim1State != anim1Selection) {
+        //     m_anim1State = anim1Selection;
 
-            setAnimation(m_anim1State, 1);
+        //     setAnimation(m_anim1State, 1);
             
-        }
+        // }
     }
 
 }
