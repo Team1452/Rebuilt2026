@@ -197,7 +197,7 @@ public class RobotContainer {
 
     controller.y().toggleOnTrue(intake.setSuckerCommand(1.0));
 
-    controller.b().toggleOnTrue(Commands.parallel(indexer.setRollerCommand(1.0), indexer.setKickerCommand(1.0)));
+    controller.b().toggleOnTrue(Commands.parallel(indexer.setRollerCommand(0.3), indexer.setKickerCommand(0.3)));
 
     controller.a().toggleOnTrue(shooter.simpleShoot());
 

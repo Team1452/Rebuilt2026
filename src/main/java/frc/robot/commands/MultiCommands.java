@@ -29,9 +29,9 @@ public class MultiCommands {
 
     public static Command PushAndShootCommand(Indexer indexer, Shooter shooter, Hood hood) {
         return Commands.parallel(
-            shooter.setShooterCommand(0.5), 
-            indexer.setRollerCommand(0.5), 
-            indexer.setKickerCommand(0.5));
+            shooter.setShooterCommand(0.5),
+            indexer.setRollerCommand(0.3),
+            indexer.setKickerCommand(0.3));
     }
     
 }
