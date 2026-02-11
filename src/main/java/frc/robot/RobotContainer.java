@@ -40,6 +40,7 @@ import frc.robot.subsystems.Shooter;
 //import frc.robot.subsystems.CANdleExample;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 
 import java.util.List;
 
@@ -60,6 +61,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   //private final CANdleExample ledSystem = new CANdleExample();
   private final Hood hood = new Hood(0);
+  private final Intake intake = new Intake();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -189,9 +191,15 @@ public class RobotContainer {
 
     // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
 
-    controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+    //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
     controller.x().toggleOnTrue(MultiCommands.PushAndShootCommand(indexer, shooter, hood));
+
+    controller.y().toggleOnTrue(intake.setSuckerCommand(1.0));
+
+    controller.b().toggleOnTrue(Commands.parallel(indexer.setRollerCommand(1.0), indexer.setKickerCommand(1.0)));
+
+    controller.a().toggleOnTrue(shooter.simpleShoot());
 
 
     // Switch to X pattern when X button is pressed
