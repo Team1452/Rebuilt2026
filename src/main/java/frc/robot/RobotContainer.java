@@ -59,7 +59,6 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter = new Shooter();
-  //private final CANdleExample ledSystem = new CANdleExample();
   private final Hood hood = new Hood(0);
   private final Intake intake = new Intake();
 

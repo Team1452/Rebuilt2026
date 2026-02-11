@@ -75,11 +75,15 @@ public class Hood extends SubsystemBase {
     return Commands.runOnce(() -> setSpeed(speed), this);
   }
 
-  /*public static Command constantUpdateCommand(Drive drive) {
+  public Command constantUpdateCommand(Drive drive) {
     final Translation2d blueHopper = new Translation2d(4.623, 4.01);
+
     DoubleSupplier distance = () -> Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
 
-  } */
+    DoubleSupplier position = () -> -0.378 + 5.96E-03*distance.getAsDouble() + 8.5E-03*Math.pow(distance.getAsDouble(),2) + -6E-04*Math.pow(distance.getAsDouble(),3) + 1.18E-05*Math.pow(distance.getAsDouble(),4);
+
+    return Commands.runOnce(() -> setPositionCommand(position.getAsDouble()));
+  } 
 
 @Override
   public void periodic() {
