@@ -22,8 +22,8 @@ public class Indexer extends SubsystemBase{
     private TalonFX kickerWheel;
     
     public Indexer() {
-        rollerWheel = new TalonFX(44, "spurs");
-        kickerWheel = new TalonFX(43, "spurs");
+        rollerWheel = new TalonFX(50, "spurs");
+        kickerWheel = new TalonFX(51, "spurs");
     }
 
     public void setIndexer(double velocity) {

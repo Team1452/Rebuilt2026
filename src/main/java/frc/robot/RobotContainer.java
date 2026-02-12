@@ -192,9 +192,9 @@ public class RobotContainer {
 
     //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
-    controller.x().toggleOnTrue(MultiCommands.PushAndShootCommand(indexer, shooter, hood));
+    controller.x().toggleOnTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
 
-    controller.y().toggleOnTrue(intake.setSuckerCommand(1.0));
+    controller.y().toggleOnTrue(intake.setSuckerCommand(0.5));
 
     controller.b().toggleOnTrue(Commands.parallel(indexer.setRollerCommand(0.3), indexer.setKickerCommand(0.3)));
 

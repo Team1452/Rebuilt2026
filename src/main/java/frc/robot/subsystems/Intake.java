@@ -22,8 +22,8 @@ public class Intake extends SubsystemBase{
 
     
     public Intake() {
-        rotator = new TalonFX(51);
-        sucker = new TalonFX(52);
+        rotator = new TalonFX(61);
+        sucker = new TalonFX(60);
         rotatorConfig = new TalonFXConfiguration();
         suckerConfig = new TalonFXConfiguration();
 

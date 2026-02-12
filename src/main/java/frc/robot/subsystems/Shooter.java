@@ -18,7 +18,8 @@ import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 public class Shooter extends SubsystemBase{    
 
-    private TalonFX gunWheel;
+    private TalonFX gunWheel1;
+    private TalonFX gunWheel2;
     private TalonFXConfiguration gunConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
         .withKP(100).withKI(0).withKD(0.5)
@@ -26,22 +27,27 @@ public class Shooter extends SubsystemBase{
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Shooter() {
-        gunWheel = new TalonFX(37, "");
+        gunWheel1 = new TalonFX(6, "");
+        gunWheel2 = new TalonFX(7, "");
         gunConfig = new TalonFXConfiguration();
         gunConfig.Slot0 = gunGains;
-        tryUntilOk(5, () -> gunWheel.getConfigurator().apply(gunConfig, 0.25));
+        tryUntilOk(5, () -> gunWheel1.getConfigurator().apply(gunConfig, 0.25));
+        tryUntilOk(5, () -> gunWheel2.getConfigurator().apply(gunConfig, 0.25));
     }
 
     public void setShooter(double velocity) {
-        gunWheel.set(velocity);
+        gunWheel1.set(velocity);
+        gunWheel2.set(velocity);
     }
 
     public void setShooter2(double rpm) {
-        gunWheel.setControl(new VelocityVoltage(rpm));
+        gunWheel1.setControl(new VelocityVoltage(rpm));
+        gunWheel2.setControl(new VelocityVoltage(rpm));
     }
 
     public void stopShooter() {
-        gunWheel.stopMotor();
+        gunWheel1.stopMotor();
+        gunWheel2.stopMotor();
     }
 
     @Override
