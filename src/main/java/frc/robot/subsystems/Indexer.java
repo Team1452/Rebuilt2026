@@ -15,6 +15,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
+import frc.robot.generated.TunerConstants;
 
 public class Indexer extends SubsystemBase{    
 
@@ -22,8 +23,8 @@ public class Indexer extends SubsystemBase{
     private TalonFX kickerWheel;
     
     public Indexer() {
-        rollerWheel = new TalonFX(50, "spurs");
-        kickerWheel = new TalonFX(51, "spurs");
+        rollerWheel = new TalonFX(50, TunerConstants.kCANBus2);
+        kickerWheel = new TalonFX(51, TunerConstants.kCANBus2);
     }
 
     public void setIndexer(double velocity) {

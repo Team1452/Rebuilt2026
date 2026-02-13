@@ -14,6 +14,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import frc.robot.generated.TunerConstants;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 public class Shooter extends SubsystemBase{    
@@ -27,8 +28,8 @@ public class Shooter extends SubsystemBase{
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Shooter() {
-        gunWheel1 = new TalonFX(6, "");
-        gunWheel2 = new TalonFX(7, "");
+        gunWheel1 = new TalonFX(6,  TunerConstants.kCANBus2);
+        gunWheel2 = new TalonFX(7, TunerConstants.kCANBus2);
         gunConfig = new TalonFXConfiguration();
         gunConfig.Slot0 = gunGains;
         tryUntilOk(5, () -> gunWheel1.getConfigurator().apply(gunConfig, 0.25));

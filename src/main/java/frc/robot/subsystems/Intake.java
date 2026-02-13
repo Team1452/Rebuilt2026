@@ -8,6 +8,7 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import frc.robot.generated.TunerConstants;
 import static frc.robot.util.PhoenixUtil.*;
 
 
@@ -22,8 +23,8 @@ public class Intake extends SubsystemBase{
 
     
     public Intake() {
-        rotator = new TalonFX(61);
-        sucker = new TalonFX(60);
+        rotator = new TalonFX(61, TunerConstants.kCANBus2);
+        sucker = new TalonFX(62, TunerConstants.kCANBus2);
         rotatorConfig = new TalonFXConfiguration();
         suckerConfig = new TalonFXConfiguration();
 

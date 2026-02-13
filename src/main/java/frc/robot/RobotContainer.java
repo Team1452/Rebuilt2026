@@ -192,13 +192,13 @@ public class RobotContainer {
 
     //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
-    controller.x().toggleOnTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
+    controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
 
-    controller.y().toggleOnTrue(intake.setSuckerCommand(0.5));
+    controller.y().onTrue(intake.setSuckerCommand(0.5));
 
-    controller.b().toggleOnTrue(Commands.parallel(indexer.setRollerCommand(0.3), indexer.setKickerCommand(0.3)));
+    controller.b().onTrue(indexer.setKickerCommand(0.2));
 
-    controller.a().toggleOnTrue(shooter.simpleShoot());
+    controller.a().onTrue(shooter.setShooterCommand(0.6));
 
 
     // Switch to X pattern when X button is pressed
