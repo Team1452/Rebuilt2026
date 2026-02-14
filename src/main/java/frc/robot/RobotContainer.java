@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -55,7 +56,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
-    private final LEDSubsystem ledSystem = new LEDSubsystem();
+private final LEDSubsystem ledSystem = new LEDSubsystem();
   //private final Shooter shooter;
 //   private final CANdleExample ledSystem = new CANdleExample();
   private final Hood hood = new Hood(0);
@@ -143,6 +144,8 @@ public class RobotContainer {
 
         break;
     }
+
+    NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Fire, 1)));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
