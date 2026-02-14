@@ -59,7 +59,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter = new Shooter();
-  private final Hood hood = new Hood(0);
+  private final Hood hood = new Hood(1);
   private final Intake intake = new Intake();
 
   // Controller
@@ -192,7 +192,13 @@ public class RobotContainer {
 
     //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
-    controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
+    //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
+
+    controller.rightBumper().whileTrue(hood.setSpeedCommand(0.5));
+    controller.leftBumper().whileTrue(hood.setSpeedCommand(-0.5));
+
+    controller.x().toggleOnTrue(hood.constantUpdateCommand(drive));
+
 
     controller.y().onTrue(intake.setSuckerCommand(0.5));
 

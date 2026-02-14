@@ -72,7 +72,7 @@ public class Hood extends SubsystemBase {
   }
 
   public Command setSpeedCommand(double speed) {  
-    return Commands.runOnce(() -> setSpeed(speed), this);
+    return Commands.run(() -> setSpeed(speed), this);
   }
 
   public Command constantUpdateCommand(Drive drive) {
