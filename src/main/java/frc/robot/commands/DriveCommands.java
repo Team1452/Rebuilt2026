@@ -297,12 +297,12 @@ public class DriveCommands {
 
   }
 
-  public static BooleanSupplier isCentered(Drive drive, double toleranceMeters){
+  public static BooleanSupplier isFacingHopper(Drive drive, double toleranceMeters){
     final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
     return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
 
-
+  
 
 
 }
