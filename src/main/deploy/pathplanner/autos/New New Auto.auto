@@ -13,12 +13,6 @@
                 "data": {
                   "pathName": "sideways"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoLock"
-                }
               }
             ]
           }
