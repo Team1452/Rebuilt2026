@@ -145,7 +145,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
         break;
     }
 
-    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0));
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isCentered(drive, 5)));
     NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
 
     // Set up auto routines
@@ -197,7 +197,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
     // Build the center-on-hopper command and attach LED side-effects
     Command centerCmd = DriveCommands.centerOnHopperCommand(
                 drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
-            ;
+            
 
     controller.a().toggleOnTrue(centerCmd);
 
