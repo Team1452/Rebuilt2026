@@ -5,28 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Back1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Fire"
-                }
-              }
-            ]
+            "pathName": "Back1"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "AutoLock"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire"
           }
         }
       ]
