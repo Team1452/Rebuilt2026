@@ -145,7 +145,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
         break;
     }
 
-    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, null, null));
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0));
     NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
 
     // Set up auto routines
