@@ -55,10 +55,14 @@ public class Hood extends SubsystemBase {
     lastCommanded = v;
   }
 
-  public void setSpeed(double speed) {
-    double v = MathUtil.clamp(speed, -1.0, 1.0);
-    actuator.set(v);
-    lastCommanded = v;
+  public void uppies() {
+    lastCommanded += 0.1;
+    actuator.set(lastCommanded); 
+  }
+
+  public void downies() {
+    lastCommanded -= 0.1;
+    actuator.set(lastCommanded); 
   }
   
   public double getPositionCentimeters() {
@@ -71,8 +75,12 @@ public class Hood extends SubsystemBase {
     return Commands.runOnce(() -> setPosition(position), this);
   }
 
-  public Command setSpeedCommand(double speed) {  
-    return Commands.run(() -> setSpeed(speed), this);
+  public Command up() {
+    return Commands.run(() -> uppies(), this);
+  }
+
+  public Command down() {
+    return Commands.run(() -> downies(), this);
   }
 
   public Command constantUpdateCommand(Drive drive) {
