@@ -9,6 +9,24 @@
           "data": {
             "pathName": "back"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoLock"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Hood10"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot10"
+          }
         }
       ]
     }
