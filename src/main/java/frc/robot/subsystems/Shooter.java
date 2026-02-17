@@ -12,6 +12,7 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.generated.TunerConstants;
@@ -23,8 +24,8 @@ public class Shooter extends SubsystemBase{
     private TalonFX gunWheel2;
     private TalonFXConfiguration gunConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
-        .withKP(100).withKI(0).withKD(0.5)
-        .withKS(0.1).withKV(2.66).withKA(0)
+        .withKP(0.1).withKI(0).withKD(0.5)
+        .withKS(0.1).withKV(0.1).withKA(0)
         .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Shooter() {
@@ -73,8 +74,8 @@ public class Shooter extends SubsystemBase{
             Commands.runOnce(() -> setShooter2(0)));
     }
 
-    public Command setShooterCommand(double fractional) {
-        return Commands.runOnce(() -> setShooter(fractional));
+    public Command setShooterCommand(double rps) {
+        return Commands.runOnce(() -> setShooter2(rps));
     }
     
 

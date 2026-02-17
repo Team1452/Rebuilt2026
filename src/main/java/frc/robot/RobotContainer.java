@@ -201,12 +201,8 @@ public class RobotContainer {
 
     controller.x().toggleOnTrue(hood.constantUpdateCommand(drive));
 
-
-    controller.y().onTrue(intake.setSuckerCommand(0.5));
-
-    controller.b().onTrue(indexer.setKickerCommand(0.2));
-
-    controller.a().onTrue(shooter.setShooterCommand(0.6));
+    controller.a().onTrue(shooter.setShooterCommand(0.1)).onFalse(shooter.setShooterCommand(0));
+    controller.b().onTrue(shooter.IBegTheeStop());
 
 
     // Switch to X pattern when X button is pressed
