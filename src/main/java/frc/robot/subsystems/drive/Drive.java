@@ -156,7 +156,7 @@ public class Drive extends SubsystemBase {
   public void periodic() {
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
-    Logger.processInputs("Drive/Gyro", gyroInputs);
+    // Logger.processInputs("Drive/Gyro", gyroInputs);
     for (var module : modules) {
       module.periodic();
     }
@@ -171,8 +171,8 @@ public class Drive extends SubsystemBase {
 
     // Log empty setpoint states when disabled
     if (DriverStation.isDisabled()) {
-      Logger.recordOutput("SwerveStates/Setpoints", new SwerveModuleState[] {});
-      Logger.recordOutput("SwerveStates/SetpointsOptimized", new SwerveModuleState[] {});
+      // Logger.recordOutput("SwerveStates/Setpoints", new SwerveModuleState[] {});
+      // Logger.recordOutput("SwerveStates/SetpointsOptimized", new SwerveModuleState[] {});
     }
 
     // Update odometry
@@ -215,9 +215,9 @@ public class Drive extends SubsystemBase {
      // Existing periodic code
 
     // Record outputs that would otherwise be auto-logged so they appear in AdvantageScope
-    Logger.recordOutput("SwerveStates/Measured", getModuleStates());
-    Logger.recordOutput("SwerveChassisSpeeds/Measured", getChassisSpeeds());
-    Logger.recordOutput("Odometry/Robot", getPose());
+    // Logger.recordOutput("SwerveStates/Measured", getModuleStates());
+    // Logger.recordOutput("SwerveChassisSpeeds/Measured", getChassisSpeeds());
+    // Logger.recordOutput("Odometry/Robot", getPose());
   }
 
   /**
