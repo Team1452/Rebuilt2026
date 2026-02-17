@@ -16,40 +16,45 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.generated.TunerConstants;
+
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 public class Shooter extends SubsystemBase{    
 
-    private TalonFX gunWheel1;
-    private TalonFX gunWheel2;
+    private TalonFX gunWheel;
+    private TalonFX follower;
     private TalonFXConfiguration gunConfig;
+    private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
         .withKP(0.1).withKI(0).withKD(0.5)
-        .withKS(0.1).withKV(0.1).withKA(0)
-        .withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+        .withKS(0.01).withKV(0.1).withKA(0).
+        withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Shooter() {
-        gunWheel1 = new TalonFX(6,  TunerConstants.kCANBus2);
-        gunWheel2 = new TalonFX(7, TunerConstants.kCANBus2);
+        gunWheel = new TalonFX(6,  TunerConstants.kCANBus2);
+        follower = new TalonFX(7, TunerConstants.kCANBus2);
         gunConfig = new TalonFXConfiguration();
+        followerConfig = new TalonFXConfiguration();
         gunConfig.Slot0 = gunGains;
-        tryUntilOk(5, () -> gunWheel1.getConfigurator().apply(gunConfig, 0.25));
-        tryUntilOk(5, () -> gunWheel2.getConfigurator().apply(gunConfig, 0.25));
+        followerConfig.Slot0 = gunGains; 
+        tryUntilOk(5, () -> gunWheel.getConfigurator().apply(gunConfig, 0.25));
+        tryUntilOk(5, () -> follower.getConfigurator().apply(followerConfig, 0.25));
+
+        follower.setControl(new Follower(gunWheel.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
     public void setShooter(double velocity) {
-        gunWheel1.set(velocity * -1);
-        gunWheel2.set(velocity);
+        gunWheel.set(velocity);
     }
 
     public void setShooter2(double rps) {
-        gunWheel1.setControl(new VelocityVoltage(rps * -1));
-        gunWheel2.setControl(new VelocityVoltage(rps));
+        gunWheel.setControl(new VelocityVoltage(rps));
     }
 
     public void stopShooter() {
-        gunWheel1.stopMotor();
-        gunWheel2.stopMotor();
+        gunWheel.stopMotor();
     }
 
     @Override
