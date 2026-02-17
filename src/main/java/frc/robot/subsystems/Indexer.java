@@ -20,36 +20,26 @@ import frc.robot.generated.TunerConstants;
 public class Indexer extends SubsystemBase{    
 
     private TalonFX rollerWheel;
-    private TalonFX kickerWheel;
+    private TalonFX rollerWheel2;
     
     public Indexer() {
-        rollerWheel = new TalonFX(50, TunerConstants.kCANBus2);
-        kickerWheel = new TalonFX(51, TunerConstants.kCANBus2);
+        rollerWheel = new TalonFX(51, TunerConstants.kCANBus2);
+        rollerWheel2 = new TalonFX(52, TunerConstants.kCANBus2);
+
     }
 
     public void setIndexer(double velocity) {
         rollerWheel.set(velocity);
-    }
-
-    public void setKicker(double velocity) {
-        kickerWheel.set(velocity);
+        rollerWheel2.set(-1 * velocity);
     }
 
     public void stopIndexer() {
         rollerWheel.stopMotor();
-        kickerWheel.stopMotor();
+        rollerWheel2.stopMotor();
     }
 
-    @Override
-    public void periodic() {
-    }
-
-    public Command setRollerCommand(double velocity) {
+    public Command setSpindex(double velocity) {
         return Commands.runOnce(() -> setIndexer(velocity));
-    }
-
-    public Command setKickerCommand(double velocity) {
-        return Commands.runOnce(() -> setKicker(velocity));
     }
 
      public Command stopCommand() {

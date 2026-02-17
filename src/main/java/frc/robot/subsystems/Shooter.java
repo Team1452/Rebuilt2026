@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase{
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
         .withKP(0.1).withKI(0).withKD(0.5)
-        .withKS(0.01).withKV(0.1).withKA(0).
+        .withKS(0.01).withKV(2).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Shooter() {
@@ -82,7 +82,7 @@ public class Shooter extends SubsystemBase{
     }
 
     public Command setShooterCommand(double rps) {
-        return Commands.runOnce(() -> setShooter2(rps));
+        return Commands.runOnce(() -> setShooter(rps));
     }
     
 
