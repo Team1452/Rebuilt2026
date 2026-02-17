@@ -166,7 +166,9 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
 
-    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, null, null));
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0, () -> 0));
+    NamedCommands.registerCommand("Shoot10", shooter.controllerShoot(10));
+    NamedCommands.registerCommand("Hood10", hood.setPositionCommand(0.5));
 
     // Configure the button bindings
     configureButtonBindings();

@@ -41,9 +41,9 @@ public class Shooter extends SubsystemBase{
         gunWheel2.set(velocity);
     }
 
-    public void setShooter2(double rpm) {
-        gunWheel1.setControl(new VelocityVoltage(rpm));
-        gunWheel2.setControl(new VelocityVoltage(rpm));
+    public void setShooter2(double rps) {
+        gunWheel1.setControl(new VelocityVoltage(rps * -1));
+        gunWheel2.setControl(new VelocityVoltage(rps));
     }
 
     public void stopShooter() {
@@ -66,9 +66,9 @@ public class Shooter extends SubsystemBase{
         return Commands.runOnce(() -> stopShooter());
     }
 
-    public Command controllerShoot(double rpm) {
+    public Command controllerShoot(double rps) {
         return Commands.sequence(
-            Commands.runOnce(() -> setShooter2(rpm)), 
+            Commands.runOnce(() -> setShooter2(rps)), 
             Commands.waitSeconds(2), 
             Commands.runOnce(() -> setShooter2(0)));
     }
