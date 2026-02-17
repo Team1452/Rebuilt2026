@@ -33,6 +33,8 @@ public class Hood extends SubsystemBase {
 
   // Last commanded value (-1..1) used to estimate position when feedback is absent
   private double lastCommanded = 0.0;
+  private boolean isUppies = false;
+  private boolean isDownies = false;
 
   /**
    * Create an open-loop linear actuator controller on the given PWM channel.
@@ -56,13 +58,18 @@ public class Hood extends SubsystemBase {
   }
 
   public void uppies() {
-    lastCommanded += 0.1;
-    actuator.set(lastCommanded); 
+    isUppies = true;
+    isDownies = false;
   }
 
   public void downies() {
-    lastCommanded -= 0.1;
-    actuator.set(lastCommanded); 
+    isDownies = true;
+    isUppies = false;
+  }
+
+  public void neutral() {
+    isUppies = false;
+    isDownies = false;
   }
   
   public double getPositionCentimeters() {
@@ -96,6 +103,17 @@ public class Hood extends SubsystemBase {
 @Override
   public void periodic() {
     System.out.println(lastCommanded);
+
+    if (isUppies) {
+      lastCommanded += 0.01;
+      setPosition(lastCommanded);
+    } else if (isDownies) {
+      lastCommanded -= 0.01;
+      setPosition(lastCommanded);
+    }
+
+    Logger.recordOutput("Hood/Position", getPositionCentimeters());
+
   }
 
 }
