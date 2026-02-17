@@ -196,8 +196,8 @@ public class RobotContainer {
     
     //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
 
-    controller.rightBumper().toggleOnTrue(hood.up());
-    controller.leftBumper().toggleOnTrue(hood.down());
+    controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
     controller.x().toggleOnTrue(hood.constantUpdateCommand(drive));
 

@@ -90,6 +90,10 @@ public class Hood extends SubsystemBase {
     return Commands.run(() -> downies(), this);
   }
 
+  public Command neutralCommand() {
+    return Commands.run(() -> neutral(), this);
+  }
+
   public Command constantUpdateCommand(Drive drive) {
     final Translation2d blueHopper = new Translation2d(4.623, 4.01);
 
