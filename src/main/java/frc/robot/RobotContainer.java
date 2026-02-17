@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -55,7 +56,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
-    private final LEDSubsystem ledSystem = new LEDSubsystem();
+private final LEDSubsystem ledSystem = new LEDSubsystem();
   //private final Shooter shooter;
 //   private final CANdleExample ledSystem = new CANdleExample();
   private final Hood hood = new Hood(0);
@@ -144,6 +145,9 @@ public class RobotContainer {
         break;
     }
 
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
+    NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -193,7 +197,7 @@ public class RobotContainer {
     // Build the center-on-hopper command and attach LED side-effects
     Command centerCmd = DriveCommands.centerOnHopperCommand(
                 drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
-            ;
+            
 
     controller.a().toggleOnTrue(centerCmd);
 

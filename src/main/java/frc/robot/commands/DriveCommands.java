@@ -27,6 +27,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -294,9 +295,14 @@ public class DriveCommands {
 
      return joystickDriveAtAngle(drive, xSupplier, ySupplier, () -> blueHopper.minus(drive.getPose().getTranslation()).getAngle());
 
-  };
+  }
 
+  public static BooleanSupplier isFacingHopper(Drive drive, double toleranceMeters){
+    final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+    return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
+  }
 
+  
 
 
 }

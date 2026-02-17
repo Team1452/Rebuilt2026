@@ -5,16 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "sideways"
-                }
-              }
-            ]
+            "pathName": "Back1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoLock"
           }
         }
       ]
