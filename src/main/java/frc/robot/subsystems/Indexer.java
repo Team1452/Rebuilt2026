@@ -23,14 +23,14 @@ public class Indexer extends SubsystemBase{
     private TalonFX rollerWheel2;
     
     public Indexer() {
-        rollerWheel = new TalonFX(51, TunerConstants.kCANBus2);
-        rollerWheel2 = new TalonFX(52, TunerConstants.kCANBus2);
+        rollerWheel = new TalonFX(42, TunerConstants.kCANBus2);
+        rollerWheel2 = new TalonFX(61, TunerConstants.kCANBus2);
 
     }
 
     public void setIndexer(double velocity) {
-        rollerWheel.set(velocity);
-        rollerWheel2.set(-1 * velocity);
+        rollerWheel.set(-1 * velocity);
+        rollerWheel2.set(velocity);
     }
 
     public void stopIndexer() {

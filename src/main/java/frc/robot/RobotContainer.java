@@ -204,7 +204,7 @@ public class RobotContainer {
     controller.x().onTrue(indexer.stopCommand());
 
     controller.a().onTrue(shooter.setShooterCommand(0.5));
-    controller.b().onTrue(indexer.setSpindex(0.5));
+    controller.b().onTrue(indexer.setSpindex(0.15));
 
     // Switch to X pattern when X button is pressed
 
