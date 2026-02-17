@@ -225,7 +225,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
     
     controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
 
-    controller.b().onTrue(Commands.runOnce(() -> ledSystem.setLights(50,60)));
+   controller.b().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)));
     //this b press currently does nothing, maybe 
 
     controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Fire, 1)));

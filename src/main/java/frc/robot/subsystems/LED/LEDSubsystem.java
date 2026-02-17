@@ -23,7 +23,8 @@ public class LEDSubsystem extends SubsystemBase {
     private static final RGBWColor kWhite = new RGBWColor(Color.kWhite).scaleBrightness(0.5);
     private static final RGBWColor kViolet = RGBWColor.fromHSV(Degrees.of(270), 0.9, 0.8);
     private static final RGBWColor kRed = RGBWColor.fromHex("#D9000000").orElseThrow();
-
+    private static final RGBWColor kBlue = new RGBWColor(0, 0, 217, 0);
+    // private static final RGBWColor kBlue = new RGBWColor(0, 0,217, 0);
     /*
      * Start and end index for LED animations.
      * 0-7 are onboard, 8-66 are an external strip.
@@ -67,6 +68,7 @@ public class LEDSubsystem extends SubsystemBase {
         m_anim0Chooser.addOption("Twinkle", AnimationType.Twinkle);
         m_anim0Chooser.addOption("Twinkle Off", AnimationType.TwinkleOff);
         m_anim0Chooser.addOption("Fire", AnimationType.Fire);
+          m_anim0Chooser.addOption("Blue", AnimationType.Blue);
 
         /* add animations to chooser for slot 1 */
         m_anim1Chooser.setDefaultOption("Larson", AnimationType.Larson);
@@ -77,7 +79,7 @@ public class LEDSubsystem extends SubsystemBase {
         m_anim1Chooser.addOption("Color Flow", AnimationType.ColorFlow);
         m_anim1Chooser.addOption("Rainbow", AnimationType.Rainbow);
         m_anim1Chooser.addOption("Twinkle", AnimationType.Twinkle);
-
+          m_anim1Chooser.addOption("Blue", AnimationType.Blue);
         // SmartDashboard.putData("Animation 0", m_anim0Chooser);
         // SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
@@ -143,6 +145,15 @@ public class LEDSubsystem extends SubsystemBase {
                             .withColor(kViolet)
                     );
                     break;
+                    case Blue:
+                    m_candle.setControl(new EmptyAnimation(slot));
+                    m_candle.setControl(
+                        new SolidColor(startIdx, endIdx).withColor(kBlue)
+                    );
+                    break;
+                case None:
+                    m_candle.setControl(new EmptyAnimation(slot));
+                     break;
         }
     }
 
