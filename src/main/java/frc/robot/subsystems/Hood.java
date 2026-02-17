@@ -51,8 +51,7 @@ public class Hood extends SubsystemBase {
   }
 
   public void setPosition(double position) {
-    // PWMSparkMax is a motor controller (range -1..1). We clamp the input here.
-    double v = MathUtil.clamp(position, -1.0, 1.0);
+    double v = MathUtil.clamp(position, 0.025, 0.6);
     actuator.set(v);
     lastCommanded = v;
   }
@@ -94,6 +93,10 @@ public class Hood extends SubsystemBase {
     return Commands.run(() -> neutral(), this);
   }
 
+  public Command goFlat() {
+    return Commands.runOnce(() -> setPosition(0.025), this);
+  }
+
   public Command constantUpdateCommand(Drive drive) {
     final Translation2d blueHopper = new Translation2d(4.623, 4.01);
 
@@ -109,10 +112,10 @@ public class Hood extends SubsystemBase {
     System.out.println(lastCommanded);
 
     if (isUppies) {
-      lastCommanded += 0.01;
+      lastCommanded += 0.005;
       setPosition(lastCommanded);
     } else if (isDownies) {
-      lastCommanded -= 0.01;
+      lastCommanded -= 0.005;
       setPosition(lastCommanded);
     }
 
