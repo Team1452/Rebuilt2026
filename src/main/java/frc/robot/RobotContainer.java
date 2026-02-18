@@ -221,8 +221,8 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
                     drive)
                 .ignoringDisable(true));
     
-    controller.a().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
-    
+    controller.y().toggleOnTrue(hood.constantUpdateCommand(drive));
+
     controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
 
    controller.b().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)));

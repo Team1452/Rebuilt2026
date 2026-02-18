@@ -1,11 +1,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.drive.Drive;
+
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
@@ -30,6 +33,8 @@ public class Hood extends SubsystemBase {
 
   // Last commanded value (-1..1) used to estimate position when feedback is absent
   private double lastCommanded = 0.0;
+  private boolean isUppies = false;
+  private boolean isDownies = false;
 
   /**
    * Create an open-loop linear actuator controller on the given PWM channel.
@@ -46,16 +51,24 @@ public class Hood extends SubsystemBase {
   }
 
   public void setPosition(double position) {
-    // PWMSparkMax is a motor controller (range -1..1). We clamp the input here.
-    double v = MathUtil.clamp(position, -1.0, 1.0);
+    double v = MathUtil.clamp(position, -1, 1);
     actuator.set(v);
     lastCommanded = v;
   }
 
-  public void setSpeed(double speed) {
-    double v = MathUtil.clamp(speed, -1.0, 1.0);
-    actuator.set(v);
-    lastCommanded = v;
+  public void uppies() {
+    isUppies = true;
+    isDownies = false;
+  }
+
+  public void downies() {
+    isDownies = true;
+    isUppies = false;
+  }
+
+  public void neutral() {
+    isUppies = false;
+    isDownies = false;
   }
   
   public double getPositionCentimeters() {
@@ -68,12 +81,47 @@ public class Hood extends SubsystemBase {
     return Commands.runOnce(() -> setPosition(position), this);
   }
 
-  public Command setSpeedCommand(double speed) {  
-    return Commands.runOnce(() -> setSpeed(speed), this);
+  public Command up() {
+    return Commands.run(() -> uppies(), this);
   }
+
+  public Command down() {
+    return Commands.run(() -> downies(), this);
+  }
+
+  public Command neutralCommand() {
+    return Commands.run(() -> neutral(), this);
+  }
+
+  public Command goFlat() {
+    return Commands.runOnce(() -> setPosition(0.025), this);
+  }
+
+  public Command constantUpdateCommand(Drive drive) {
+    final Translation2d blueHopper = new Translation2d(4.623, 4.01);
+
+    DoubleSupplier distance = () -> Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
+
+    //DoubleSupplier position = () -> -0.378 + 5.96E-03*distance.getAsDouble() + 8.5E-03*Math.pow(distance.getAsDouble(),2) + -6E-04*Math.pow(distance.getAsDouble(),3) + 1.18E-05*Math.pow(distance.getAsDouble(),4);
+
+    lastCommanded = distance.getAsDouble();
+    return Commands.run(() -> setPositionCommand(distance.getAsDouble()));
+  } 
 
 @Override
   public void periodic() {
+    System.out.println(lastCommanded);
+
+    if (isUppies) {
+      lastCommanded += 0.005;
+      setPosition(lastCommanded);
+    } else if (isDownies) {
+      lastCommanded -= 0.005;
+      setPosition(lastCommanded);
+    }
+
+    Logger.recordOutput("Hood/Position", getPositionCentimeters());
+
   }
 
 }
