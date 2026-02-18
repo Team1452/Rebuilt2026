@@ -208,7 +208,30 @@ public class RobotContainer {
                 drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
             
 
-    controller.a().toggleOnTrue(centerCmd);
+    // controller.a().toggleOnTrue(centerCmd);
+
+
+    controller.a().toggleOnTrue(
+    Commands.parallel(
+        centerCmd,
+        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1))
+    )
+);
+    // Right Bumper: Hood UP and LED Green
+controller.rightBumper()
+    .onTrue(Commands.parallel(
+        hood.up(),
+        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1))
+    ))
+    .onFalse(hood.neutralCommand());
+
+    // Left Bumper: Hood DOWN and LED Red
+controller.leftBumper()
+    .onTrue(Commands.parallel(
+        hood.down(),
+        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Red, 1))
+    ))
+    .onFalse(hood.neutralCommand());
 
 
     // Switch to X pattern when X button is pressed
@@ -230,17 +253,16 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
-    controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
+    // controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    // controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
     
-    controller.a().onTrue(hood.constantUpdateCommand()).onFalse(hood.STOPconstantUpdateCommand());
+    // controller.a().onTrue(hood.constantUpdateCommand()).onFalse(hood.STOPconstantUpdateCommand());
 
     controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
 
-   controller.b().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)));
-    //this b press currently does nothing, maybe 
 
-    controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Fire, 1)));
+
+    controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Larson, 1)));
 
     
 
