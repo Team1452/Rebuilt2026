@@ -56,11 +56,11 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter;
-private final LEDSubsystem ledSystem = new LEDSubsystem();
+  private final LEDSubsystem ledSystem = new LEDSubsystem();
+  private final Hood hood;
+
   //private final Shooter shooter;
 //   private final CANdleExample ledSystem = new CANdleExample();
-  private final Hood hood = new Hood(0);
-
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -90,6 +90,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
         shooter = new Shooter();        
+        hood = new Hood(0, drive);
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -124,6 +125,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
         shooter = new Shooter();
+        hood = new Hood(0, drive);
 
         break;
 
@@ -140,6 +142,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
         shooter = new Shooter();
+        hood = new Hood(0, drive);
 
 
         break;
@@ -220,8 +223,11 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
     
-    controller.y().toggleOnTrue(hood.constantUpdateCommand(drive));
+    controller.a().onTrue(hood.constantUpdateCommand()).onFalse(hood.STOPconstantUpdateCommand());
 
     controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
 
