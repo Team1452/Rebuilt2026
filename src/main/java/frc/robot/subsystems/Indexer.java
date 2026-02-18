@@ -24,7 +24,7 @@ public class Indexer extends SubsystemBase{
     
     public Indexer() {
         spinner = new TalonFX(42, TunerConstants.kCANBus2);
-        spinner2 = new TalonFX(61, TunerConstants.kCANBus2);
+        spinner2 = new TalonFX(51, TunerConstants.kCANBus2);
     }
 
     public void setIndexer(double velocity) {
