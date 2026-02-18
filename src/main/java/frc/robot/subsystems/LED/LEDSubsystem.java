@@ -69,6 +69,8 @@ public class LEDSubsystem extends SubsystemBase {
         m_anim0Chooser.addOption("Twinkle Off", AnimationType.TwinkleOff);
         m_anim0Chooser.addOption("Fire", AnimationType.Fire);
           m_anim0Chooser.addOption("Blue", AnimationType.Blue);
+          m_anim0Chooser.addOption("Violet", AnimationType.Violet);
+          m_anim0Chooser.addOption("White", AnimationType.White);
 
         /* add animations to chooser for slot 1 */
         m_anim1Chooser.setDefaultOption("Larson", AnimationType.Larson);
@@ -80,6 +82,8 @@ public class LEDSubsystem extends SubsystemBase {
         m_anim1Chooser.addOption("Rainbow", AnimationType.Rainbow);
         m_anim1Chooser.addOption("Twinkle", AnimationType.Twinkle);
           m_anim1Chooser.addOption("Blue", AnimationType.Blue);
+            m_anim1Chooser.addOption("Violet", AnimationType.Violet);
+            m_anim1Chooser.addOption("White", AnimationType.White);
         // SmartDashboard.putData("Animation 0", m_anim0Chooser);
         // SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
@@ -145,10 +149,22 @@ public class LEDSubsystem extends SubsystemBase {
                             .withColor(kViolet)
                     );
                     break;
-                    case Blue:
+                case Blue:
                     m_candle.setControl(new EmptyAnimation(slot));
                     m_candle.setControl(
                         new SolidColor(startIdx, endIdx).withColor(kBlue)
+                    );
+                    break;
+                case Violet:
+                    m_candle.setControl(new EmptyAnimation(slot));
+                    m_candle.setControl(
+                        new SolidColor(startIdx, endIdx).withColor(kViolet)
+                    );
+                    break;
+                case White:
+                    m_candle.setControl(new EmptyAnimation(slot));
+                    m_candle.setControl(
+                        new SolidColor(startIdx, endIdx).withColor(kWhite)
                     );
                     break;
                 case None:

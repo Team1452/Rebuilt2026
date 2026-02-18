@@ -11,5 +11,7 @@ public enum AnimationType {
         Strobe,
         Twinkle,
         TwinkleOff,
-        Blue
+        Blue,
+        Violet,
+        White
 }

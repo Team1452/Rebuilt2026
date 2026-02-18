@@ -30,11 +30,13 @@ public class Hood extends SubsystemBase {
   private final PWMSparkMax actuator;
   private final boolean hasFeedback;
   private final Encoder encoder;
+  private final Drive drive;
 
   // Last commanded value (-1..1) used to estimate position when feedback is absent
   private double lastCommanded = 0.0;
   private boolean isUppies = false;
   private boolean isDownies = false;
+  private boolean isDistanceControl = false;
 
   /**
    * Create an open-loop linear actuator controller on the given PWM channel.
@@ -42,12 +44,13 @@ public class Hood extends SubsystemBase {
    * @param pwmChannel PWM channel for the actuator (port number)
    */
 
-  public Hood(int pwmChannel) {
+  public Hood(int pwmChannel, Drive drive) {
     this.actuator = new PWMSparkMax(pwmChannel);
     this.hasFeedback = false;
     this.encoder = new Encoder(0, 1); 
 
     this.encoder.setDistancePerPulse(0.1); // Example: 0.1 cm per pulse
+    this.drive = drive;
   }
 
   public void setPosition(double position) {
@@ -69,6 +72,14 @@ public class Hood extends SubsystemBase {
   public void neutral() {
     isUppies = false;
     isDownies = false;
+  }
+
+  public void distanceControl() {
+    isDistanceControl = true;
+  }
+
+  public void stopDistanceControl() {
+    isDistanceControl = false;
   }
   
   public double getPositionCentimeters() {
@@ -97,15 +108,12 @@ public class Hood extends SubsystemBase {
     return Commands.runOnce(() -> setPosition(0.025), this);
   }
 
-  public Command constantUpdateCommand(Drive drive) {
-    final Translation2d blueHopper = new Translation2d(4.623, 4.01);
+  public Command constantUpdateCommand() {
+    return Commands.runOnce(() -> distanceControl());
+  } 
 
-    DoubleSupplier distance = () -> Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
-
-    //DoubleSupplier position = () -> -0.378 + 5.96E-03*distance.getAsDouble() + 8.5E-03*Math.pow(distance.getAsDouble(),2) + -6E-04*Math.pow(distance.getAsDouble(),3) + 1.18E-05*Math.pow(distance.getAsDouble(),4);
-
-    lastCommanded = distance.getAsDouble();
-    return Commands.run(() -> setPositionCommand(distance.getAsDouble()));
+  public Command STOPconstantUpdateCommand() {
+    return Commands.runOnce(() -> stopDistanceControl());
   } 
   int j=0;
 @Override
@@ -124,6 +132,14 @@ public class Hood extends SubsystemBase {
     }
 
     Logger.recordOutput("Hood/Position", getPositionCentimeters());
+
+    if (isDistanceControl) {
+      final Translation2d blueHopper = new Translation2d(4.623, 4.01);
+      double distance = Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
+      lastCommanded = MathUtil.clamp(distance / 36, -1, 1); 
+      setPosition(lastCommanded); // Example scaling factor
+    }
+
 
   }
 
