@@ -59,7 +59,7 @@ public class RobotContainer {
   private final Drive drive;
   private final Vision vision;
   private final Shooter shooter = new Shooter();
-  private final Hood hood = new Hood(1);
+  private final Hood hood;
   private final Intake intake = new Intake();
 
   // Controller
@@ -104,6 +104,9 @@ public class RobotContainer {
         //         new ModuleIOTalonFXS(TunerConstants.FrontRight),
         //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
         //         new ModuleIOTalonFXS(TunerConstants.BackRight));
+
+        hood = new Hood(TunerConstants.HoodPWMChannel, drive);
+
         break;
 
       case SIM:
@@ -122,6 +125,8 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
+        hood = new Hood(TunerConstants.HoodPWMChannel, drive);
+
         break;
 
       default:
@@ -136,6 +141,7 @@ public class RobotContainer {
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
+        hood = new Hood(TunerConstants.HoodPWMChannel, drive);
 
         break;
     }
@@ -204,7 +210,7 @@ public class RobotContainer {
     controller.x().onTrue(indexer.stopCommand());
 
     controller.a().onTrue(shooter.setShooterCommand(0.5));
-    controller.b().onTrue(indexer.setSpindex(0.15));
+    controller.b().onTrue(indexer.activatePorknado(10, 10));
 
     // Switch to X pattern when X button is pressed
 

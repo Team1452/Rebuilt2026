@@ -11,11 +11,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 
 public class Climber extends SubsystemBase {
 
-	/** Simple config placeholders — replace with real IDs. */
 	public static final class Config {
-		public static final int TALON_CAN_ID = 11; // TODO: change to real CAN ID
-		public static final int LIMIT_ANALOG_CHANNEL = 0; // TODO: change to real analog channel
-		public static final double LIMIT_VOLTAGE_THRESHOLD = 2.0; // voltage above/below which the limit is considered pressed
+		public static final int TALON_CAN_ID = 11; 
+		public static final int LIMIT_ANALOG_CHANNEL = 0; 
+		public static final double LIMIT_VOLTAGE_THRESHOLD = 2.0;
 		public static final double DEFAULT_SPEED = 0.5;
 
 		// Absolute positions (in rotations) for the two mechanical endpoints. Adjust to
@@ -29,33 +28,20 @@ public class Climber extends SubsystemBase {
 	private final AnalogInput limitSwitch;
 
 	private boolean zeroed = false;
-
 	private double lastCommandedSpeed = 0.0;
-
 	private boolean limitPreviouslyClosed = false;
+	public boolean fullyExtended = false;
+	public boolean fullyRetracted = false;
 
-	/**
-	 * Create a Climber subsystem using explicit hardware IDs.
-	 *
-	 * @param talonCanId CAN ID for the TalonFX
-	 * @param limitAnalogChannel analog channel for the limit switch
-	 */
-	public Climber(int talonCanId, int limitAnalogChannel) {
-		motor = new TalonFX(talonCanId);
-		limitSwitch = new AnalogInput(limitAnalogChannel);
-	}
-
-	/** Convenience constructor that uses values from Config. */
 	public Climber() {
-		this(Config.TALON_CAN_ID, Config.LIMIT_ANALOG_CHANNEL);
+		motor = new TalonFX(Config.TALON_CAN_ID);
+		limitSwitch = new AnalogInput(Config.LIMIT_ANALOG_CHANNEL);
 	}
 
 	public void extend(double speed) {
         if (isAtLimit()) {
-            // At limit and trying to extend further -> stop
             stop();
         } else {
-            // Otherwise, set the motor speed as commanded
             motor.set(speed);
             lastCommandedSpeed = speed;
         }
@@ -67,7 +53,6 @@ public class Climber extends SubsystemBase {
 		motor.stopMotor();
 	}
 
-	/** Return true when the analog limit switch is triggered. */
 	public boolean isAtLimit() {
 		double v = limitSwitch.getVoltage();
 		// Depending on your hardware, triggered may be above or below threshold. Adjust as needed.
@@ -77,10 +62,8 @@ public class Climber extends SubsystemBase {
 	public double getPosition() {
 		return motor.getPosition().getValueAsDouble();
 	}
-
 	
 	public void zeroPosition() {
-		double raw = motor.getPosition().getValueAsDouble();
 		zeroed = true;
 		// Also update TalonFX internal position (timeout 0.25s)
 		motor.setPosition(0.0, 0.25);
@@ -88,12 +71,6 @@ public class Climber extends SubsystemBase {
 
 	public boolean isZeroed() {
 		return zeroed;
-	}
-
-	private double clampSpeed(double speed) {
-		if (speed > 1.0) return 1.0;
-		if (speed < -1.0) return -1.0;
-		return speed;
 	}
 
 	@Override
@@ -111,19 +88,27 @@ public class Climber extends SubsystemBase {
 				boolean closed = isAtLimit();
 				if (closed && !limitPreviouslyClosed) {
 					// Rising edge: loop just closed
-					double raw = motor.getPosition().getValueAsDouble();
 					double targetAbsolute;
 					if (lastCommandedSpeed > 0.0) {
 						// Was moving outward / extending -> we hit the EXTENDED endpoint
 						targetAbsolute = Config.EXTENDED_POSITION_ROTATIONS;
+						fullyExtended = true;
+						fullyRetracted = false;
 					} else if (lastCommandedSpeed < 0.0) {
 						// Was moving inward / retracting -> we hit the RETRACTED endpoint
 						targetAbsolute = Config.RETRACTED_POSITION_ROTATIONS;
+						fullyExtended = false;
+						fullyRetracted = true;
 					} else {
 						// Unknown direction (motor stationary) — default to RETRACTED
 						targetAbsolute = Config.RETRACTED_POSITION_ROTATIONS;
+						fullyExtended = false;
+						fullyRetracted = true;
 					}
 					// Set offset so raw + offset == targetAbsolute
+					// Update Talon internal position so encoder reading matches the known absolute endpoint.
+					// Use a small timeout (0.25s) like zeroPosition() does.
+					motor.setPosition(targetAbsolute, 0.25);
 					zeroed = true;
 				}
 				limitPreviouslyClosed = closed;

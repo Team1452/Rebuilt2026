@@ -12,33 +12,84 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import frc.robot.generated.TunerConstants;
 
 public class Indexer extends SubsystemBase{    
 
-    private TalonFX spinner;
-    private TalonFX spinner2;
+    private TalonFX tornado;
+    private TalonFX dustdevil;
+    private TalonFX hotdog;
+
+    private TalonFXConfiguration tornadoConfig;
+    private TalonFXConfiguration dustdevilConfig;
+    private TalonFXConfiguration hotdogConfig;
+
+    private static final Slot0Configs tornadoGains = new Slot0Configs()
+        .withKP(0.1).withKI(0).withKD(0.5)
+        .withKS(0.01).withKV(2).withKA(0).
+        withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+
+    private static final Slot0Configs dogGains = new Slot0Configs().
+        withKP(0.1).withKI(0).withKD(0.5)
+        .withKS(0.01).withKV(2).withKA(0).
+        withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Indexer() {
-        spinner = new TalonFX(42, TunerConstants.kCANBus2);
-        spinner2 = new TalonFX(51, TunerConstants.kCANBus2);
+        tornado = new TalonFX(42, TunerConstants.kCANBus2);
+        dustdevil = new TalonFX(51, TunerConstants.kCANBus2);
+        hotdog = new TalonFX(52, TunerConstants.kCANBus2);
+
+        tornadoConfig = new TalonFXConfiguration();
+        dustdevilConfig = new TalonFXConfiguration();
+        hotdogConfig = new TalonFXConfiguration();
+
+        tornadoConfig.Slot0 = tornadoGains;
+        dustdevilConfig.Slot0 = tornadoGains;
+        hotdogConfig.Slot0 = dogGains;
+
+        tornadoConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        dustdevilConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        hotdogConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+        tornado.getConfigurator().apply(tornadoConfig, 0.25);
+        dustdevil.getConfigurator().apply(dustdevilConfig, 0.25);
+        hotdog.getConfigurator().apply(hotdogConfig, 0.25);
+
+        dustdevil.setControl(new Follower(tornado.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
-    public void setIndexer(double velocity) {
-        spinner.set(-1 * velocity);
-        spinner2.set(velocity);
+    public void setSpindex(double velocity) {
+        tornado.set(velocity);
+    }
+
+    public void setHotdog(double velocity) {
+        hotdog.set(velocity);
     }
 
     public void stopIndexer() {
-        spinner.stopMotor();
-        spinner2.stopMotor();
+        tornado.stopMotor();
+        hotdog.stopMotor();
     }
 
-    public Command setSpindex(double velocity) {
-        return Commands.runOnce(() -> setIndexer(velocity));
+    public Command setSpindexCommand(double velocity) {
+        return Commands.runOnce(() -> setSpindex(velocity));
+    }
+
+    public Command setHotdogCommand(double velocity) {
+        return Commands.runOnce(() -> setHotdog(velocity));
+    }
+
+    public Command activatePorknado(double velocity, double hotdogVelocity) {
+        return Commands.parallel(
+            Commands.runOnce(() -> setSpindex(velocity)),
+            Commands.runOnce(() -> setHotdog(hotdogVelocity))
+        ); 
     }
 
      public Command stopCommand() {

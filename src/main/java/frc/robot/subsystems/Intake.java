@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.generated.TunerConstants;
@@ -19,7 +20,7 @@ public class Intake extends SubsystemBase{
     private TalonFX sucker;
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
-    final PositionVoltage m_request = new PositionVoltage(0);
+    final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
 
     
     public Intake() {
@@ -31,8 +32,8 @@ public class Intake extends SubsystemBase{
         rotatorConfig.Slot0.kP = 5.0;
         suckerConfig.Slot0.kP = 5.0;
 
-        tryUntilOk(5, () -> rotator.getConfigurator().apply(rotatorConfig, 0.25));
-        tryUntilOk(5, () -> sucker.getConfigurator().apply(suckerConfig, 0.25));
+        rotator.getConfigurator().apply(rotatorConfig, 0.25);
+        sucker.getConfigurator().apply(suckerConfig, 0.25);
     }
 
     public void setSucker(double speed) {

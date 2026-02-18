@@ -35,12 +35,16 @@ public class Shooter extends SubsystemBase{
     public Shooter() {
         gunWheel = new TalonFX(6,  TunerConstants.kCANBus2);
         follower = new TalonFX(7, TunerConstants.kCANBus2);
+
         gunConfig = new TalonFXConfiguration();
         followerConfig = new TalonFXConfiguration();
+
         gunConfig.Slot0 = gunGains;
         followerConfig.Slot0 = gunGains;
+
         gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         followerConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        
         gunWheel.getConfigurator().apply(gunConfig, 0.25);
         follower.getConfigurator().apply(followerConfig, 0.25);
 
