@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.GoalEndState;
@@ -150,7 +151,12 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
     NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
-
+    NamedCommands.registerCommand("Green", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Green, 1)));
+    NamedCommands.registerCommand("White", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.White, 1)));
+    NamedCommands.registerCommand("Blue", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)));
+    NamedCommands.registerCommand("ClearLED", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.None, 1)));
+    NamedCommands.registerCommand("Red", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Red, 1)));
+    NamedCommands.registerCommand("Violet", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Violet, 1)));
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 

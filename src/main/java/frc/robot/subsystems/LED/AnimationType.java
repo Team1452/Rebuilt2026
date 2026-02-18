@@ -13,5 +13,7 @@ public enum AnimationType {
         TwinkleOff,
         Blue,
         Violet,
-        White
+        White,
+        Green,
+        Red
 }

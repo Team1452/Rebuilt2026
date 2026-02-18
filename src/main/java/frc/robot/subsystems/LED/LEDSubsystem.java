@@ -84,6 +84,7 @@ public class LEDSubsystem extends SubsystemBase {
           m_anim1Chooser.addOption("Blue", AnimationType.Blue);
             m_anim1Chooser.addOption("Violet", AnimationType.Violet);
             m_anim1Chooser.addOption("White", AnimationType.White);
+            m_anim1Chooser.addOption("Green", AnimationType.Green);
         // SmartDashboard.putData("Animation 0", m_anim0Chooser);
         // SmartDashboard.putData("Animation 1", m_anim1Chooser);
     }
@@ -170,6 +171,20 @@ public class LEDSubsystem extends SubsystemBase {
                 case None:
                     m_candle.setControl(new EmptyAnimation(slot));
                      break;
+                case Green:
+                    m_candle.setControl(new EmptyAnimation(slot));
+                    m_candle.setControl(
+                        new SolidColor(startIdx, endIdx).withColor(kGreen)
+                    );
+                    break;
+                    
+                case Red:
+                    m_candle.setControl(new EmptyAnimation(slot));
+                    m_candle.setControl(
+                        new SolidColor(startIdx, endIdx).withColor(kRed)
+                    );
+                     break;
+                
         }
     }
 
