@@ -107,10 +107,13 @@ public class Hood extends SubsystemBase {
     lastCommanded = distance.getAsDouble();
     return Commands.run(() -> setPositionCommand(distance.getAsDouble()));
   } 
-
+  int j=0;
 @Override
   public void periodic() {
-    System.out.println(lastCommanded);
+      if (j==5){
+    System.out.println(lastCommanded);}
+    j=j+1;
+    j=j%6;
 
     if (isUppies) {
       lastCommanded += 0.005;
