@@ -7,6 +7,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.signals.InvertedValue;
+
+
 
 
 public class Climber extends SubsystemBase {
@@ -21,11 +25,12 @@ public class Climber extends SubsystemBase {
 		// match your climber geometry. Commonly, retracted = 0.0 and extended = some
 		// positive number of rotations.
 		public static final double RETRACTED_POSITION_ROTATIONS = 0.0;
-		public static final double EXTENDED_POSITION_ROTATIONS = 10.0; // TODO: set to real value
+		public static final double EXTENDED_POSITION_ROTATIONS = 10.0;
 	}
 
 	private final TalonFX motor;
 	private final AnalogInput limitSwitch;
+	private final TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
 	private boolean zeroed = false;
 	private double lastCommandedSpeed = 0.0;
@@ -36,6 +41,15 @@ public class Climber extends SubsystemBase {
 	public Climber() {
 		motor = new TalonFX(Config.TALON_CAN_ID);
 		limitSwitch = new AnalogInput(Config.LIMIT_ANALOG_CHANNEL);
+
+		motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+
+		motorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+		motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Config.EXTENDED_POSITION_ROTATIONS;
+		motorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+		motorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Config.RETRACTED_POSITION_ROTATIONS;
+
+		motor.getConfigurator().apply(motorConfig, 0.25);
 	}
 
 	public void extend(double speed) {
