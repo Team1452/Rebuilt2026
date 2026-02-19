@@ -16,6 +16,7 @@ import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Mult;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -148,8 +149,10 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
     NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
-    NamedCommands.registerCommand("HoodActivate", hood.constantUpdateCommand());
+    NamedCommands.registerCommand("HoodActivate", hood.activateDistanceControl());
     NamedCommands.registerCommand("HoodDown", hood.goFlat());
+    NamedCommands.registerCommand("Porknado", indexer.activatePorknado(1, 1));
+    NamedCommands.registerCommand("PushAndShoot", MultiCommands.PushAndShootCommand(indexer, shooter));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -206,26 +209,22 @@ public class RobotContainer {
     //PathPlannerPath path = PathPlannerPath.fromPathFile("align to climb.path");
 
 
-    controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
-    controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
+    controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
-    controller.povUp().onTrue(shooter.incrementPowerCommand(0.05));
-    controller.povDown().onTrue(shooter.incrementPowerCommand(-0.05));
+    controller.povRight().onTrue(shooter.incrementPowerCommand(0.05));
+    controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
-    controller.x().onTrue(shooter.setShooterCommand(0));
+    controller.leftBumper().onTrue(indexer.activatePorknado(1, 1));
+    controller.rightBumper().onTrue(shooter.controllerShoot(1));
 
     controller.a().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
-    controller.b().onTrue(indexer.activatePorknado(1, 1));
 
-    controller.y().onTrue(shooter.controllerShoot(1));
+    controller.x().onTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
 
-    // Switch to X pattern when X button is pressed
+    controller.b().onTrue(hood.activateDistanceControl());
+    controller.y().onTrue(hood.stopDistanceControlCommand());
 
-    //controller.x().onTrue(shooter.simpleShoot());
-
-    //controller.y().onTrue(shooter.IBegTheeStop());
-
-    //controller.b().onTrue(shooter.controllerShoot(100));
 
     // Reset gyro to 0° when B button is pressed
     controller

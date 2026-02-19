@@ -28,16 +28,23 @@ public class MultiCommands {
     public MultiCommands() {}
 
     public static Command PushAndShootCommand(Indexer indexer, Shooter shooter) {
-        return Commands.parallel(
-            shooter.setShooterCommand(0.5),
-            indexer.activatePorknado(0.35, 0.3));
+        return Commands.sequence(
+            Commands.parallel(
+                shooter.setShooterCommand(0.5),
+                indexer.activatePorknado(0.35, 0.3)
+                ),
+            Commands.waitSeconds(1.5),
+            Commands.parallel(
+                indexer.activatePorknado(0, 0),
+                shooter.IBegTheeStop())
+            );
     }
 
     public static Command GoHoodCommand(Hood hood) {
         return Commands.sequence(
-            hood.constantUpdateCommand(),
+            hood.activateDistanceControl(),
             Commands.waitSeconds(1),
-            hood.STOPconstantUpdateCommand());
+            hood.stopDistanceControlCommand());
     }
     
 }

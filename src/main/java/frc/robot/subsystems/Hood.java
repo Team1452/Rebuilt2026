@@ -107,11 +107,11 @@ public class Hood extends SubsystemBase {
     return Commands.runOnce(() -> setPosition(0.025), this);
   }
 
-  public Command constantUpdateCommand() {
+  public Command activateDistanceControl() {
     return Commands.runOnce(() -> distanceControl());
   } 
 
-  public Command STOPconstantUpdateCommand() {
+  public Command stopDistanceControlCommand() {
     return Commands.runOnce(() -> stopDistanceControl());
   } 
 
