@@ -146,9 +146,10 @@ public class RobotContainer {
         break;
     }
 
-    //NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0, () -> 0));
-    //NamedCommands.registerCommand("Shoot10", shooter.controllerShoot(10));
-    //NamedCommands.registerCommand("Hood10", hood.setPositionCommand(0.5));
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
+    NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
+    NamedCommands.registerCommand("HoodActivate", hood.constantUpdateCommand());
+    NamedCommands.registerCommand("HoodDown", hood.goFlat());
 
 
     // Set up auto routines

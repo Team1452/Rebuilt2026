@@ -63,7 +63,7 @@ public class Drive extends SubsystemBase {
               Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
 
   // PathPlanner config constants
-  private static final double ROBOT_MASS_KG = 74.088;
+  private static final double ROBOT_MASS_KG = 30;
   private static final double ROBOT_MOI = 6.883;
   private static final double WHEEL_COF = 1.2;
   private static final RobotConfig PP_CONFIG =
@@ -125,7 +125,7 @@ public class Drive extends SubsystemBase {
         this::getChassisSpeeds,
         this::runVelocity,
         new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0)),
+            new PIDConstants(100, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0)),
         PP_CONFIG,
         () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
         this);
@@ -171,8 +171,8 @@ public class Drive extends SubsystemBase {
 
     // Log empty setpoint states when disabled
     if (DriverStation.isDisabled()) {
-      Logger.recordOutput("SwerveStates/Setpoints", new SwerveModuleState[] {});
-      Logger.recordOutput("SwerveStates/SetpointsOptimized", new SwerveModuleState[] {});
+      // Logger.recordOutput("SwerveStates/Setpoints", new SwerveModuleState[] {});
+      // Logger.recordOutput("SwerveStates/SetpointsOptimized", new SwerveModuleState[] {});
     }
 
     // Update odometry
@@ -215,9 +215,9 @@ public class Drive extends SubsystemBase {
      // Existing periodic code
 
     // Record outputs that would otherwise be auto-logged so they appear in AdvantageScope
-    Logger.recordOutput("SwerveStates/Measured", getModuleStates());
-    Logger.recordOutput("SwerveChassisSpeeds/Measured", getChassisSpeeds());
-    Logger.recordOutput("Odometry/Robot", getPose());
+    // Logger.recordOutput("SwerveStates/Measured", getModuleStates());
+    // Logger.recordOutput("SwerveChassisSpeeds/Measured", getChassisSpeeds());
+    // Logger.recordOutput("Odometry/Robot", getPose());
   }
 
   /**

@@ -32,5 +32,12 @@ public class MultiCommands {
             shooter.setShooterCommand(0.5),
             indexer.activatePorknado(0.35, 0.3));
     }
+
+    public static Command GoHoodCommand(Hood hood) {
+        return Commands.sequence(
+            hood.constantUpdateCommand(),
+            Commands.waitSeconds(1),
+            hood.STOPconstantUpdateCommand());
+    }
     
 }
