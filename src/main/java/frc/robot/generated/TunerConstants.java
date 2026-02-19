@@ -34,6 +34,10 @@ public class TunerConstants {
     public static final int tornadoMotorID = 42;
     public static final int dustdevilMotorID = 51;
     public static final int hotdogMotorID = 52;
+
+    // intake
+    public static final int rotatorMotorID = 61;
+    public static final int suckerMotorID = 62;
     
     // Both sets of gains need to be tuned to your individual robot.
 
