@@ -21,7 +21,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
-public class Shooter extends SubsystemBase{    
+public class Shooter extends SubsystemBase{
 
     private TalonFX gunWheel;
     private TalonFX follower;
@@ -31,6 +31,8 @@ public class Shooter extends SubsystemBase{
         .withKP(0.1).withKI(0).withKD(0.5)
         .withKS(0.01).withKV(2).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+
+    private double power = 0.0;
     
     public Shooter() {
         gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus2);
@@ -60,11 +62,21 @@ public class Shooter extends SubsystemBase{
     }
 
     public void stopShooter() {
+        gunWheel.set(0);
         gunWheel.stopMotor();
     }
 
-    @Override
-    public void periodic() {
+    public void incrementPower(double increment) {
+        power = MathUtil.clamp(power + increment, -1, 1);
+        setShooter(power);
+    }
+
+    public Command incrementPowerCommand(double increment) {
+        return Commands.runOnce(() -> incrementPower(increment));
+    }
+
+    public Command shootPowerCommand() {
+        return Commands.runOnce(() -> setShooter(power), this);
     }
 
     public Command simpleShoot() {
@@ -87,6 +99,11 @@ public class Shooter extends SubsystemBase{
 
     public Command setShooterCommand(double rps) {
         return Commands.runOnce(() -> setShooter2(rps));
+    }
+
+    @Override
+    public void periodic() {
+
     }
     
 

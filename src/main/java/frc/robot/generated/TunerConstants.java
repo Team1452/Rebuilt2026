@@ -25,7 +25,8 @@ public class TunerConstants {
     public static final CANBus kCANBus2 = new CANBus("lamb", "./logs/example.hoot");
 
     // shooter
-    public static final int HoodPWMChannel = 1;
+    public static final int Hood1PWMChannel = 1;
+    public static final int Hood2PWMChannel = 2;
     public static final int gunWheelMotorID = 6;
     public static final int gunFollowerMotorID = 7;
 
