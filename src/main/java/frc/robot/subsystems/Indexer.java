@@ -68,8 +68,16 @@ public class Indexer extends SubsystemBase{
         tornado.set(velocity);
     }
 
+    public void setSpindexRPS(double rps) {
+        tornado.setControl(new VelocityVoltage(rps));
+    }
+
     public void setHotdog(double velocity) {
         hotdog.set(velocity);
+    }
+
+    public void setHotdogRPS(double rps) {
+        hotdog.setControl(new VelocityVoltage(rps));
     }
 
     public void stopIndexer() {
@@ -77,12 +85,20 @@ public class Indexer extends SubsystemBase{
         hotdog.stopMotor();
     }
 
-    public Command setSpindexCommand(double velocity) {
-        return Commands.runOnce(() -> setSpindex(velocity));
+    public Command setSpindexCommand(double fractional) {
+        return Commands.runOnce(() -> setSpindex(fractional));
     }
 
-    public Command setHotdogCommand(double velocity) {
-        return Commands.runOnce(() -> setHotdog(velocity));
+    public Command setHotdogCommand(double fractional) {
+        return Commands.runOnce(() -> setHotdog(fractional));
+    }
+
+    public Command setSpindexRPSCommand(double rps) {
+        return Commands.runOnce(() -> setSpindexRPS(rps));
+    }
+
+    public Command setHotdogRPSCommand(double rps) {
+        return Commands.runOnce(() -> setHotdogRPS(rps));
     }
 
     public Command activatePorknado(double velocity, double hotdogVelocity) {

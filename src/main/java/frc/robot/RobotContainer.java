@@ -215,7 +215,7 @@ public class RobotContainer {
     controller.povRight().onTrue(shooter.incrementPowerCommand(0.05));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
-    controller.leftBumper().onTrue(indexer.activatePorknado(1, 1));
+    controller.leftBumper().onTrue(indexer.activatePorknado(0.35, 0.3));
     controller.rightBumper().onTrue(shooter.controllerShoot(1));
 
     controller.a().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
@@ -227,7 +227,7 @@ public class RobotContainer {
 
 
     // Reset gyro to 0° when B button is pressed
-    controller
+   /* controller
         .b()
         .onTrue(
             Commands.runOnce(
@@ -235,7 +235,7 @@ public class RobotContainer {
                         drive.setPose(
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
-                .ignoringDisable(true));
+                .ignoringDisable(true)); */
     
     
 
