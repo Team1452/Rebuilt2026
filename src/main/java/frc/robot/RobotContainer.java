@@ -203,7 +203,7 @@ public class RobotContainer {
     
     //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
 
-    PathPlannerPath path = PathPlannerPath.fromPathFile("align to climb.path");
+    //PathPlannerPath path = PathPlannerPath.fromPathFile("align to climb.path");
 
 
     controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
