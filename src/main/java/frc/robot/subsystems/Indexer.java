@@ -96,6 +96,13 @@ public class Indexer extends SubsystemBase{
         return Commands.runOnce(() -> stopIndexer());
     }
 
+    @Override
+    public void periodic() {
+        Logger.recordOutput("Tornado Velocity", tornado.getVelocity().getValueAsDouble());
+        Logger.recordOutput("DustDevil Velocity", dustdevil.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Hotdog Velocity", hotdog.getVelocity().getValueAsDouble());
+    }
+
 
     
 }

@@ -127,14 +127,14 @@ public class Hood extends SubsystemBase {
       setPosition(lastCommanded);
     }
 
-    Logger.recordOutput("Hood/Position", getPositionCentimeters());
-
     if (isDistanceControl) {
       final Translation2d blueHopper = new Translation2d(4.623, 4.01);
       double distance = Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
       lastCommanded = distance / 7; 
       setPosition(lastCommanded); // Example scaling factor
     }
+
+    Logger.recordOutput("Hood/Position", lastCommanded);
 
 
   }

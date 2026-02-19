@@ -103,7 +103,9 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
-
+        Logger.recordOutput("PowerShot- Strength", power);
+        Logger.recordOutput("GunWheel Velocity", gunWheel.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Follower Velocity", follower.getVelocity().getValueAsDouble());
     }
     
 
