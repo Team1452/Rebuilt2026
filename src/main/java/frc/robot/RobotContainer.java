@@ -151,7 +151,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("HoodActivate", hood.constantUpdateCommand());
     NamedCommands.registerCommand("HoodDown", hood.goFlat());
 
-
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -203,6 +202,9 @@ public class RobotContainer {
     //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
     //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
+
+    PathPlannerPath path = PathPlannerPath.fromPathFile("align to climb.path");
+
 
     controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
     controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
