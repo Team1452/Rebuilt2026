@@ -89,6 +89,8 @@ public class Climber extends SubsystemBase {
 
 	@Override
 	public void periodic() {
+		System.out.println(limitSwitch.getVoltage());
+
 		// Put subsystem periodic code here. E.g. telemetry for tuning/debug.
 		SmartDashboard.putBoolean("Climber/AtLimit", isAtLimit());
 		SmartDashboard.putNumber("Climber/LimitVoltage", limitSwitch.getVoltage());

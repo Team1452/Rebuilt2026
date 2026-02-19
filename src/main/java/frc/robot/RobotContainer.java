@@ -210,7 +210,7 @@ public class RobotContainer {
     controller.x().onTrue(indexer.stopCommand());
 
     controller.a().onTrue(shooter.setShooterCommand(0.5));
-    controller.b().onTrue(indexer.activatePorknado(10, 10));
+    controller.b().onTrue(indexer.activatePorknado(1, 1));
 
     // Switch to X pattern when X button is pressed
 

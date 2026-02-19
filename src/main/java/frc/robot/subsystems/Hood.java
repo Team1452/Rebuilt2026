@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.generated.TunerConstants;
+
 
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
@@ -42,8 +44,8 @@ public class Hood extends SubsystemBase {
    * @param pwmChannel PWM channel for the actuator (port number)
    */
 
-  public Hood(int pwmChannel, Drive drive) {
-    this.actuator = new PWMSparkMax(pwmChannel);
+  public Hood(Drive drive) {
+    this.actuator = new PWMSparkMax(TunerConstants.HoodPWMChannel);
     this.drive = drive;
   }
 

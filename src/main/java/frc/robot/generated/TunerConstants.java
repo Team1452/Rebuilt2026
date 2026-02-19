@@ -20,10 +20,19 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 // https://v6.docs.ctr-electronics.com/en/stable/docs/tuner/tuner-swerve/index.html
 public class TunerConstants {
 
+    // canivores
     public static final CANBus kCANBus = new CANBus("cow", "./logs/example.hoot");
     public static final CANBus kCANBus2 = new CANBus("lamb", "./logs/example.hoot");
 
+    // shooter
     public static final int HoodPWMChannel = 1;
+    public static final int gunWheelMotorID = 6;
+    public static final int gunFollowerMotorID = 7;
+
+    // indexer
+    public static final int tornadoMotorID = 42;
+    public static final int dustdevilMotorID = 51;
+    public static final int hotdogMotorID = 52;
     
     // Both sets of gains need to be tuned to your individual robot.
 

@@ -41,9 +41,9 @@ public class Indexer extends SubsystemBase{
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Indexer() {
-        tornado = new TalonFX(42, TunerConstants.kCANBus2);
-        dustdevil = new TalonFX(51, TunerConstants.kCANBus2);
-        hotdog = new TalonFX(52, TunerConstants.kCANBus2);
+        tornado = new TalonFX(TunerConstants.tornadoMotorID, TunerConstants.kCANBus2);
+        dustdevil = new TalonFX(TunerConstants.dustdevilMotorID, TunerConstants.kCANBus2);
+        hotdog = new TalonFX(TunerConstants.hotdogMotorID, TunerConstants.kCANBus2);
 
         tornadoConfig = new TalonFXConfiguration();
         dustdevilConfig = new TalonFXConfiguration();

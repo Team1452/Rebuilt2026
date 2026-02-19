@@ -33,8 +33,8 @@ public class Shooter extends SubsystemBase{
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
     
     public Shooter() {
-        gunWheel = new TalonFX(6,  TunerConstants.kCANBus2);
-        follower = new TalonFX(7, TunerConstants.kCANBus2);
+        gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus2);
+        follower = new TalonFX(TunerConstants.gunFollowerMotorID, TunerConstants.kCANBus2);
 
         gunConfig = new TalonFXConfiguration();
         followerConfig = new TalonFXConfiguration();
