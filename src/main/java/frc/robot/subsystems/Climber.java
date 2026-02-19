@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
-
+import org.littletonrobotics.junction.Logger;
 
 
 
@@ -92,10 +92,10 @@ public class Climber extends SubsystemBase {
 		System.out.println(limitSwitch.getVoltage());
 
 		// Put subsystem periodic code here. E.g. telemetry for tuning/debug.
-		SmartDashboard.putBoolean("Climber/AtLimit", isAtLimit());
-		SmartDashboard.putNumber("Climber/LimitVoltage", limitSwitch.getVoltage());
-		SmartDashboard.putNumber("Climber/Position", getPosition());
-		SmartDashboard.putBoolean("Climber/Zeroed", isZeroed());
+		Logger.recordOutput("Climber/AtLimit", isAtLimit());
+		Logger.recordOutput("Climber/LimitVoltage", limitSwitch.getVoltage());
+		Logger.recordOutput("Climber/Position", getPosition());
+		Logger.recordOutput("Climber/Zeroed", isZeroed());
 
 				// Perform a one-shot calibration when the analog loop closes. The loop
 				// can be closed at either mechanical extreme; we use the last commanded
