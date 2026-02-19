@@ -44,19 +44,13 @@ public class Intake extends SubsystemBase{
         sucker.stopMotor();
     }
 
-    public void setIntakeAngle(double degrees) {
-        final double MIN_DEGREES = -180.0;
-        final double MAX_DEGREES = 180.0;
-        double clampedDegrees = MathUtil.clamp(degrees, MIN_DEGREES, MAX_DEGREES);
-        double clampedRotations = clampedDegrees / 360.0;
-
-        rotator.setControl(m_request.withPosition(clampedRotations));
-
-        Logger.recordOutput("Intake/CommandedAngleDeg", clampedDegrees);
+    public void setIntakeAngle(double rotations) {
+        rotator.setControl(m_request.withPosition(rotations));
+        Logger.recordOutput("Intake/CommandedAngleRot", rotations);
     }
 
-    public Command setAngle(double degrees) {
-        return Commands.runOnce(() -> setIntakeAngle(degrees), this);
+    public Command setAngle(double rotations) {
+        return Commands.runOnce(() -> setIntakeAngle(rotations), this);
     }
 
     public Command setSuckerCommand(double speed) {
