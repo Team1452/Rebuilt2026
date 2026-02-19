@@ -105,7 +105,7 @@ public class RobotContainer {
         //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
         //         new ModuleIOTalonFXS(TunerConstants.BackRight));
 
-        hood = new Hood(TunerConstants.HoodPWMChannel, drive);
+        hood = new Hood(drive);
 
         break;
 
@@ -125,7 +125,7 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
-        hood = new Hood(TunerConstants.HoodPWMChannel, drive);
+        hood = new Hood(drive);
 
         break;
 
@@ -141,7 +141,7 @@ public class RobotContainer {
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
-        hood = new Hood(TunerConstants.HoodPWMChannel, drive);
+        hood = new Hood(drive);
 
         break;
     }

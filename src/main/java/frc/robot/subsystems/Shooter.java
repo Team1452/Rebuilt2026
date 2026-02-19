@@ -86,7 +86,7 @@ public class Shooter extends SubsystemBase{
     }
 
     public Command setShooterCommand(double rps) {
-        return Commands.runOnce(() -> setShooter(rps));
+        return Commands.runOnce(() -> setShooter2(rps));
     }
     
 
