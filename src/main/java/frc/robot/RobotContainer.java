@@ -215,8 +215,8 @@ public class RobotContainer {
     controller.povRight().onTrue(shooter.incrementPowerCommand(0.05));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
-    controller.leftBumper().onTrue(indexer.activatePorknado(0.35, 0.3));
-    controller.rightBumper().onTrue(shooter.controllerShoot(1));
+    controller.leftBumper().onTrue(indexer.activatePorknado(0.35, 0.3)).onFalse(indexer.activatePorknado(0, 0));
+    controller.rightBumper().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
 
     controller.a().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
 
