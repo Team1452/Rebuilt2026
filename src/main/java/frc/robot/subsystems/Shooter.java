@@ -45,7 +45,7 @@ public class Shooter extends SubsystemBase{
         followerConfig.Slot0 = gunGains;
 
         gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-        followerConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        followerConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         
         gunWheel.getConfigurator().apply(gunConfig, 0.25);
         follower.getConfigurator().apply(followerConfig, 0.25);
@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase{
     }
 
     public void incrementPower(double increment) {
-        power = MathUtil.clamp(power + increment, -1, 1);
+        power = MathUtil.clamp(power + increment, 0, 1);
         setShooter(power);
     }
 
@@ -97,7 +97,11 @@ public class Shooter extends SubsystemBase{
             Commands.runOnce(() -> setShooter2(0)));
     }
 
-    public Command setShooterCommand(double rps) {
+    public Command setShooterCommand(double fractional) {
+        return Commands.runOnce(() -> setShooter(fractional));
+    }
+
+    public Command setShooterCommand2(double rps) {
         return Commands.runOnce(() -> setShooter2(rps));
     }
 

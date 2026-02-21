@@ -55,7 +55,7 @@ public class Indexer extends SubsystemBase{
 
         tornadoConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         dustdevilConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-        hotdogConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        hotdogConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
         tornado.getConfigurator().apply(tornadoConfig, 0.25);
         dustdevil.getConfigurator().apply(dustdevilConfig, 0.25);
