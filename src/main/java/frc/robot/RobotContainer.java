@@ -225,7 +225,7 @@ public class RobotContainer {
     controller.rightTrigger().onTrue(indexer.activatePorknado(0.35, 0.3)).onFalse(indexer.activatePorknado(0, 0));
 
     // lock on target
-    controller.leftTrigger().onTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+    controller.leftTrigger().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
 
     controller.x().onTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
 
