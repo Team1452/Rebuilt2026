@@ -147,12 +147,12 @@ public class RobotContainer {
         break;
     }
 
-    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
+    /* NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
     NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
     NamedCommands.registerCommand("HoodActivate", hood.activateDistanceControl());
     NamedCommands.registerCommand("HoodDown", hood.goFlat());
     NamedCommands.registerCommand("Porknado", indexer.activatePorknado(1, 1));
-    NamedCommands.registerCommand("PushAndShoot", MultiCommands.PushAndShootCommand(indexer, shooter));
+    NamedCommands.registerCommand("PushAndShoot", MultiCommands.PushAndShootCommand(indexer, shooter)); */
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -215,10 +215,17 @@ public class RobotContainer {
     controller.povRight().onTrue(shooter.incrementPowerCommand(0.05));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
-    controller.leftBumper().onTrue(indexer.activatePorknado(0.35, 0.3)).onFalse(indexer.activatePorknado(0, 0));
-    controller.rightBumper().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
+    // outtake
+    controller.rightBumper().onTrue(indexer.activatePorknado(-0.35, -0.3)).onFalse(indexer.activatePorknado(0, 0));
 
-    controller.a().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
+    // activate shooter
+    controller.leftBumper().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
+
+    // activate indexer
+    controller.rightTrigger().onTrue(indexer.activatePorknado(0.35, 0.3)).onFalse(indexer.activatePorknado(0, 0));
+
+    // lock on target
+    controller.leftTrigger().onTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
 
     controller.x().onTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
 

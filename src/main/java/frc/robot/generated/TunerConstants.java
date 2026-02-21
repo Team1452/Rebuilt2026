@@ -33,7 +33,7 @@ public class TunerConstants {
     // indexer
     public static final int tornadoMotorID = 42;
     public static final int dustdevilMotorID = 51;
-    public static final int hotdogMotorID = 52;
+    public static final int hotdogMotorID = 34;
 
     // intake
     public static final int rotatorMotorID = 61;
