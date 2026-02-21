@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
@@ -150,6 +151,7 @@ public class RobotContainer {
     }
 
     NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
+    NamedCommands.registerCommand("WaitthenAutoLock",  Commands.waitSeconds(6).andThen(DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0)));
     NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
     NamedCommands.registerCommand("Green", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Green, 1)));
     NamedCommands.registerCommand("White", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.White, 1)));
