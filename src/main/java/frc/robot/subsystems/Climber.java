@@ -92,10 +92,10 @@ public class Climber extends SubsystemBase {
 		System.out.println(limitSwitch.getVoltage());
 
 		// Put subsystem periodic code here. E.g. telemetry for tuning/debug.
-		Logger.recordOutput("Climber/AtLimit", isAtLimit());
-		Logger.recordOutput("Climber/LimitVoltage", limitSwitch.getVoltage());
-		Logger.recordOutput("Climber/Position", getPosition());
-		Logger.recordOutput("Climber/Zeroed", isZeroed());
+		//Logger.recordOutput("Climber/AtLimit", isAtLimit());
+		//Logger.recordOutput("Climber/LimitVoltage", limitSwitch.getVoltage());
+		//Logger.recordOutput("Climber/Position", getPosition());
+		//Logger.recordOutput("Climber/Zeroed", isZeroed());
 
 				// Perform a one-shot calibration when the analog loop closes. The loop
 				// can be closed at either mechanical extreme; we use the last commanded

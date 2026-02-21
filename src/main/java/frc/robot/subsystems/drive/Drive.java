@@ -63,7 +63,7 @@ public class Drive extends SubsystemBase {
               Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
 
   // PathPlanner config constants
-  private static final double ROBOT_MASS_KG = 30;
+  private static final double ROBOT_MASS_KG = 40;
   private static final double ROBOT_MOI = 6.883;
   private static final double WHEEL_COF = 1.2;
   private static final RobotConfig PP_CONFIG =
@@ -130,15 +130,15 @@ public class Drive extends SubsystemBase {
         () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
         this);
     Pathfinding.setPathfinder(new LocalADStarAK());
-    PathPlannerLogging.setLogActivePathCallback(
-        (activePath) -> {
-          Logger.recordOutput(
-              "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
-        });
-    PathPlannerLogging.setLogTargetPoseCallback(
-        (targetPose) -> {
-          Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
-        });
+    //PathPlannerLogging.setLogActivePathCallback(
+      //  (activePath) -> {
+      //    Logger.recordOutput(
+       //       "Odometry/Trajectory", activePath.toArray(new Pose2d[activePath.size()]));
+       // });
+    //PathPlannerLogging.setLogTargetPoseCallback(
+      //  (targetPose) -> {
+        //  Logger.recordOutput("Odometry/TrajectorySetpoint", targetPose);
+       // });
 
     // Configure SysId
     sysId =
@@ -232,8 +232,8 @@ public class Drive extends SubsystemBase {
     SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, TunerConstants.kSpeedAt12Volts);
 
     // Log unoptimized setpoints and setpoint speeds
-    Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
-    Logger.recordOutput("SwerveChassisSpeeds/Setpoints", discreteSpeeds);
+    //Logger.recordOutput("SwerveStates/Setpoints", setpointStates);
+    //Logger.recordOutput("SwerveChassisSpeeds/Setpoints", discreteSpeeds);
 
     // Send setpoints to modules
     for (int i = 0; i < 4; i++) {
@@ -241,7 +241,7 @@ public class Drive extends SubsystemBase {
     }
 
     // Log optimized setpoints (runSetpoint mutates each state)
-    Logger.recordOutput("SwerveStates/SetpointsOptimized", setpointStates);
+    //Logger.recordOutput("SwerveStates/SetpointsOptimized", setpointStates);
   }
 
   /** Runs the drive in a straight line with the specified drive output. */
@@ -346,8 +346,8 @@ public class Drive extends SubsystemBase {
       double timestampSeconds,
       Matrix<N3, N1> visionMeasurementStdDevs) {
   // Log incoming vision measurement for debugging end-to-end delivery
-  Logger.recordOutput("Drive/Vision/ReceivedPose", visionRobotPoseMeters);
-  Logger.recordOutput("Drive/Vision/ReceivedTimestamp", timestampSeconds);
+  //Logger.recordOutput("Drive/Vision/ReceivedPose", visionRobotPoseMeters);
+  //Logger.recordOutput("Drive/Vision/ReceivedTimestamp", timestampSeconds);
   poseEstimator.addVisionMeasurement(
     visionRobotPoseMeters, timestampSeconds, visionMeasurementStdDevs);
   }

@@ -46,7 +46,7 @@ public class Intake extends SubsystemBase{
 
     public void setIntakeAngle(double rotations) {
         rotator.setControl(m_request.withPosition(rotations));
-        Logger.recordOutput("Intake/CommandedAngleRot", rotations);
+        //Logger.recordOutput("Intake/CommandedAngleRot", rotations);
     }
 
     public Command setAngle(double rotations) {

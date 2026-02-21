@@ -80,13 +80,6 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
   }
 
-  public void robotInit() {
-  // DO THIS FIRST
-  Pathfinding.setPathfinder(new LocalADStarAK());
-
-  // ... remaining robot initialization
-  }
-
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {

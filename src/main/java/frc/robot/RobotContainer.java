@@ -158,10 +158,10 @@ public class RobotContainer {
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
         // Record runtime mode and which Vision implementation was created for debugging
-        Logger.recordOutput("Robot/Mode", Constants.currentMode.toString());
-        if (vision != null) {
-            Logger.recordOutput("Robot/VisionImpl", vision.getClass().getSimpleName());
-        }
+        //Logger.recordOutput("Robot/Mode", Constants.currentMode.toString());
+        //if (vision != null) {
+          //  Logger.recordOutput("Robot/VisionImpl", vision.getClass().getSimpleName());
+        //}
 
     // Set up SysId routines
     autoChooser.addOption(
@@ -216,7 +216,7 @@ public class RobotContainer {
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
     // outtake
-    controller.rightBumper().onTrue(indexer.activatePorknado(-0.35, -0.3)).onFalse(indexer.activatePorknado(0, 0));
+    controller.rightBumper().onTrue(shooter.setShooterCommand2(3.5)).onFalse(shooter.IBegTheeStop());
 
     // activate shooter
     controller.leftBumper().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
@@ -232,9 +232,11 @@ public class RobotContainer {
     controller.b().onTrue(hood.activateDistanceControl());
     controller.y().onTrue(hood.stopDistanceControlCommand());
 
+    controller.a().onTrue(indexer.setSpindexRPSCommand(0.3)).onFalse(indexer.stopCommand());
+
 
     // Reset gyro to 0° when B button is pressed
-   /* controller
+   /* controller()
         .b()
         .onTrue(
             Commands.runOnce(

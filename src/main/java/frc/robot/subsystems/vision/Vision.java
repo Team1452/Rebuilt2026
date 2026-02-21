@@ -149,7 +149,7 @@ public class Vision extends SubsystemBase {
       }
 
       // Log camera metadata
-      Logger.recordOutput(
+      /*Logger.recordOutput(
           "Vision/Camera" + Integer.toString(cameraIndex) + "/TagPoses",
           tagPoses.toArray(new Pose3d[0]));
       Logger.recordOutput(
@@ -160,7 +160,7 @@ public class Vision extends SubsystemBase {
           robotPosesAccepted.toArray(new Pose3d[0]));
       Logger.recordOutput(
           "Vision/Camera" + Integer.toString(cameraIndex) + "/RobotPosesRejected",
-          robotPosesRejected.toArray(new Pose3d[0]));
+          robotPosesRejected.toArray(new Pose3d[0])); */
       allTagPoses.addAll(tagPoses);
       allRobotPoses.addAll(robotPoses);
       allRobotPosesAccepted.addAll(robotPosesAccepted);
@@ -168,12 +168,15 @@ public class Vision extends SubsystemBase {
     }
 
     // Log summary data
+    /* 
     Logger.recordOutput("Vision/Summary/TagPoses", allTagPoses.toArray(new Pose3d[0]));
     Logger.recordOutput("Vision/Summary/RobotPoses", allRobotPoses.toArray(new Pose3d[0]));
     Logger.recordOutput(
         "Vision/Summary/RobotPosesAccepted", allRobotPosesAccepted.toArray(new Pose3d[0]));
     Logger.recordOutput(
         "Vision/Summary/RobotPosesRejected", allRobotPosesRejected.toArray(new Pose3d[0]));
+    
+        */
   }
 
   @FunctionalInterface

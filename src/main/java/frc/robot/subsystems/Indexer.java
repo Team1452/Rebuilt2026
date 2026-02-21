@@ -31,7 +31,7 @@ public class Indexer extends SubsystemBase{
     private TalonFXConfiguration hotdogConfig;
 
     private static final Slot0Configs tornadoGains = new Slot0Configs()
-        .withKP(0.1).withKI(0).withKD(0.5)
+        .withKP(0.0).withKI(0).withKD(0.0)
         .withKS(0.01).withKV(2).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
@@ -83,7 +83,7 @@ public class Indexer extends SubsystemBase{
     public void stopIndexer() {
         tornado.stopMotor();
         hotdog.stopMotor();
-    }
+        }
 
     public Command setSpindexCommand(double fractional) {
         return Commands.runOnce(() -> setSpindex(fractional));
@@ -114,9 +114,9 @@ public class Indexer extends SubsystemBase{
 
     @Override
     public void periodic() {
-        Logger.recordOutput("Indexer/Tornado Velocity", tornado.getVelocity().getValueAsDouble());
-        Logger.recordOutput("Indexer/DustDevil Velocity", dustdevil.getVelocity().getValueAsDouble());
-        Logger.recordOutput("Indexer/Hotdog Velocity", hotdog.getVelocity().getValueAsDouble());
+        //Logger.recordOutput("Indexer/Tornado Velocity", tornado.getVelocity().getValueAsDouble());
+        //Logger.recordOutput("Indexer/DustDevil Velocity", dustdevil.getVelocity().getValueAsDouble());
+        //Logger.recordOutput("Indexer/Hotdog Velocity", hotdog.getVelocity().getValueAsDouble());
     }
 
 
