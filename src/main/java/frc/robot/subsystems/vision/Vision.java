@@ -23,12 +23,15 @@ import frc.robot.subsystems.vision.VisionIO.PoseObservationType;
 import java.util.LinkedList;
 import java.util.List;
 import org.littletonrobotics.junction.Logger;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class Vision extends SubsystemBase {
   private final VisionConsumer consumer;
   private final VisionIO[] io;
   private final VisionIOInputsAutoLogged[] inputs;
   private final Alert[] disconnectedAlerts;
+  private boolean visionEnable = true;
 
   public Vision(VisionConsumer consumer, VisionIO... io) {
     this.consumer = consumer;
@@ -58,8 +61,26 @@ public class Vision extends SubsystemBase {
     return inputs[cameraIndex].latestTargetObservation.tx();
   }
 
+   public void turnOn() {
+    visionEnable = true;
+  }
+
+  public void turnOff() {
+    visionEnable = false;
+  }
+
+  public Command turnOnVision() {
+    return Commands.run(() -> turnOn());
+  }
+
+  public Command turnOffVision() {
+    return Commands.run(() -> turnOff());
+  }
+
   @Override
   public void periodic() {
+
+    if (visionEnable) {
 
     for (int i = 0; i < io.length; i++) {
       io[i].updateInputs(inputs[i]);
@@ -177,6 +198,8 @@ public class Vision extends SubsystemBase {
         "Vision/Summary/RobotPosesRejected", allRobotPosesRejected.toArray(new Pose3d[0]));
     
         */
+
+    }
   }
 
   @FunctionalInterface
