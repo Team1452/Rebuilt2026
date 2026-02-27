@@ -153,6 +153,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
     NamedCommands.registerCommand("WaitthenAutoLock",  Commands.waitSeconds(6).andThen(DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0)));
     NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
+    NamedCommands.registerCommand("Wait4s", Commands.waitSeconds(4));
     NamedCommands.registerCommand("Green", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Green, 1)));
     NamedCommands.registerCommand("White", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.White, 1)));
     NamedCommands.registerCommand("Blue", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)));

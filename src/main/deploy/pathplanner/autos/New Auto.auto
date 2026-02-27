@@ -7,31 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Forward2"
+            "pathName": "Forward1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Wait4s"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Fire"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitthenAutoLock"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Blue"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Back1"
           }
         }
       ]
