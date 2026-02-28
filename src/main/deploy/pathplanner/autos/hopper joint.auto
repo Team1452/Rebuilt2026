@@ -7,19 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Macnguyen "
+            "pathName": "hop1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "slowf Back1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "sideways"
+            "pathName": "hop2"
           }
         }
       ]
