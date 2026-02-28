@@ -50,6 +50,8 @@ public class Module {
         new Alert(
             "Disconnected turn encoder on module " + Integer.toString(index) + ".",
             AlertType.kError);
+            
+            
   }
 
   public void periodic() {

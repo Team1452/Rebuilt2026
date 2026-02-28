@@ -145,11 +145,11 @@ public class RobotContainer {
 
         shooter = new Shooter();
         hood = new Hood(0, drive);
-
+    
 
         break;
     }
-
+    
     NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
     NamedCommands.registerCommand("WaitthenAutoLock",  Commands.waitSeconds(6).andThen(DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0)));
     NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
