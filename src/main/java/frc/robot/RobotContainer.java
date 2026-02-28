@@ -38,6 +38,8 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.LED.AnimationType;
+import frc.robot.subsystems.LED.LEDSubsystem;
 //import frc.robot.subsystems.CANdleExample;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
@@ -62,6 +64,8 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final Hood hood;
   private final Intake intake = new Intake();
+private final LEDSubsystem ledSystem = new LEDSubsystem();
+
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -225,7 +229,12 @@ public class RobotContainer {
     controller.rightTrigger().onTrue(indexer.activatePorknado(0.35, 0.3)).onFalse(indexer.activatePorknado(0, 0));
 
     // lock on target
-    controller.leftTrigger().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+
+    controller.leftTrigger().toggleOnTrue(
+    Commands.parallel(
+        DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
+        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1))));
+
 
     controller.x().onTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
 
