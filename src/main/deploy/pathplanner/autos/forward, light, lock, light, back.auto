@@ -19,13 +19,7 @@
         {
           "type": "named",
           "data": {
-            "name": "WaitthenAutoLock"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Blue"
+            "name": "Wait4s"
           }
         },
         {

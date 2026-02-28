@@ -1,0 +1,85 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Tracking hopper 1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Tracking hopper 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Blue"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Tracking hopper 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Tracking hopper 4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Blue"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "climb"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "climb2"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

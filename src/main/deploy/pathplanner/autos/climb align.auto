@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Back1"
+            "pathName": "climb"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "climb2"
           }
         }
       ]
