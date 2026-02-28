@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.GoalEndState;
@@ -22,7 +21,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
@@ -42,10 +40,7 @@ import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.LED.AnimationType;
 import frc.robot.subsystems.LED.LEDSubsystem;
-<<<<<<< HEAD
-=======
 //import frc.robot.subsystems.CANdleExample;
->>>>>>> nicky
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -66,20 +61,12 @@ public class RobotContainer {
   private final Indexer indexer = new Indexer();
   private final Drive drive;
   private final Vision vision;
-<<<<<<< HEAD
-  private final Shooter shooter;
-  private final LEDSubsystem ledSystem = new LEDSubsystem();
-  private final Hood hood;
-=======
   private final Shooter shooter = new Shooter();
   private final Hood hood;
   private final Intake intake = new Intake();
 private final LEDSubsystem ledSystem = new LEDSubsystem();
 
->>>>>>> nicky
 
-  //private final Shooter shooter;
-//   private final CANdleExample ledSystem = new CANdleExample();
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
 
@@ -108,12 +95,6 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
                 new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
-<<<<<<< HEAD
-        shooter = new Shooter();        
-        hood = new Hood(0, drive);
-
-=======
->>>>>>> nicky
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
         // of ModuleIOTalonFX, ModuleIOTalonFXS, and ModuleIOSpark (from the Spark swerve
@@ -149,12 +130,7 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
-<<<<<<< HEAD
-        shooter = new Shooter();
-        hood = new Hood(0, drive);
-=======
         hood = new Hood(drive);
->>>>>>> nicky
 
         break;
 
@@ -170,25 +146,6 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
-<<<<<<< HEAD
-        shooter = new Shooter();
-        hood = new Hood(0, drive);
-    
-
-        break;
-    }
-    
-    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
-    NamedCommands.registerCommand("WaitthenAutoLock",  Commands.waitSeconds(6).andThen(DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0)));
-    NamedCommands.registerCommand("Fire", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1)));
-    NamedCommands.registerCommand("Wait4s", Commands.waitSeconds(4));
-    NamedCommands.registerCommand("Green", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Green, 1)));
-    NamedCommands.registerCommand("White", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.White, 1)));
-    NamedCommands.registerCommand("Blue", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)));
-    NamedCommands.registerCommand("ClearLED", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.None, 1)));
-    NamedCommands.registerCommand("Red", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Red, 1)));
-    NamedCommands.registerCommand("Violet", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Violet, 1)));
-=======
         hood = new Hood(drive);
 
         break;
@@ -201,7 +158,6 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
     NamedCommands.registerCommand("Porknado", indexer.activatePorknado(1, 1));
     NamedCommands.registerCommand("PushAndShoot", MultiCommands.PushAndShootCommand(indexer, shooter)); */
 
->>>>>>> nicky
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -249,44 +205,12 @@ private final LEDSubsystem ledSystem = new LEDSubsystem();
             () -> -controller.getRightX()));
 
     // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
-<<<<<<< HEAD
-    // Build the center-on-hopper command and attach LED side-effects
-    Command centerCmd = DriveCommands.centerOnHopperCommand(
-                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
-            
-
-    // controller.a().toggleOnTrue(centerCmd);
-
-
-    controller.a().toggleOnTrue(
-    Commands.parallel(
-        centerCmd,
-        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1))
-    )
-);
-    // Right Bumper: Hood UP and LED Green
-controller.rightBumper()
-    .onTrue(Commands.parallel(
-        hood.up(),
-        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Rainbow, 1))
-    ))
-    .onFalse(hood.neutralCommand());
-
-    // Left Bumper: Hood DOWN and LED Red
-controller.leftBumper()
-    .onTrue(Commands.parallel(
-        hood.down(),
-        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Red, 1))
-    ))
-    .onFalse(hood.neutralCommand());
-=======
 
     //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
     //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
 
     //PathPlannerPath path = PathPlannerPath.fromPathFile("align to climb.path");
->>>>>>> nicky
 
 
     controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
@@ -329,23 +253,8 @@ controller.leftBumper()
                         drive.setPose(
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
-<<<<<<< HEAD
-                .ignoringDisable(true));
-
-    // controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
-    // controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
-=======
                 .ignoringDisable(true)); */
->>>>>>> nicky
     
-    // controller.a().onTrue(hood.constantUpdateCommand()).onFalse(hood.STOPconstantUpdateCommand());
-
-    controller.y().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Twinkle, 1)));
-
-
-
-    controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Larson, 1)));
-
     
 
   }

@@ -28,21 +28,6 @@ public class Shooter extends SubsystemBase{
     private TalonFXConfiguration gunConfig;
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
-<<<<<<< HEAD
-        .withKP(0.1).withKI(0).withKD(0.5)
-        .withKS(0.01).withKV(2).withKA(0).
-        withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
-    
-    public Shooter() {
-        gunWheel = new TalonFX(6,  TunerConstants.kCANBus);
-        follower = new TalonFX(7, TunerConstants.kCANBus);
-        gunConfig = new TalonFXConfiguration();
-        followerConfig = new TalonFXConfiguration();
-        gunConfig.Slot0 = gunGains;
-        followerConfig.Slot0 = gunGains;
-        gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-        followerConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-=======
         .withKP(0.1).withKI(0).withKD(0)
         .withKS(0.01).withKV(4).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
@@ -62,7 +47,6 @@ public class Shooter extends SubsystemBase{
         gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         followerConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         
->>>>>>> nicky
         gunWheel.getConfigurator().apply(gunConfig, 0.25);
         follower.getConfigurator().apply(followerConfig, 0.25);
 
@@ -113,10 +97,6 @@ public class Shooter extends SubsystemBase{
             Commands.runOnce(() -> setShooter2(0)));
     }
 
-<<<<<<< HEAD
-    public Command setShooterCommand(double rps) {
-        return Commands.runOnce(() -> setShooter(rps));
-=======
     public Command setShooterCommand(double fractional) {
         return Commands.runOnce(() -> setShooter(fractional));
     }
@@ -130,7 +110,6 @@ public class Shooter extends SubsystemBase{
         //Logger.recordOutput("Shooter/PowerShot-Strength", power);
         Logger.recordOutput("Shooter/GunWheel Velocity", gunWheel.getVelocity().getValueAsDouble());
         Logger.recordOutput("Shooter/Follower Velocity", follower.getVelocity().getValueAsDouble());
->>>>>>> nicky
     }
     
 

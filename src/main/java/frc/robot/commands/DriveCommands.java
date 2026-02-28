@@ -301,12 +301,7 @@ public class DriveCommands {
     final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
     return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
-<<<<<<< HEAD
-=======
 
->>>>>>> nicky
-
-  
 
 
 }
