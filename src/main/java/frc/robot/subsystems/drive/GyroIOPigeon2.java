@@ -30,6 +30,10 @@ public class GyroIOPigeon2 implements GyroIO {
   private final StatusSignal<Angle> roll = pigeon.getRoll();
   private final Queue<Double> yawPositionQueue;
   private final Queue<Double> yawTimestampQueue;
+  private final Queue<Double> pitchPositionQueue;
+  private final Queue<Double> pitchTimestampQueue;
+  private final Queue<Double> rollPositionQueue;
+  private final Queue<Double> rollTimestampQueue;
   private final StatusSignal<AngularVelocity> yawVelocity = pigeon.getAngularVelocityZWorld();
 
   public GyroIOPigeon2() {
@@ -40,13 +44,22 @@ public class GyroIOPigeon2 implements GyroIO {
     }
 
     pigeon.getConfigurator().setYaw(0.0);
+    
     yaw.setUpdateFrequency(Drive.ODOMETRY_FREQUENCY);
     pitch.setUpdateFrequency(Drive.ODOMETRY_FREQUENCY);
     roll.setUpdateFrequency(Drive.ODOMETRY_FREQUENCY);
     yawVelocity.setUpdateFrequency(50.0);
+
     pigeon.optimizeBusUtilization();
+
     yawTimestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
     yawPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(yaw.clone());
+
+    pitchTimestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
+    pitchPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(pitch.clone());
+
+    rollTimestampQueue = PhoenixOdometryThread.getInstance().makeTimestampQueue();
+    rollPositionQueue = PhoenixOdometryThread.getInstance().registerSignal(roll.clone());
   }
 
   @Override
@@ -63,7 +76,23 @@ public class GyroIOPigeon2 implements GyroIO {
         yawPositionQueue.stream()
             .map((Double value) -> Rotation2d.fromDegrees(value))
             .toArray(Rotation2d[]::new);
+    inputs.odometryPitchTimestamps =
+        pitchTimestampQueue.stream().mapToDouble((Double value) -> value).toArray();
+    inputs.odometryPitchPositions =
+        pitchPositionQueue.stream()
+            .map((Double value) -> Rotation2d.fromDegrees(value))
+            .toArray(Rotation2d[]::new);
+    inputs.odometryRollTimestamps =
+        rollTimestampQueue.stream().mapToDouble((Double value) -> value).toArray();
+    inputs.odometryRollPositions =
+        rollPositionQueue.stream()
+            .map((Double value) -> Rotation2d.fromDegrees(value))
+            .toArray(Rotation2d[]::new);
     yawTimestampQueue.clear();
     yawPositionQueue.clear();
+    pitchTimestampQueue.clear();
+    pitchPositionQueue.clear();
+    rollTimestampQueue.clear();
+    rollPositionQueue.clear();
   }
 }

@@ -21,13 +21,14 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
-public class Shooter extends SubsystemBase{    
+public class Shooter extends SubsystemBase{
 
     private TalonFX gunWheel;
     private TalonFX follower;
     private TalonFXConfiguration gunConfig;
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
+<<<<<<< HEAD
         .withKP(0.1).withKI(0).withKD(0.5)
         .withKS(0.01).withKV(2).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
@@ -41,6 +42,27 @@ public class Shooter extends SubsystemBase{
         followerConfig.Slot0 = gunGains;
         gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         followerConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+=======
+        .withKP(0.1).withKI(0).withKD(0)
+        .withKS(0.01).withKV(4).withKA(0).
+        withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
+
+    private double power = 0.0;
+    
+    public Shooter() {
+        gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus2);
+        follower = new TalonFX(TunerConstants.gunFollowerMotorID, TunerConstants.kCANBus2);
+
+        gunConfig = new TalonFXConfiguration();
+        followerConfig = new TalonFXConfiguration();
+
+        gunConfig.Slot0 = gunGains;
+        followerConfig.Slot0 = gunGains;
+
+        gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        followerConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        
+>>>>>>> nicky
         gunWheel.getConfigurator().apply(gunConfig, 0.25);
         follower.getConfigurator().apply(followerConfig, 0.25);
 
@@ -56,11 +78,21 @@ public class Shooter extends SubsystemBase{
     }
 
     public void stopShooter() {
+        gunWheel.set(0);
         gunWheel.stopMotor();
     }
 
-    @Override
-    public void periodic() {
+    public void incrementPower(double increment) {
+        power = MathUtil.clamp(power + increment, 0, 1);
+        setShooter(power);
+    }
+
+    public Command incrementPowerCommand(double increment) {
+        return Commands.runOnce(() -> incrementPower(increment));
+    }
+
+    public Command shootPowerCommand() {
+        return Commands.runOnce(() -> setShooter(power), this);
     }
 
     public Command simpleShoot() {
@@ -81,8 +113,24 @@ public class Shooter extends SubsystemBase{
             Commands.runOnce(() -> setShooter2(0)));
     }
 
+<<<<<<< HEAD
     public Command setShooterCommand(double rps) {
         return Commands.runOnce(() -> setShooter(rps));
+=======
+    public Command setShooterCommand(double fractional) {
+        return Commands.runOnce(() -> setShooter(fractional));
+    }
+
+    public Command setShooterCommand2(double rps) {
+        return Commands.runOnce(() -> setShooter2(rps));
+    }
+
+    @Override
+    public void periodic() {
+        //Logger.recordOutput("Shooter/PowerShot-Strength", power);
+        Logger.recordOutput("Shooter/GunWheel Velocity", gunWheel.getVelocity().getValueAsDouble());
+        Logger.recordOutput("Shooter/Follower Velocity", follower.getVelocity().getValueAsDouble());
+>>>>>>> nicky
     }
     
 

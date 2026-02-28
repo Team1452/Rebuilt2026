@@ -8,8 +8,13 @@
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/paths/Macnguyen .path
         "x": 4.0,
         "y": 3.0
+=======
+        "x": 2.5,
+        "y": 5.0
+>>>>>>> nicky:src/main/deploy/pathplanner/paths/square .path
       },
       "isLocked": false,
       "linkedName": null
@@ -20,12 +25,21 @@
         "y": 3.0
       },
       "prevControl": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/paths/Macnguyen .path
         "x": 3.750231087189016,
         "y": 2.989253363632323
       },
       "nextControl": {
         "x": 4.644886863425926,
         "y": 3.027747106481481
+=======
+        "x": 2.5,
+        "y": 5.0
+      },
+      "nextControl": {
+        "x": 3.5,
+        "y": 5.0
+>>>>>>> nicky:src/main/deploy/pathplanner/paths/square .path
       },
       "isLocked": false,
       "linkedName": null
@@ -36,12 +50,21 @@
         "y": 4.83899146412037
       },
       "prevControl": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/paths/Macnguyen .path
         "x": 4.277992766203704,
         "y": 4.562705512152778
       },
       "nextControl": {
         "x": 3.747775460657606,
         "y": 5.08966740045296
+=======
+        "x": 2.5,
+        "y": 4.0
+      },
+      "nextControl": {
+        "x": 3.5,
+        "y": 4.0
+>>>>>>> nicky:src/main/deploy/pathplanner/paths/square .path
       },
       "isLocked": false,
       "linkedName": null
@@ -52,12 +75,21 @@
         "y": 4.83899146412037
       },
       "prevControl": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/paths/Macnguyen .path
         "x": 2.301869140625,
         "y": 5.129055627893519
       },
       "nextControl": {
         "x": 1.6660717569254107,
         "y": 4.518121909891924
+=======
+        "x": 1.5,
+        "y": 4.0
+      },
+      "nextControl": {
+        "x": 2.5,
+        "y": 4.0
+>>>>>>> nicky:src/main/deploy/pathplanner/paths/square .path
       },
       "isLocked": false,
       "linkedName": null
@@ -68,8 +100,13 @@
         "y": 3.0
       },
       "prevControl": {
+<<<<<<< HEAD:src/main/deploy/pathplanner/paths/Macnguyen .path
         "x": 1.6874921151620375,
         "y": 3.035948423032407
+=======
+        "x": 1.5,
+        "y": 5.0
+>>>>>>> nicky:src/main/deploy/pathplanner/paths/square .path
       },
       "nextControl": null,
       "isLocked": false,
@@ -93,7 +130,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "test paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 68.57794976247705

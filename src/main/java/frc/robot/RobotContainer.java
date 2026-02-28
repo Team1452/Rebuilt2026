@@ -17,6 +17,7 @@ import com.pathplanner.lib.path.Waypoint;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.measure.Mult;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.MultiCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -40,7 +42,13 @@ import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.LED.AnimationType;
 import frc.robot.subsystems.LED.LEDSubsystem;
+<<<<<<< HEAD
+=======
+//import frc.robot.subsystems.CANdleExample;
+>>>>>>> nicky
 import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 
 import java.util.List;
 
@@ -55,11 +63,20 @@ import org.littletonrobotics.junction.Logger;
  */
 public class RobotContainer {
   // Subsystems
+  private final Indexer indexer = new Indexer();
   private final Drive drive;
   private final Vision vision;
+<<<<<<< HEAD
   private final Shooter shooter;
   private final LEDSubsystem ledSystem = new LEDSubsystem();
   private final Hood hood;
+=======
+  private final Shooter shooter = new Shooter();
+  private final Hood hood;
+  private final Intake intake = new Intake();
+private final LEDSubsystem ledSystem = new LEDSubsystem();
+
+>>>>>>> nicky
 
   //private final Shooter shooter;
 //   private final CANdleExample ledSystem = new CANdleExample();
@@ -91,9 +108,12 @@ public class RobotContainer {
                 new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
                 new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
 
+<<<<<<< HEAD
         shooter = new Shooter();        
         hood = new Hood(0, drive);
 
+=======
+>>>>>>> nicky
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
         // of ModuleIOTalonFX, ModuleIOTalonFXS, and ModuleIOSpark (from the Spark swerve
@@ -108,6 +128,9 @@ public class RobotContainer {
         //         new ModuleIOTalonFXS(TunerConstants.FrontRight),
         //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
         //         new ModuleIOTalonFXS(TunerConstants.BackRight));
+
+        hood = new Hood(drive);
+
         break;
 
       case SIM:
@@ -126,8 +149,12 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
+<<<<<<< HEAD
         shooter = new Shooter();
         hood = new Hood(0, drive);
+=======
+        hood = new Hood(drive);
+>>>>>>> nicky
 
         break;
 
@@ -143,6 +170,7 @@ public class RobotContainer {
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
+<<<<<<< HEAD
         shooter = new Shooter();
         hood = new Hood(0, drive);
     
@@ -160,14 +188,28 @@ public class RobotContainer {
     NamedCommands.registerCommand("ClearLED", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.None, 1)));
     NamedCommands.registerCommand("Red", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Red, 1)));
     NamedCommands.registerCommand("Violet", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Violet, 1)));
+=======
+        hood = new Hood(drive);
+
+        break;
+    }
+
+    /* NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
+    NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
+    NamedCommands.registerCommand("HoodActivate", hood.activateDistanceControl());
+    NamedCommands.registerCommand("HoodDown", hood.goFlat());
+    NamedCommands.registerCommand("Porknado", indexer.activatePorknado(1, 1));
+    NamedCommands.registerCommand("PushAndShoot", MultiCommands.PushAndShootCommand(indexer, shooter)); */
+
+>>>>>>> nicky
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
         // Record runtime mode and which Vision implementation was created for debugging
-        Logger.recordOutput("Robot/Mode", Constants.currentMode.toString());
-        if (vision != null) {
-            Logger.recordOutput("Robot/VisionImpl", vision.getClass().getSimpleName());
-        }
+        //Logger.recordOutput("Robot/Mode", Constants.currentMode.toString());
+        //if (vision != null) {
+          //  Logger.recordOutput("Robot/VisionImpl", vision.getClass().getSimpleName());
+        //}
 
     // Set up SysId routines
     autoChooser.addOption(
@@ -184,6 +226,7 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
 
     // Configure the button bindings
     configureButtonBindings();
@@ -206,6 +249,7 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
+<<<<<<< HEAD
     // Build the center-on-hopper command and attach LED side-effects
     Command centerCmd = DriveCommands.centerOnHopperCommand(
                 drive, () -> -controller.getLeftY(), () -> -controller.getLeftX());
@@ -235,18 +279,49 @@ controller.leftBumper()
         Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Red, 1))
     ))
     .onFalse(hood.neutralCommand());
+=======
+
+    //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+    
+    //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
+
+    //PathPlannerPath path = PathPlannerPath.fromPathFile("align to climb.path");
+>>>>>>> nicky
 
 
-    // Switch to X pattern when X button is pressed
+    controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
-    //controller.x().onTrue(shooter.simpleShoot());
+    controller.povRight().onTrue(shooter.incrementPowerCommand(0.05));
+    controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
-    //controller.y().onTrue(shooter.IBegTheeStop());
+    // outtake
+    controller.rightBumper().onTrue(shooter.setShooterCommand2(3.5)).onFalse(shooter.IBegTheeStop());
 
-    //controller.b().onTrue(shooter.controllerShoot(100));
+    // activate shooter
+    controller.leftBumper().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
+
+    // activate indexer
+    controller.rightTrigger().onTrue(indexer.activatePorknado(0.35, 0.3)).onFalse(indexer.activatePorknado(0, 0));
+
+    // lock on target
+
+    controller.leftTrigger().toggleOnTrue(
+    Commands.parallel(
+        DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
+        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1))));
+
+
+    controller.x().onTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
+
+    controller.b().onTrue(hood.activateDistanceControl());
+    controller.y().onTrue(hood.stopDistanceControlCommand());
+
+    controller.a().onTrue(indexer.setSpindexRPSCommand(0.3)).onFalse(indexer.stopCommand());
+
 
     // Reset gyro to 0° when B button is pressed
-    controller
+   /* controller()
         .b()
         .onTrue(
             Commands.runOnce(
@@ -254,10 +329,14 @@ controller.leftBumper()
                         drive.setPose(
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
+<<<<<<< HEAD
                 .ignoringDisable(true));
 
     // controller.rightBumper().onTrue(hood.up()).onFalse(hood.neutralCommand());
     // controller.leftBumper().onTrue(hood.down()).onFalse(hood.neutralCommand());
+=======
+                .ignoringDisable(true)); */
+>>>>>>> nicky
     
     // controller.a().onTrue(hood.constantUpdateCommand()).onFalse(hood.STOPconstantUpdateCommand());
 

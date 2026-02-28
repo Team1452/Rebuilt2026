@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.drive.Drive;
+<<<<<<< HEAD
+=======
+import frc.robot.generated.TunerConstants;
+
+>>>>>>> nicky
 
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
@@ -28,8 +33,12 @@ import org.littletonrobotics.junction.Logger;
  */
 public class Hood extends SubsystemBase {
   private final PWMSparkMax actuator;
+<<<<<<< HEAD
   private final boolean hasFeedback;
   private final Encoder encoder;
+=======
+  //private final PWMSparkMax actuator2;
+>>>>>>> nicky
   private final Drive drive;
 
   // Last commanded value (-1..1) used to estimate position when feedback is absent
@@ -44,18 +53,29 @@ public class Hood extends SubsystemBase {
    * @param pwmChannel PWM channel for the actuator (port number)
    */
 
+<<<<<<< HEAD
   public Hood(int pwmChannel, Drive drive) {
     this.actuator = new PWMSparkMax(pwmChannel);
     this.hasFeedback = false;
     this.encoder = new Encoder(0, 1); 
 
     this.encoder.setDistancePerPulse(0.1); // Example: 0.1 cm per pulse
+=======
+  public Hood(Drive drive) {
+    this.actuator = new PWMSparkMax(TunerConstants.Hood1PWMChannel);
+    //this.actuator2 = new PWMSparkMax(TunerConstants.Hood2PWMChannel);
+>>>>>>> nicky
     this.drive = drive;
   }
 
   public void setPosition(double position) {
+<<<<<<< HEAD
     double v = MathUtil.clamp(position, -1, 1);
+=======
+    double v = MathUtil.clamp(position, 0.105, 0.27);
+>>>>>>> nicky
     actuator.set(v);
+    //actuator2.set(v);
     lastCommanded = v;
   }
 
@@ -108,6 +128,7 @@ public class Hood extends SubsystemBase {
     return Commands.runOnce(() -> setPosition(0.025), this);
   }
 
+<<<<<<< HEAD
   public Command constantUpdateCommand() {
     return Commands.runOnce(() -> distanceControl());
   } 
@@ -122,6 +143,19 @@ public class Hood extends SubsystemBase {
     // // System.out.println(lastCommanded);}
     // j=j+1;
     // j=j%6;
+=======
+  public Command activateDistanceControl() {
+    return Commands.runOnce(() -> distanceControl());
+  } 
+
+  public Command stopDistanceControlCommand() {
+    return Commands.runOnce(() -> stopDistanceControl());
+  } 
+
+@Override
+  public void periodic() {
+    //System.out.println(lastCommanded);
+>>>>>>> nicky
 
     if (isUppies) {
       lastCommanded += 0.005;
@@ -131,6 +165,7 @@ public class Hood extends SubsystemBase {
       setPosition(lastCommanded);
     }
 
+<<<<<<< HEAD
     Logger.recordOutput("Hood/Position", getPositionCentimeters());
 
     if (isDistanceControl) {
@@ -140,6 +175,18 @@ public class Hood extends SubsystemBase {
       setPosition(lastCommanded); // Example scaling factor
     }
 
+=======
+    if (isDistanceControl) {
+      final Translation2d blueHopper = new Translation2d(4.623, 4.01);
+      double distance = Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
+      //Logger.recordOutput("Hood/DistanceToHopper", distance);
+      lastCommanded = distance / 7; 
+      setPosition(lastCommanded); // Example scaling factor
+    }
+
+    //Logger.recordOutput("Hood/Position", lastCommanded);
+
+>>>>>>> nicky
 
   }
 

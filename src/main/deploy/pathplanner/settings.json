@@ -2,13 +2,18 @@
   "robotWidth": 0.9,
   "robotLength": 0.9,
   "holonomicMode": true,
-  "pathFolders": [],
-  "autoFolders": [],
+  "pathFolders": [
+    "test paths"
+  ],
+  "autoFolders": [
+    "tests"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
+<<<<<<< HEAD
   "robotMass": 15.0,
   "robotMOI": 6.883,
   "robotTrackwidth": 0.546,
@@ -26,6 +31,25 @@
   "blModuleY": 0.289,
   "brModuleX": -0.289,
   "brModuleY": -0.289,
+=======
+  "robotMass": 48.534,
+  "robotMOI": 7.0,
+  "robotTrackwidth": 0.546,
+  "driveWheelRadius": 0.0508,
+  "driveGearing": 6.75,
+  "maxDriveSpeed": 5.45,
+  "driveMotorType": "krakenX60FOC",
+  "driveCurrentLimit": 55.0,
+  "wheelCOF": 1.2,
+  "flModuleX": 0.248,
+  "flModuleY": 0.289,
+  "frModuleX": 0.248,
+  "frModuleY": -0.2895,
+  "blModuleX": -0.248,
+  "blModuleY": 0.2895,
+  "brModuleX": -0.248,
+  "brModuleY": -0.2895,
+>>>>>>> nicky
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": []

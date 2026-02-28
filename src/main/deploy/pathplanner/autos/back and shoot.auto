@@ -7,17 +7,19 @@
         {
           "type": "path",
           "data": {
-<<<<<<<< HEAD:src/main/deploy/pathplanner/autos/Back1.auto
-            "pathName": "Back1"
-========
-            "pathName": "backspin"
->>>>>>>> nicky:src/main/deploy/pathplanner/autos/backspin.auto
+            "pathName": "backup"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PushAndShoot"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "tests",
+  "folder": null,
   "choreoAuto": false
 }

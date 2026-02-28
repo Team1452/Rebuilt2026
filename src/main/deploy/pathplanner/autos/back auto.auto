@@ -7,25 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Forward1"
+            "pathName": "back"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Wait4s"
+            "name": "AutoLock"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Fire"
+            "name": null
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "tests",
   "choreoAuto": false
 }
