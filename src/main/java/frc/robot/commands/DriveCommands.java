@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -302,7 +304,17 @@ public class DriveCommands {
     return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
 
-
+  
+  public static Command getRunMyPathCommand(String string) {
+    try {
+        return AutoBuilder.followPath(
+            PathPlannerPath.fromPathFile(string)
+        );
+    } catch (Exception e) {
+        DriverStation.reportError("Failed to load path: Back1", false);
+        return Commands.none();
+    }
+}
 
 }
 
