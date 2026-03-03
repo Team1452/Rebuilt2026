@@ -222,10 +222,10 @@ public class RobotContainer {
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
     // outtake
-    controller.rightBumper().onTrue(intake.setRotatorCommand(0.2)).onFalse(intake.setRotatorCommand(0));
+    controller.rightBumper().onTrue(intake.setRotatorCommand(0.4)).onFalse(intake.setRotatorCommand(0));
 
     // activate shooter
-    controller.leftBumper().onTrue(intake.setRotatorCommand(-0.2)).onFalse(intake.setRotatorCommand(0));
+    controller.leftBumper().onTrue(intake.setRotatorCommand(-0.4)).onFalse(intake.setRotatorCommand(0));
 
     // activate indexer
     controller.rightTrigger().onTrue(indexer.activatePorknado(-0.6, -0.5)).onFalse(indexer.activatePorknado(0, 0));
