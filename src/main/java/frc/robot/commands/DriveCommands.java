@@ -23,6 +23,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.drive.Drive;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
@@ -30,6 +32,9 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -301,7 +306,17 @@ public class DriveCommands {
     final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
     return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
-
+ 
+  public static Command getRunMyPathCommand() {
+    try {
+        return AutoBuilder.followPath(
+            PathPlannerPath.fromPathFile("Back1")
+        );
+    } catch (Exception e) {
+        DriverStation.reportError("Failed to load path: Back1", false);
+        return Commands.none();
+    }
+}
   
 
 

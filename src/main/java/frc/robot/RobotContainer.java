@@ -160,6 +160,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("ClearLED", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.None, 1)));
     NamedCommands.registerCommand("Red", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Red, 1)));
     NamedCommands.registerCommand("Violet", Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Violet, 1)));
+    
+    
+    
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -265,7 +269,7 @@ controller.leftBumper()
 
 
 
-    controller.x().onTrue(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Larson, 1)));
+    controller.x().onTrue(Commands.parallel(Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Larson, 1)), (DriveCommands.getRunMyPathCommand())));
 
     
 

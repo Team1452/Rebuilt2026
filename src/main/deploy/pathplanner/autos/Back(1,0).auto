@@ -9,12 +9,6 @@
           "data": {
             "pathName": "Back1"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "back2"
-          }
         }
       ]
     }
