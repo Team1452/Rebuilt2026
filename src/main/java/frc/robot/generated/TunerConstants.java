@@ -31,13 +31,13 @@ public class TunerConstants {
     public static final int gunFollowerMotorID = 7;
 
     // indexer
-    public static final int tornadoMotorID = 42;
-    public static final int dustdevilMotorID = 51;
-    public static final int hotdogMotorID = 34;
+    public static final int tornadoMotorID = 60;
+    public static final int dustdevilMotorID = 61;
+    public static final int hotdogMotorID = 5;
 
     // intake
-    public static final int rotatorMotorID = 61;
-    public static final int suckerMotorID = 62;
+    public static final int rotatorMotorID = 51;
+    public static final int suckerMotorID = 50;
     
     // Both sets of gains need to be tuned to your individual robot.
 
