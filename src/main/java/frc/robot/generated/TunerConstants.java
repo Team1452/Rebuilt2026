@@ -38,6 +38,10 @@ public class TunerConstants {
     // intake
     public static final int rotatorMotorID = 51;
     public static final int suckerMotorID = 50;
+
+    //climber
+    public static final int climberMotorID = 9;
+    public static final int climberFollowerMotorID = 10;
     
     // Both sets of gains need to be tuned to your individual robot.
 

@@ -5,18 +5,30 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.generated.TunerConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
+
+import static edu.wpi.first.units.Units.Amps;
+
 import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.units.measure.*;
 
 
 
 public class Climber extends SubsystemBase {
 
 	public static final class Config {
-		public static final int TALON_CAN_ID = 11; 
 		public static final int LIMIT_ANALOG_CHANNEL = 0; 
 		public static final double LIMIT_VOLTAGE_THRESHOLD = 2.0;
 		public static final double DEFAULT_SPEED = 0.5;
@@ -29,6 +41,7 @@ public class Climber extends SubsystemBase {
 	}
 
 	private final TalonFX motor;
+	private final TalonFX follower;
 	private final AnalogInput limitSwitch;
 	private final TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
@@ -39,10 +52,18 @@ public class Climber extends SubsystemBase {
 	public boolean fullyRetracted = false;
 
 	public Climber() {
-		motor = new TalonFX(Config.TALON_CAN_ID);
+		motor = new TalonFX(TunerConstants.climberMotorID, TunerConstants.kCANBus2);
+		follower = new TalonFX(TunerConstants.climberFollowerMotorID, TunerConstants.kCANBus2);
 		limitSwitch = new AnalogInput(Config.LIMIT_ANALOG_CHANNEL);
 
 		motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+		motorConfig.withCurrentLimits(
+            new CurrentLimitsConfigs()
+                // Swerve azimuth does not require much torque output, so we can set a relatively low
+                // stator current limit to help avoid brownouts without impacting performance.
+                .withStatorCurrentLimit(Amps.of(20))
+                .withStatorCurrentLimitEnable(true)
+        );
 
 		motorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 		motorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = Config.EXTENDED_POSITION_ROTATIONS;
@@ -50,6 +71,9 @@ public class Climber extends SubsystemBase {
 		motorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = Config.RETRACTED_POSITION_ROTATIONS;
 
 		motor.getConfigurator().apply(motorConfig, 0.25);
+		follower.getConfigurator().apply(motorConfig, 0.25);
+
+		follower.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Aligned));
 	}
 
 	public void extend(double speed) {
