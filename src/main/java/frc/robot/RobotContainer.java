@@ -222,13 +222,13 @@ public class RobotContainer {
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
     // outtake
-    controller.rightBumper().onTrue(shooter.setShooterCommand2(3.5)).onFalse(shooter.IBegTheeStop());
+    controller.rightBumper().onTrue(intake.setRotatorCommand(0.2)).onFalse(intake.setRotatorCommand(0));
 
     // activate shooter
-    controller.leftBumper().onTrue(shooter.shootPowerCommand()).onFalse(shooter.IBegTheeStop());
+    controller.leftBumper().onTrue(intake.setRotatorCommand(-0.2)).onFalse(intake.setRotatorCommand(0));
 
     // activate indexer
-    controller.rightTrigger().onTrue(indexer.activatePorknado(0.35, 0.3)).onFalse(indexer.activatePorknado(0, 0));
+    controller.rightTrigger().onTrue(indexer.activatePorknado(-0.6, -0.5)).onFalse(indexer.activatePorknado(0, 0));
 
     // lock on target
 
@@ -238,12 +238,11 @@ public class RobotContainer {
         Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1))));
 
 
-    controller.x().onTrue(MultiCommands.PushAndShootCommand(indexer, shooter));
-
-    controller.b().onTrue(hood.activateDistanceControl());
+    controller.a().onTrue(intake.setSuckerCommand(0.5)).onFalse(intake.setSuckerCommand(0));
     controller.y().onTrue(hood.stopDistanceControlCommand());
 
-    controller.a().onTrue(indexer.setSpindexRPSCommand(0.3)).onFalse(indexer.stopCommand());
+    //controller.x().onTrue(intake.setAngle(87));
+    //controller.a().onTrue(intake.setAngle(0));
 
 
     // Reset gyro to 0° when B button is pressed
