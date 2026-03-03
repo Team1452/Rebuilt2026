@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase{
         suckerConfig.Slot0.kP = 5.0;
 
         rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-		rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 100;
+		rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 89;
 
         rotatorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
         rotatorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;
