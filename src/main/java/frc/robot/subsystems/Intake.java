@@ -32,6 +32,12 @@ public class Intake extends SubsystemBase{
         rotatorConfig.Slot0.kP = 5.0;
         suckerConfig.Slot0.kP = 5.0;
 
+        rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
+		rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 100;
+
+        rotatorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
+        rotatorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;
+
         rotator.getConfigurator().apply(rotatorConfig, 0.25);
         sucker.getConfigurator().apply(suckerConfig, 0.25);
     }
@@ -44,9 +50,17 @@ public class Intake extends SubsystemBase{
         sucker.stopMotor();
     }
 
+    public void setRotator(double speed) {
+        rotator.set(speed);
+    }
+
     public void setIntakeAngle(double rotations) {
         rotator.setControl(m_request.withPosition(rotations));
         //Logger.recordOutput("Intake/CommandedAngleRot", rotations);
+    }
+
+    public Command setRotatorCommand(double speed) {
+        return Commands.runOnce(() -> setRotator(speed), this);
     }
 
     public Command setAngle(double rotations) {
