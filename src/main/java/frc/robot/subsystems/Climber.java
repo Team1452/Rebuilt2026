@@ -75,7 +75,7 @@ public class Climber extends SubsystemBase {
 	}
 
 	public void move(double speed) {
-        if (isAtLimit1() || isAtLimit2()) {
+        if (isAtLimit()) {
 			if (lastCommandedSpeed > 0 && speed > 0) {
 				stop();
 			} else if (lastCommandedSpeed > 0 && speed < 0) {
@@ -99,13 +99,13 @@ public class Climber extends SubsystemBase {
 		motor.stopMotor();
 	}
 
-	public boolean isAtLimit1() {
+	public boolean isAtLimit() {
 		// Depending on your hardware, triggered may be above or below threshold. Adjust as needed.
-		return limitSwitch1.get();
-	}
-
-	public boolean isAtLimit2() {
-		return limitSwitch2.get();
+		if (limitSwitch1.get() || limitSwitch2.get()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public double getPosition() {
@@ -113,13 +113,8 @@ public class Climber extends SubsystemBase {
 	}
 	
 	public void zeroPosition() {
-		zeroed = true;
-		// Also update TalonFX internal position (timeout 0.25s)
-		motor.setPosition(0.0, 0.25);
-	}
-
-	public boolean isZeroed() {
-		return zeroed;
+		motor.setPosition(0);
+		follower.setPosition(0);
 	}
 
 	@Override
@@ -134,7 +129,7 @@ public class Climber extends SubsystemBase {
 				// can be closed at either mechanical extreme; we use the last commanded
 				// motor direction to decide whether this corresponds to the extended or
 				// retracted endpoint.
-				boolean closed = isAtLimit1();
+				/* boolean closed = isAtLimit();
 				if (closed && !limitPreviouslyClosed) {
 					// Rising edge: loop just closed
 					double targetAbsolute;
@@ -153,19 +148,29 @@ public class Climber extends SubsystemBase {
 						targetAbsolute = Config.RETRACTED_POSITION_ROTATIONS;
 						fullyExtended = false;
 						fullyRetracted = true;
-					}
+					} */
 					// Set offset so raw + offset == targetAbsolute
 					// Update Talon internal position so encoder reading matches the known absolute endpoint.
 					// Use a small timeout (0.25s) like zeroPosition() does.
-					motor.setPosition(targetAbsolute, 0.25);
-					zeroed = true;
-				}
-				limitPreviouslyClosed = closed;
+					//motor.setPosition(targetAbsolute, 0.25);
+					//zeroed = true;
+				//}
+				//limitPreviouslyClosed = closed;
 
 	}
 
     public Command extendCommand() {
-        return Commands.runOnce(() -> move(Config.DEFAULT_SPEED), this);
+        return Commands.runOnce(() -> move(Config.DEFAULT_SPEED)).until(() -> isAtLimit());
     }
+
+	public Command retractCommand() {
+		return Commands.runOnce(() -> move(-1 * Config.DEFAULT_SPEED)).until(() -> isAtLimit());
+	}
+
+	public Command zeroCommand() {
+		return Commands.runOnce(() -> zeroPosition());
+	}
+
+	
 
 }

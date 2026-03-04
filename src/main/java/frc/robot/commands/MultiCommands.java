@@ -20,6 +20,9 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
+
 
 
 
@@ -46,5 +49,19 @@ public class MultiCommands {
             Commands.waitSeconds(1),
             hood.stopDistanceControlCommand());
     }
+
+    public static Command defaultState(Intake intake, Climber climber) {
+        return Commands.sequence(
+            intake.retractIntake(),
+            climber.retractCommand()
+        );
+    }
+
+    public static Command climbTIME(Intake intake, Climber climber) {
+        return Commands.sequence(
+            intake.retractIntake(),
+            climber.extendCommand()
+        );
+    }   
     
 }
