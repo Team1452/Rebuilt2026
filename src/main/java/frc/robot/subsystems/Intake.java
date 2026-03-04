@@ -99,8 +99,9 @@ public class Intake extends SubsystemBase{
     }
 
 
-
-
+    public Command setRotatorPosition(double rotations) {
+        return Commands.runOnce(() -> rotator.setPosition(rotations), this);
+    }
 
 
     

@@ -244,6 +244,15 @@ public class RobotContainer {
     //controller.x().onTrue(intake.setAngle(87));
     //controller.a().onTrue(intake.setAngle(0));
 
+     fightBox
+        .button(9)
+        .onTrue(intake.setRotatorPosition(87));
+    
+    fightBox
+        .button(10)
+        .onTrue(intake.zeroCommand());
+
+
 
     // Reset gyro to 0° when B button is pressed
    /* controller()
