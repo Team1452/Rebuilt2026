@@ -20,6 +20,7 @@ public class Intake extends SubsystemBase{
     private TalonFX sucker;
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
+    private final double deployRotations = 89;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
 
     
@@ -73,6 +74,20 @@ public class Intake extends SubsystemBase{
 
     public Command stopSuckerCommand() {
         return Commands.runOnce(() -> stopSucker(), this);
+    }
+
+    public Command deployIntake() {
+        return Commands.sequence(
+            setAngle(deployRotations).until(() -> rotator.getPosition().getValueAsDouble() > 85),
+            setSuckerCommand(0.5)
+            );
+    }
+
+    public Command retractIntake() {
+        return Commands.sequence(
+            stopSuckerCommand(),
+            setAngle(0)
+        );
     }
 
 
