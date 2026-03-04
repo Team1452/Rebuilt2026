@@ -307,13 +307,13 @@ public class DriveCommands {
     return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
  
-  public static Command getRunMyPathCommand() {
+  public static Command getRunMyPathCommand(String string) {
     try {
         return AutoBuilder.followPath(
-            PathPlannerPath.fromPathFile("Back1")
+            PathPlannerPath.fromPathFile(string)
         );
     } catch (Exception e) {
-        DriverStation.reportError("Failed to load path: Back1", false);
+        DriverStation.reportError("Failed to load path: "+ string , false);
         return Commands.none();
     }
 }
