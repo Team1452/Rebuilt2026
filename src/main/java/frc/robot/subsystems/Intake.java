@@ -55,6 +55,10 @@ public class Intake extends SubsystemBase{
         rotator.set(speed);
     }
 
+    public void zeroPosition() {
+        rotator.setPosition(0);
+    }
+
     public void setIntakeAngle(double rotations) {
         rotator.setControl(m_request.withPosition(rotations));
         //Logger.recordOutput("Intake/CommandedAngleRot", rotations);
@@ -88,6 +92,10 @@ public class Intake extends SubsystemBase{
             stopSuckerCommand(),
             setAngle(0)
         );
+    }
+
+    public Command zeroCommand() {
+        return Commands.runOnce(() -> zeroPosition());
     }
 
 
