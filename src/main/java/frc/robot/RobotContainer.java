@@ -250,7 +250,9 @@ public class RobotContainer {
     fightBox
         .button(10)
         .onTrue(intake.zeroCommand());
-
+    fightBox
+        .button(1)
+        .onTrue(DriveCommands.getRunMyPathCommand("Shooterleft"));
 
 
     // Reset gyro to 0° when B button is pressed
