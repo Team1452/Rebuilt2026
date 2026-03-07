@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.generated.TunerConstants;
@@ -29,20 +30,16 @@ import edu.wpi.first.units.measure.*;
 public class Climber extends SubsystemBase {
 
 	public static final class Config {
-		public static final int LIMIT_ANALOG_CHANNEL = 0; 
-		public static final double LIMIT_VOLTAGE_THRESHOLD = 2.0;
 		public static final double DEFAULT_SPEED = 0.5;
 
-		// Absolute positions (in rotations) for the two mechanical endpoints. Adjust to
-		// match your climber geometry. Commonly, retracted = 0.0 and extended = some
-		// positive number of rotations.
 		public static final double RETRACTED_POSITION_ROTATIONS = 0.0;
 		public static final double EXTENDED_POSITION_ROTATIONS = 10.0;
 	}
 
 	private final TalonFX motor;
 	private final TalonFX follower;
-	private final AnalogInput limitSwitch;
+	private final DigitalInput limitSwitch1;
+	private final DigitalInput limitSwitch2;
 	private final TalonFXConfiguration motorConfig = new TalonFXConfiguration();
 
 	private boolean zeroed = false;
@@ -54,7 +51,8 @@ public class Climber extends SubsystemBase {
 	public Climber() {
 		motor = new TalonFX(TunerConstants.climberMotorID, TunerConstants.kCANBus2);
 		follower = new TalonFX(TunerConstants.climberFollowerMotorID, TunerConstants.kCANBus2);
-		limitSwitch = new AnalogInput(Config.LIMIT_ANALOG_CHANNEL);
+		limitSwitch1 = new DigitalInput(0);
+		limitSwitch2 = new DigitalInput(1);
 
 		motorConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 		motorConfig.withCurrentLimits(
@@ -76,9 +74,19 @@ public class Climber extends SubsystemBase {
 		follower.setControl(new Follower(motor.getDeviceID(), MotorAlignmentValue.Aligned));
 	}
 
-	public void extend(double speed) {
+	public void move(double speed) {
         if (isAtLimit()) {
-            stop();
+			if (lastCommandedSpeed > 0 && speed > 0) {
+				stop();
+			} else if (lastCommandedSpeed > 0 && speed < 0) {
+				motor.set(speed);
+				lastCommandedSpeed = speed;
+			} else if (lastCommandedSpeed < 0 && speed < 0) {
+				stop();
+			} else if (lastCommandedSpeed > 0 && speed < 0) {
+				motor.set(speed);
+				lastCommandedSpeed = speed;
+			}
         } else {
             motor.set(speed);
             lastCommandedSpeed = speed;
@@ -92,9 +100,12 @@ public class Climber extends SubsystemBase {
 	}
 
 	public boolean isAtLimit() {
-		double v = limitSwitch.getVoltage();
 		// Depending on your hardware, triggered may be above or below threshold. Adjust as needed.
-		return v >= Config.LIMIT_VOLTAGE_THRESHOLD;
+		if (limitSwitch1.get() || limitSwitch2.get()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public double getPosition() {
@@ -102,19 +113,12 @@ public class Climber extends SubsystemBase {
 	}
 	
 	public void zeroPosition() {
-		zeroed = true;
-		// Also update TalonFX internal position (timeout 0.25s)
-		motor.setPosition(0.0, 0.25);
-	}
-
-	public boolean isZeroed() {
-		return zeroed;
+		motor.setPosition(0);
+		follower.setPosition(0);
 	}
 
 	@Override
 	public void periodic() {
-		System.out.println(limitSwitch.getVoltage());
-
 		// Put subsystem periodic code here. E.g. telemetry for tuning/debug.
 		//Logger.recordOutput("Climber/AtLimit", isAtLimit());
 		//Logger.recordOutput("Climber/LimitVoltage", limitSwitch.getVoltage());
@@ -125,7 +129,7 @@ public class Climber extends SubsystemBase {
 				// can be closed at either mechanical extreme; we use the last commanded
 				// motor direction to decide whether this corresponds to the extended or
 				// retracted endpoint.
-				boolean closed = isAtLimit();
+				/* boolean closed = isAtLimit();
 				if (closed && !limitPreviouslyClosed) {
 					// Rising edge: loop just closed
 					double targetAbsolute;
@@ -144,19 +148,29 @@ public class Climber extends SubsystemBase {
 						targetAbsolute = Config.RETRACTED_POSITION_ROTATIONS;
 						fullyExtended = false;
 						fullyRetracted = true;
-					}
+					} */
 					// Set offset so raw + offset == targetAbsolute
 					// Update Talon internal position so encoder reading matches the known absolute endpoint.
 					// Use a small timeout (0.25s) like zeroPosition() does.
-					motor.setPosition(targetAbsolute, 0.25);
-					zeroed = true;
-				}
-				limitPreviouslyClosed = closed;
+					//motor.setPosition(targetAbsolute, 0.25);
+					//zeroed = true;
+				//}
+				//limitPreviouslyClosed = closed;
 
 	}
 
     public Command extendCommand() {
-        return Commands.run(() -> extend(Config.DEFAULT_SPEED), this);
+        return Commands.runOnce(() -> move(Config.DEFAULT_SPEED)).until(() -> isAtLimit());
     }
+
+	public Command retractCommand() {
+		return Commands.runOnce(() -> move(-1 * Config.DEFAULT_SPEED)).until(() -> isAtLimit());
+	}
+
+	public Command zeroCommand() {
+		return Commands.runOnce(() -> zeroPosition());
+	}
+
+	
 
 }
