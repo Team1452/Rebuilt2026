@@ -221,17 +221,16 @@ public class RobotContainer {
     controller.povRight().onTrue(shooter.incrementPowerCommand(0.05));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
 
-    // outtake
+    // rotate intake in
     controller.rightBumper().onTrue(intake.setRotatorCommand(0.4)).onFalse(intake.setRotatorCommand(0));
 
-    // activate shooter
+    // rotate intake out
     controller.leftBumper().onTrue(intake.setRotatorCommand(-0.4)).onFalse(intake.setRotatorCommand(0));
 
     // activate indexer
     controller.rightTrigger().onTrue(indexer.activatePorknado(-0.6, -0.5)).onFalse(indexer.activatePorknado(0, 0));
 
     // lock on target
-
     controller.leftTrigger().toggleOnTrue(
     Commands.parallel(
         DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
@@ -239,7 +238,7 @@ public class RobotContainer {
 
 
     controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));
-    controller.y().onTrue(hood.stopDistanceControlCommand());
+    controller.y().onTrue(shooter.setShooterCommand(0.6)).onFalse(shooter.setShooterCommand(0));
 
     controller.x().onTrue(intake.deployIntake());
     controller.b().onTrue(intake.retractIntake());

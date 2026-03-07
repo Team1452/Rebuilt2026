@@ -134,7 +134,7 @@ public class Hood extends SubsystemBase {
       setPosition(lastCommanded); // Example scaling factor
     }
 
-    //Logger.recordOutput("Hood/Position", lastCommanded);
+    Logger.recordOutput("Hood/Position", lastCommanded);
 
   }
 
