@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase{
     private TalonFX sucker;
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
-    private final double deployRotations = 89;
+    private final double deployRotations = 62.6;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
 
     
@@ -33,8 +33,8 @@ public class Intake extends SubsystemBase{
         rotatorConfig.Slot0.kP = 5.0;
         suckerConfig.Slot0.kP = 5.0;
 
-        rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-		rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 89;
+        rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = false;
+		rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 62.6;
 
         rotatorConfig.SoftwareLimitSwitch.ReverseSoftLimitEnable = true;
         rotatorConfig.SoftwareLimitSwitch.ReverseSoftLimitThreshold = 0;
@@ -83,7 +83,7 @@ public class Intake extends SubsystemBase{
     public Command deployIntake() {
         return Commands.sequence(
             setAngle(deployRotations).until(() -> rotator.getPosition().getValueAsDouble() > 85),
-            setSuckerCommand(0.5)
+            setSuckerCommand(0.55)
             );
     }
 

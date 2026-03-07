@@ -238,11 +238,11 @@ public class RobotContainer {
         Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1))));
 
 
-    controller.a().onTrue(intake.setSuckerCommand(0.5)).onFalse(intake.setSuckerCommand(0));
+    controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));
     controller.y().onTrue(hood.stopDistanceControlCommand());
 
-    //controller.x().onTrue(intake.setAngle(87));
-    //controller.a().onTrue(intake.setAngle(0));
+    controller.x().onTrue(intake.deployIntake());
+    controller.b().onTrue(intake.retractIntake());
 
      fightBox
         .button(9)
