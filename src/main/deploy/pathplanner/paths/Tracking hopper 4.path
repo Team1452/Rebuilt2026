@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 3.0
+        "x": 3.2971809172453708,
+        "y": 3.870645616319445
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 3.0
+        "x": 3.5065578364303924,
+        "y": 4.007252006040384
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "trackinghopper"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 3.0
+        "x": 3.542236255787037,
+        "y": 6.169769892939814
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 3.0
+        "x": 3.324800776926223,
+        "y": 6.046393183093228
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "tracking to climb"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 0.2,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -50,5 +50,5 @@
     "velocity": 0,
     "rotation": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

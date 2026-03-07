@@ -7,31 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Forward2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Fire"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitthenAutoLock"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Blue"
+            "pathName": "middleside1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Back1"
+            "pathName": "middleside2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 7.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bump1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bump2"
           }
         }
       ]

@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "go to hop slow"
+            "pathName": "bump1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "bump2"
           }
         }
       ]

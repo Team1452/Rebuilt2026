@@ -311,7 +311,7 @@ public class DriveCommands {
             PathPlannerPath.fromPathFile(string)
         );
     } catch (Exception e) {
-        DriverStation.reportError("Failed to load path: Back1", false);
+        DriverStation.reportError("Failed to load path:" + string, false);
         return Commands.none();
     }
 }
