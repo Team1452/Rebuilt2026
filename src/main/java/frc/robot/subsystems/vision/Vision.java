@@ -76,11 +76,15 @@ public class Vision extends SubsystemBase {
   public Command turnOffVision() {
     return Commands.run(() -> turnOff());
   }
-
+  int j = 0;
   @Override
   public void periodic() {
 
-    if (visionEnable) {
+    if(j % 2 == 0){
+
+
+
+      if (visionEnable) {
 
     for (int i = 0; i < io.length; i++) {
 
@@ -141,7 +145,7 @@ public class Vision extends SubsystemBase {
         if (rejectPose) {
           continue;
         }
-
+        
         // Calculate standard deviations
         double stdDevFactor =
             Math.pow(observation.averageTagDistance(), 2.0) / observation.tagCount();
@@ -168,7 +172,6 @@ public class Vision extends SubsystemBase {
       observation.pose().toPose2d(),
       observation.timestamp(),
       VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
-      }
 
       // Log camera metadata
 
@@ -189,7 +192,11 @@ public class Vision extends SubsystemBase {
       allRobotPoses.addAll(robotPoses);
       allRobotPosesAccepted.addAll(robotPosesAccepted);
       allRobotPosesRejected.addAll(robotPosesRejected);
-    }
+
+      }
+
+      j+=1;
+    }}
 
     // Log summary data
     /* 

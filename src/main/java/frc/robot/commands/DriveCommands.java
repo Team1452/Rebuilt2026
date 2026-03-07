@@ -304,17 +304,22 @@ public class DriveCommands {
     return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
 
-  
+  public static DoubleSupplier findDistance(Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier){
+      final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+    return () -> (blueHopper.getDistance(drive.getPose().getTranslation()));
+  }
+
   public static Command getRunMyPathCommand(String string) {
     try {
         return AutoBuilder.followPath(
             PathPlannerPath.fromPathFile(string)
         );
     } catch (Exception e) {
-        DriverStation.reportError("Failed to load path:" + string, false);
+        DriverStation.reportError("Failed to load path: " + string, false);
         return Commands.none();
     }
 }
+  
 
 }
 
