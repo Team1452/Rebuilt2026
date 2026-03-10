@@ -287,11 +287,11 @@ public class RobotContainer {
         //intake.setSuckerCommand(0),
         //DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 10)),
         MultiCommands.goShootPosition(shooter, indexer, hood), 
-        Commands.waitSeconds(2),
+        Commands.waitSeconds(5),
         //intake.retractIntake(),
         MultiCommands.stopping(shooter, indexer, intake));
-        //intake.deployIntake(),
-        /*DriveCommands.getRunMyPathCommand("FIWB2"),
+        /*intake.deployIntake(),
+        DriveCommands.getRunMyPathCommand("FIWB1"))
         DriveCommands.getRunMyPathCommand("FIWB3"),
         DriveCommands.getRunMyPathCommand("FIWB4"),
         MultiCommands.goShootPosition(shooter, indexer, hood)); */
