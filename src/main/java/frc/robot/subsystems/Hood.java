@@ -52,7 +52,7 @@ public class Hood extends SubsystemBase {
   }
 
   public void setPosition(double position) {
-    double v = MathUtil.clamp(position, 0.105, 0.27);
+    double v = MathUtil.clamp(position, -0.15, 0.27);
     actuator.set(v);
     //actuator2.set(v);
     lastCommanded = v;

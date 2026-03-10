@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.558245225694445,
-        "y": 6.113016782407408
+        "x": 7.206458132820019,
+        "y": 5.811790182868142
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5582452256944412,
-        "y": 6.113016782407408
+        "x": 7.456458132820019,
+        "y": 5.811790182868142
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "mower time"
     },
     {
       "anchor": {
-        "x": 2.1219650607638894,
-        "y": 6.113016782407408
+        "x": 7.468123195380173,
+        "y": 5.187170356111645
       },
       "prevControl": {
-        "x": 2.535339511946479,
-        "y": 6.113016782407408
+        "x": 7.218123195380173,
+        "y": 5.187170356111645
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "fib3"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -44.55531161688354
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

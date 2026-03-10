@@ -62,6 +62,25 @@ public class MultiCommands {
             intake.retractIntake(),
             climber.extendCommand()
         );
-    }   
+    }
+    
+    public static Command goShootPosition(Shooter shooter, Indexer indexer, Hood hood) {
+        return Commands.sequence(
+            Commands.parallel(
+               shooter.setShooterCommand2(2.75),
+                hood.setPositionCommand(-0.02)
+        ), 
+        Commands.waitSeconds(0.5),
+        indexer.activatePorknado(-0.4, 0.5));
+    }
+
+    public static Command stopping(Shooter shooter, Indexer indexer, Intake intake) {
+        return
+            Commands.parallel(
+                indexer.activatePorknado(0, 0),
+                shooter.setShooterCommand(0.0),
+                intake.setSuckerCommand(0)
+                ); 
+    }
     
 }

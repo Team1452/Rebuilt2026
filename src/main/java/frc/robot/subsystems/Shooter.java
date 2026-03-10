@@ -67,8 +67,8 @@ public class Shooter extends SubsystemBase{
     }
 
     public void incrementPower(double increment) {
-        power = MathUtil.clamp(power + increment, 0, 1);
-        setShooter(power);
+        power = MathUtil.clamp(power + increment, 0, 25);
+        setShooter2(power);
     }
 
     public Command incrementPowerCommand(double increment) {
