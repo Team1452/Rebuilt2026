@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.LED.AnimationType;
 import frc.robot.subsystems.drive.Drive;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -32,6 +33,7 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import frc.robot.subsystems.LED.LEDSubsystem;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -43,6 +45,8 @@ public class DriveCommands {
   private static final double FF_RAMP_RATE = 0.1; // Volts/Sec
   private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
   private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
+  final Translation2d blueHopper = new Translation2d(4.6228, 4.01); //hopper point
+  
 
   private DriveCommands() {}
 
@@ -303,18 +307,40 @@ public class DriveCommands {
     final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
     return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
-
+  //finds distance
+  public static DoubleSupplier findDistance(Drive drive){
+      final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+    return () -> (blueHopper.getDistance(drive.getPose().getTranslation()));
+  }
+  //finds if in between zone
+  public static BooleanSupplier isShootingZone(Drive drive){
+     final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+    
+     return () -> (blueHopper.getDistance(drive.getPose().getTranslation())>= 8)&&blueHopper.getDistance(drive.getPose().getTranslation()) <= 10;
+  }
   
+  public static Command turnGreen(Drive drive, LEDSubsystem ledSystem){
+    if(isShootingZone(drive).getAsBoolean()){
+      return Commands.runOnce(()-> ledSystem.animate(AnimationType.Blue, 1));
+    }else{
+      return Commands.runOnce(()-> ledSystem.setAnimation(AnimationType.Red, 1));
+    }
+  }
+  
+
+
   public static Command getRunMyPathCommand(String string) {
     try {
         return AutoBuilder.followPath(
             PathPlannerPath.fromPathFile(string)
         );
     } catch (Exception e) {
-        DriverStation.reportError("Failed to load path:" + string, false);
+        DriverStation.reportError("Failed to load path: " + string, false);
         return Commands.none();
     }
 }
+ 
+  
 
 }
 

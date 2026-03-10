@@ -12,6 +12,8 @@ import com.ctre.phoenix6.signals.RGBWColor;
 import com.ctre.phoenix6.signals.StripTypeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class LEDSubsystem extends SubsystemBase {
@@ -187,6 +189,10 @@ public class LEDSubsystem extends SubsystemBase {
                 
         }
     }
+
+    public Command animate(AnimationType type, int slot) {
+        return Commands.runOnce(() -> setAnimation(type, slot));
+    } 
 
 
 
