@@ -316,12 +316,12 @@ public class DriveCommands {
   public static BooleanSupplier isShootingZone(Drive drive){
      final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
     
-     return () -> (blueHopper.getDistance(drive.getPose().getTranslation())>= 8)&&blueHopper.getDistance(drive.getPose().getTranslation()) <= 10;
+     return () -> (blueHopper.getDistance(drive.getPose().getTranslation())>= 2.933)&&blueHopper.getDistance(drive.getPose().getTranslation()) <= 3.233;
   }
   
   public static Command turnGreen(Drive drive, LEDSubsystem ledSystem){
     if(isShootingZone(drive).getAsBoolean()){
-      return Commands.runOnce(()-> ledSystem.animate(AnimationType.Blue, 1));
+      return Commands.runOnce(()-> ledSystem.setAnimation(AnimationType.Blue, 1));
     }else{
       return Commands.runOnce(()-> ledSystem.setAnimation(AnimationType.Red, 1));
     }
