@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.9984793070259865,
-        "y": 4.047661212704523
+        "x": 5.964275026483051,
+        "y": 5.5167955508474575
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2484793070259865,
-        "y": 4.047661212704523
+        "x": 6.214275026483051,
+        "y": 5.5167955508474575
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.5534365068855935,
-        "y": 4.0
+        "x": 3.2782302701271187,
+        "y": 5.5167955508474575
       },
       "prevControl": {
-        "x": 1.3034365068855935,
-        "y": 4.0
+        "x": 2.2782302701271187,
+        "y": 5.5167955508474575
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "climb"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 0.7,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "taxis + FIWB",
+  "folder": "teleop",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

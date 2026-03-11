@@ -32,11 +32,11 @@
     },
     {
       "anchor": {
-        "x": 1.5679980750721847,
+        "x": 1.5534365068855935,
         "y": 4.0
       },
       "prevControl": {
-        "x": 1.3179980750721847,
+        "x": 1.3034365068855935,
         "y": 4.0
       },
       "nextControl": null,
@@ -61,7 +61,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "taxis + FIWB",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -90.0

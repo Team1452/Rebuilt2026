@@ -20,7 +20,7 @@
         "y": 3.0
       },
       "prevControl": {
-        "x": 2.5,
+        "x": 2.5000000000000004,
         "y": 5.0
       },
       "nextControl": {
@@ -37,7 +37,7 @@
       },
       "prevControl": {
         "x": 2.5,
-        "y": 4.0
+        "y": 3.9999999999999996
       },
       "nextControl": {
         "x": 3.5,
@@ -93,7 +93,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "test paths",
+  "folder": "test",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 68.57794976247705

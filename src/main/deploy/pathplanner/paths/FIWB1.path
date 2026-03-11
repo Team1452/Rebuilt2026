@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5679980750721847,
+        "x": 1.5534365068855935,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5679980750721847,
+        "x": 2.5534365068855935,
         "y": 4.0
       },
       "isLocked": false,
@@ -61,7 +61,7 @@
     "rotation": -90.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "taxis + FIWB",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0
