@@ -93,9 +93,8 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOLimelight(VisionConstants.camera0Name, drive::getRotation),
-                new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation),
-                new VisionIOLimelight(VisionConstants.camera2Name, drive::getRotation),
-                new VisionIOLimelight(VisionConstants.camera3Name, drive::getRotation));
+                new VisionIOLimelight(VisionConstants.camera1Name, drive::getRotation)
+                );
 
         // The ModuleIOTalonFXS implementation provides an example implementation for
         // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -218,17 +217,17 @@ public class RobotContainer {
     controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
     controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
-    controller.povRight().onTrue(shooter.incrementPowerCommand(0.05));
-    controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.05));
+    controller.povRight().onTrue(shooter.incrementPowerCommand(0.25));
+    controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.25));
 
     // rotate intake in
-    controller.rightBumper().onTrue(intake.setRotatorCommand(0.4)).onFalse(intake.setRotatorCommand(0));
+    controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.4))).onFalse(intake.setRotatorCommand(0));
 
     // rotate intake out
-    controller.leftBumper().onTrue(intake.setRotatorCommand(-0.4)).onFalse(intake.setRotatorCommand(0));
+    controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.4))).onFalse(intake.setRotatorCommand(0));
 
     // activate indexer
-    controller.rightTrigger().onTrue(indexer.activatePorknado(-0.6, -0.5)).onFalse(indexer.activatePorknado(0, 0));
+    controller.rightTrigger().onTrue(Commands.sequence(hood.setPositionCommand(-0.02), shooter.setShooterCommand2(2.75), Commands.waitSeconds(1), indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
 
     // lock on target
     controller.leftTrigger().toggleOnTrue(
@@ -238,33 +237,37 @@ public class RobotContainer {
 
 
     controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));
-    controller.y().onTrue(shooter.setShooterCommand(0.6)).onFalse(shooter.setShooterCommand(0));
+    controller.y().onTrue(hood.setPositionCommand(-0.02));
 
     controller.x().onTrue(intake.deployIntake());
     controller.b().onTrue(intake.retractIntake());
 
+    //controller.rightStick().onTrue(MultiCommands.goShootPosition(shooter, indexer, hood));
+
+    controller.leftStick().onTrue(MultiCommands.stopping(shooter, indexer, intake));
+
      fightBox
         .button(9)
-        .onTrue(intake.setRotatorPosition(87));
+        .onTrue(intake.setRotatorPosition(70));
     
     fightBox
         .button(10)
         .onTrue(intake.zeroCommand());
     fightBox
         .button(1)
-        .onTrue(DriveCommands.getRunMyPathCommand("Shooterleft"));
+        .onTrue(Commands.sequence(
+            DriveCommands.getRunMyPathCommand("lineShooter"), 
+            MultiCommands.goShootPosition(shooter,indexer,hood)));
 
-
-    // Reset gyro to 0° when B button is pressed
-   /* controller()
-        .b()
+   controller
+        .rightStick()
         .onTrue(
             Commands.runOnce(
                     () ->
                         drive.setPose(
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
-                .ignoringDisable(true)); */
+                .ignoringDisable(true));
     
     
 
@@ -276,7 +279,22 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.get();
+
+    // middle start
+    return Commands.sequence(
+        autoChooser.get(), 
+        //intake.deployIntake(),
+        //intake.setSuckerCommand(0),
+        //DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 10)),
+        MultiCommands.goShootPosition(shooter, indexer, hood), 
+        Commands.waitSeconds(5),
+        //intake.retractIntake(),
+        MultiCommands.stopping(shooter, indexer, intake));
+        /*intake.deployIntake(),
+        DriveCommands.getRunMyPathCommand("FIWB1"))
+        DriveCommands.getRunMyPathCommand("FIWB3"),
+        DriveCommands.getRunMyPathCommand("FIWB4"),
+        MultiCommands.goShootPosition(shooter, indexer, hood)); */
   }
 
 }

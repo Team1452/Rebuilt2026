@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.518,
+        "x": 1.5679980750721847,
         "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.268674640436475,
-        "y": 4.018353884562104
+        "x": 2.5679980750721847,
+        "y": 4.0
+      },
+      "isLocked": false,
+      "linkedName": "climb"
+    },
+    {
+      "anchor": {
+        "x": 2.910086621751684,
+        "y": 5.507921077959577
+      },
+      "prevControl": {
+        "x": 2.1926179018286813,
+        "y": 5.474157844080849
+      },
+      "nextControl": {
+        "x": 4.024733081266088,
+        "y": 5.560375028995547
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.603152705439815,
-        "y": 4.066689887152778
+        "x": 7.206458132820019,
+        "y": 5.811790182868142
       },
       "prevControl": {
-        "x": 2.8530638124330103,
-        "y": 4.0733561155793865
+        "x": 6.206458132820019,
+        "y": 5.811790182868142
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "climb"
+      "linkedName": "mower time"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +58,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": null,
