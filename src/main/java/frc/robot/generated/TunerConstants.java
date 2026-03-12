@@ -8,8 +8,11 @@ import com.ctre.phoenix6.hardware.*;
 import com.ctre.phoenix6.signals.*;
 import com.ctre.phoenix6.swerve.*;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.*;
+import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.*;
@@ -23,6 +26,9 @@ public class TunerConstants {
     // canivores
     public static final CANBus kCANBus = new CANBus("cow", "./logs/example.hoot");
     public static final CANBus kCANBus2 = new CANBus("lamb", "./logs/example.hoot");
+
+    // pathplanner points
+    public static final Pose2d climbShot = new Pose2d(1.553, 4.000, Rotation2d.fromDegrees(180));
 
     // shooter
     public static final int Hood1PWMChannel = 1;

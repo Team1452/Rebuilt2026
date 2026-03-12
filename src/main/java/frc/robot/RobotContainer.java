@@ -45,6 +45,8 @@ import frc.robot.subsystems.LED.LEDSubsystem;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import edu.wpi.first.math.util.Units;
+
 
 import java.util.List;
 
@@ -197,6 +199,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    PathConstraints constraints = new PathConstraints(
+        3.0, 4.0,
+        Units.degreesToRadians(540), Units.degreesToRadians(720));
+
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
@@ -210,8 +216,6 @@ public class RobotContainer {
     //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
     //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
-
-    //PathPlannerPath path = PathPlannerPath.fromPathFile("align to climb.path");
 
 
     controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
@@ -258,6 +262,15 @@ public class RobotContainer {
         .onTrue(Commands.sequence(
             DriveCommands.getRunMyPathCommand("lineShooter"), 
             MultiCommands.goShootPosition(shooter,indexer,hood)));
+
+
+    fightBox
+        .button(3)
+        .onTrue(
+            AutoBuilder.pathfindThenFollowPath(
+                DriveCommands.loadPath("trench left to home"),
+                constraints)
+            );
 
    controller
         .rightStick()

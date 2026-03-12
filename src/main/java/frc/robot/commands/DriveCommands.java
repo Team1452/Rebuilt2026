@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.LED.AnimationType;
 import frc.robot.subsystems.drive.Drive;
+
+import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
@@ -339,8 +341,15 @@ public class DriveCommands {
         return Commands.none();
     }
 }
- 
-  
+
+  public static PathPlannerPath loadPath(String pathName) {
+    try {
+        return PathPlannerPath.fromPathFile(pathName);
+    } catch (Exception e) {
+        DriverStation.reportError("Failed to load path: " + pathName, false);
+        return null;
+    }
+  }
 
 }
 
