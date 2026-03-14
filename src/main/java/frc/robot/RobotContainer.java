@@ -231,7 +231,9 @@ public class RobotContainer {
     controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.4))).onFalse(intake.setRotatorCommand(0));
 
     // activate indexer
-    controller.rightTrigger().onTrue(Commands.sequence(hood.setPositionCommand(-0.02), shooter.setShooterCommand2(2.75), Commands.waitSeconds(1), indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+    //controller.rightTrigger().onTrue(Commands.sequence(shooter.setShooterCommand2(6.5), Commands.waitSeconds(1), indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+    controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+
 
     // lock on target
     controller.leftTrigger().toggleOnTrue(
