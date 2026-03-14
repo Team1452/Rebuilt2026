@@ -103,6 +103,14 @@ public class Intake extends SubsystemBase{
         return Commands.runOnce(() -> rotator.setPosition(rotations), this);
     }
 
+    public Command JIGGLE() {
+        return Commands.repeatingSequence(
+            setRotatorPosition(20),
+            Commands.waitSeconds(0.25),
+            setRotatorPosition(40)
+        );
+    }
+
 
     
 }
