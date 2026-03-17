@@ -48,7 +48,7 @@ public class DriveCommands {
   private static final double WHEEL_RADIUS_MAX_VELOCITY = 0.25; // Rad/Sec
   private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
   final Translation2d blueHopper = new Translation2d(4.6228, 4.01); //hopper point
-  
+  private static boolean previousZone = false;
 
   private DriveCommands() {}
 
@@ -315,20 +315,45 @@ public class DriveCommands {
     return () -> (blueHopper.getDistance(drive.getPose().getTranslation()));
   }
   //finds if in between zone
-  public static BooleanSupplier isShootingZone(Drive drive){
-     final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
-    
-     return () -> (blueHopper.getDistance(drive.getPose().getTranslation())>= 2.933)&&blueHopper.getDistance(drive.getPose().getTranslation()) <= 3.233;
-  }
+  public static boolean isShootingZone(Drive drive){
+  final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+
+  
+    double distance = blueHopper.getDistance(drive.getPose().getTranslation());
+    return distance >= 0.933 && distance <= 3.233;
+  
+}
   
   public static Command turnGreen(Drive drive, LEDSubsystem ledSystem){
-    if(isShootingZone(drive).getAsBoolean()){
-      return Commands.runOnce(()-> ledSystem.setAnimation(AnimationType.Blue, 1));
-    }else{
-      return Commands.runOnce(()-> ledSystem.setAnimation(AnimationType.Red, 1));
-    }
-  }
   
+  return Commands.run(() -> {
+    boolean inZone = isShootingZone(drive);
+
+    // Only update the animation when the zone changes to avoid
+    // constantly sending commands to the LED subsystem when the robot is near the boundary
+    if (inZone != previousZone) {
+      if (inZone) {
+        ledSystem.setAnimation(AnimationType.Rainbow, 1);
+        System.out.println("in zone");
+      } else {
+        ledSystem.setAnimation(AnimationType.ColorFlow, 1);
+         System.out.println(" not in zone");
+      }
+      previousZone = inZone;
+    }
+
+  }, ledSystem)
+  .beforeStarting(() -> {
+    // make sure correct initial animation when the command is first scheduled
+    boolean inZone = isShootingZone(drive);
+    if (inZone) {
+      ledSystem.setAnimation(AnimationType.Blue, 1);
+    } else {
+      ledSystem.setAnimation(AnimationType.Red, 1);
+    }
+    previousZone = inZone;
+  });
+}
 
 
   public static Command getRunMyPathCommand(String string) {
