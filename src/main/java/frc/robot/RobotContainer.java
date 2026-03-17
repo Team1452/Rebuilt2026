@@ -243,7 +243,7 @@ public class RobotContainer {
 
 
     controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));
-    controller.y().onTrue(intake.JIGGLE());
+    controller.y().toggleOnTrue(intake.JIGGLE());
 
     controller.x().onTrue(intake.deployIntake());
     controller.b().onTrue(intake.retractIntake());
