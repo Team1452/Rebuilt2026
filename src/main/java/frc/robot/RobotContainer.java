@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -46,7 +47,7 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.math.util.Units;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.List;
 
@@ -153,7 +154,7 @@ public class RobotContainer {
 
         break;
     }
-
+  
     /* NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
     NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
     NamedCommands.registerCommand("HoodActivate", hood.activateDistanceControl());
@@ -265,6 +266,7 @@ public class RobotContainer {
             DriveCommands.getRunMyPathCommand("lineShooter"), 
             MultiCommands.goShootPosition(shooter,indexer,hood)));
 
+<<<<<<< HEAD
     fightBox
         .button(3)
         .onTrue(
@@ -273,6 +275,9 @@ public class RobotContainer {
                 constraints)
             );
 
+=======
+    fightBox.button(2).toggleOnTrue(DriveCommands.turnGreen(drive, ledSystem));
+>>>>>>> 82dbd91d7b01259f857e06fae65feacc41bcc52b
     fightBox
         .button(3)
         .onTrue(
@@ -280,7 +285,16 @@ public class RobotContainer {
                 DriveCommands.loadPath("trench left to home"),
                 constraints)
             );
+            
+          
 
+    // In RobotContainer.java
+new Trigger(() -> Math.abs(controller.getLeftY()) > 0.1 || Math.abs(controller.getLeftX()) > 0.1)
+    .onTrue(new InstantCommand(drive::stop, drive));
+
+
+            
+   
    controller
         .rightStick()
         .onTrue(
