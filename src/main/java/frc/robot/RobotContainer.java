@@ -265,8 +265,7 @@ public class RobotContainer {
         .onTrue(Commands.sequence(
             DriveCommands.getRunMyPathCommand("lineShooter"), 
             MultiCommands.goShootPosition(shooter,indexer,hood)));
-
-<<<<<<< HEAD
+            
     fightBox
         .button(3)
         .onTrue(
@@ -275,9 +274,7 @@ public class RobotContainer {
                 constraints)
             );
 
-=======
-    fightBox.button(2).toggleOnTrue(DriveCommands.turnGreen(drive, ledSystem));
->>>>>>> 82dbd91d7b01259f857e06fae65feacc41bcc52b
+
     fightBox
         .button(3)
         .onTrue(
