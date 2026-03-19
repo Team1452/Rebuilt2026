@@ -237,10 +237,11 @@ public class RobotContainer {
 
 
     // lock on target
-    controller.leftTrigger().toggleOnTrue(
+    controller.leftTrigger().onTrue(
     Commands.parallel(
         DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
-        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1))));
+        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)),
+        shooter.setShooterCommand3(drive)));
 
 
     controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));
