@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -46,7 +47,7 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.math.util.Units;
-
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.List;
 
@@ -153,7 +154,7 @@ public class RobotContainer {
 
         break;
     }
-
+  
     /* NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
     NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
     NamedCommands.registerCommand("HoodActivate", hood.activateDistanceControl());
@@ -221,8 +222,8 @@ public class RobotContainer {
     controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
     controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
-    controller.povRight().onTrue(shooter.incrementPowerCommand(0.25));
-    controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.25));
+    controller.povRight().onTrue(shooter.incrementPowerCommand(1));
+    controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
 
     // rotate intake in
     controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.4))).onFalse(intake.setRotatorCommand(0));
@@ -231,7 +232,9 @@ public class RobotContainer {
     controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.4))).onFalse(intake.setRotatorCommand(0));
 
     // activate indexer
-    controller.rightTrigger().onTrue(Commands.sequence(hood.setPositionCommand(-0.02), shooter.setShooterCommand2(2.75), Commands.waitSeconds(1), indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+    //controller.rightTrigger().onTrue(Commands.sequence(shooter.setShooterCommand2(6.5), Commands.waitSeconds(1), indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+    controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.6, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+
 
     // lock on target
     controller.leftTrigger().toggleOnTrue(
@@ -262,6 +265,14 @@ public class RobotContainer {
         .onTrue(Commands.sequence(
             DriveCommands.getRunMyPathCommand("lineShooter"), 
             MultiCommands.goShootPosition(shooter,indexer,hood)));
+            
+    fightBox
+        .button(3)
+        .onTrue(
+            AutoBuilder.pathfindThenFollowPath(
+                DriveCommands.loadPath("trench left to home"),
+                constraints)
+            );
 
 
     fightBox
@@ -271,7 +282,16 @@ public class RobotContainer {
                 DriveCommands.loadPath("trench left to home"),
                 constraints)
             );
+            
+          
 
+    // In RobotContainer.java
+new Trigger(() -> Math.abs(controller.getLeftY()) > 0.1 || Math.abs(controller.getLeftX()) > 0.1)
+    .onTrue(new InstantCommand(drive::stop, drive));
+
+
+            
+   
    controller
         .rightStick()
         .onTrue(

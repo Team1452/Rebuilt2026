@@ -33,8 +33,8 @@ public class Shooter extends SubsystemBase{
     private TalonFXConfiguration gunConfig;
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
-        .withKP(0.1).withKI(0).withKD(0)
-        .withKS(0.01).withKV(4).withKA(0).
+        .withKP(0).withKI(0).withKD(0)
+        .withKS(0.1).withKV(0.1).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
     private double power = 0.0;
@@ -72,7 +72,7 @@ public class Shooter extends SubsystemBase{
     }
 
     public void incrementPower(double increment) {
-        power = MathUtil.clamp(power + increment, 0, 25);
+        power = MathUtil.clamp(power + increment, 0, 300);
         setShooter2(power);
     }
 
