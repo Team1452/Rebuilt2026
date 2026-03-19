@@ -267,12 +267,8 @@ public class RobotContainer {
             MultiCommands.goShootPosition(shooter,indexer,hood)));
             
     fightBox
-        .button(3)
-        .onTrue(
-            AutoBuilder.pathfindThenFollowPath(
-                DriveCommands.loadPath("trench left to home"),
-                constraints)
-            );
+        .button(2)
+        .toggleOnTrue(DriveCommands.turnGreen(drive, ledSystem));
 
 
     fightBox
