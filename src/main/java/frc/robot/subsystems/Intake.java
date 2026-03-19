@@ -105,10 +105,10 @@ public class Intake extends SubsystemBase{
 
     public Command JIGGLE() {
         return Commands.repeatingSequence(
-            setAngle(20),
-            Commands.waitSeconds(1),
             setAngle(40),
-            Commands.waitSeconds(1)
+            Commands.waitSeconds(0.5),
+            setAngle(35),
+            Commands.waitSeconds(0.5)
         );
     }
 

@@ -115,7 +115,7 @@ public class Shooter extends SubsystemBase{
         double[] settings = interpolation.getSettings(drive);
         double power = settings[0];
         setShooter2(power);
-        //Logger.recordOutput("Shooter/InterpolatedPower", power);
+        Logger.recordOutput("Shooter/InterpolatedPower", power);
         //Logger.recordOutput("Shooter/InterpolatedAngle", settings[1]);
     }
 
@@ -144,7 +144,7 @@ public class ShooterInterpolation {
     }
 
     public double[] getSettings(Drive drive) {
-        double distance = DriveCommands.findDistance(drive).getAsDouble();
+        double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
         // 1. Check if distance is exactly in the map or out of bounds
         if (shotMap.containsKey(distance)) return shotMap.get(distance);
         if (distance < shotMap.firstKey()) return shotMap.firstEntry().getValue();
@@ -162,6 +162,8 @@ public class ShooterInterpolation {
         
         double interpolatedPower = lowVal[0] + t * (highVal[0] - lowVal[0]);
         double interpolatedAngle = lowVal[1] + t * (highVal[1] - lowVal[1]);
+
+        Logger.recordOutput("Shooter/DistanceFromHopper", distance);
 
         return new double[]{interpolatedPower, interpolatedAngle};
     }

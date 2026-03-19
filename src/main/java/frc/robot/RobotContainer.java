@@ -237,7 +237,7 @@ public class RobotContainer {
 
 
     // lock on target
-    controller.leftTrigger().onTrue(
+    controller.leftTrigger().toggleOnTrue(
     Commands.parallel(
         DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
         Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)),
@@ -266,7 +266,7 @@ public class RobotContainer {
         .onTrue(Commands.sequence(
             DriveCommands.getRunMyPathCommand("lineShooter"), 
             MultiCommands.goShootPosition(shooter,indexer,hood)));
-            
+
     fightBox
         .button(3)
         .onTrue(
@@ -287,8 +287,8 @@ public class RobotContainer {
           
 
     // In RobotContainer.java
-new Trigger(() -> Math.abs(controller.getLeftY()) > 0.1 || Math.abs(controller.getLeftX()) > 0.1)
-    .onTrue(new InstantCommand(drive::stop, drive));
+//new Trigger(() -> Math.abs(controller.getLeftY()) > 0.1 || Math.abs(controller.getLeftX()) > 0.1)
+  //  .onTrue(new InstantCommand(drive::stop, drive));
 
 
             
