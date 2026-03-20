@@ -241,7 +241,8 @@ public class RobotContainer {
     Commands.parallel(
         DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
         Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)),
-        shooter.setShooterCommand3(drive)));
+        shooter.setShooterCommand3(drive),
+        hood.autoHood(drive)));
 
 
     controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));
