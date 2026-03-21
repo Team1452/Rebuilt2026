@@ -34,8 +34,8 @@ public class Shooter extends SubsystemBase{
     private TalonFXConfiguration gunConfig;
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
-        .withKP(0).withKI(0).withKD(0)
-        .withKS(0.1).withKV(0.1).withKA(0).
+        .withKP(0.4).withKI(0).withKD(0)
+        .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
     private double power = 0.0;
@@ -122,6 +122,16 @@ public class Shooter extends SubsystemBase{
 
     public Command setShooterCommand3(Drive drive) {
         return Commands.run(() -> getSettings(drive));
+    }
+
+    public void getPower(Drive drive) {
+        double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
+        double power = 12.133 * Math.pow(distance, 0.34);
+        setShooter2(power);
+    }
+
+    public Command setShooterCommand4(Drive drive) {
+        return Commands.run(() -> getPower(drive));
     }
 
     @Override
