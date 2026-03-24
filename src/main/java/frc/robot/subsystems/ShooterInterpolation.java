@@ -36,11 +36,11 @@ public class ShooterInterpolation {
         shotMap.put(40.0, new double[]{45.5, -0.15});
         shotMap.put(60.0, new double[]{48, -0.15});
         shotMap.put(80.0, new double[]{50.5, -0.15});
-        shotMap.put(100.0, new double[]{60, -0.15});
-        shotMap.put(120.0, new double[]{69, -0.15});
-        //shotMap.put(140.0, new double[]{71, 0});
-        //shotMap.put(160.0, new double[]{74, 0});
-        //shotMap.put(180.0, new double[]{78, 0.065});
+        shotMap.put(100.0, new double[]{57, -0.065});
+        shotMap.put(120.0, new double[]{61, -0.065});
+        shotMap.put(140.0, new double[]{67, -0.065});
+        shotMap.put(160.0, new double[]{74, 0});
+        shotMap.put(180.0, new double[]{78, 0.065});
     }
 
     public double[] getSettings(Drive drive) {
