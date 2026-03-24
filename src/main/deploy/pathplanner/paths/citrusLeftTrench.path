@@ -1,0 +1,91 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.229368434410311,
+        "y": 7.41186225503178
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.229368434410311,
+        "y": 7.41186225503178
+      },
+      "isLocked": false,
+      "linkedName": "leftTrench"
+    },
+    {
+      "anchor": {
+        "x": 7.8435192664194915,
+        "y": 4.727075553937148
+      },
+      "prevControl": {
+        "x": 8.605658821064061,
+        "y": 7.853149331297738
+      },
+      "nextControl": {
+        "x": 7.784303502632456,
+        "y": 4.484189792067252
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.287247748941886,
+        "y": 5.506779495492652
+      },
+      "prevControl": {
+        "x": 6.655286072123384,
+        "y": 5.5495049876360145
+      },
+      "nextControl": {
+        "x": 3.8796881490055624,
+        "y": 5.462819706055953
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.9840872726883556,
+        "y": 5.506779495492652
+      },
+      "prevControl": {
+        "x": 2.84914024443555,
+        "y": 5.717229726107248
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "citrusLeft"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -127.6062178825774
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -45.45187648867179
+  },
+  "reversed": false,
+  "folder": "autos",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}
