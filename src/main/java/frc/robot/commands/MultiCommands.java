@@ -43,13 +43,6 @@ public class MultiCommands {
             );
     }
 
-    public static Command GoHoodCommand(Hood hood) {
-        return Commands.sequence(
-            hood.activateDistanceControl(),
-            Commands.waitSeconds(1),
-            hood.stopDistanceControlCommand());
-    }
-
     public static Command defaultState(Intake intake, Climber climber) {
         return Commands.sequence(
             intake.retractIntake(),

@@ -229,7 +229,7 @@ public class RobotContainer {
     controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.4))).onFalse(intake.setRotatorCommand(0));
 
     // rotate intake out
-    controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.4))).onFalse(intake.setRotatorCommand(0));
+    controller.leftBumper().toggleOnTrue(shooter.setShooterCommand4(drive));
 
     // activate indexer
     //controller.rightTrigger().onTrue(Commands.sequence(shooter.setShooterCommand2(6.5), Commands.waitSeconds(1), indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
@@ -241,7 +241,8 @@ public class RobotContainer {
     Commands.parallel(
         DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
         Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)),
-        shooter.setShooterCommand3(drive)));
+        shooter.setShooterCommand3(drive),
+        hood.autoHood(drive)));
 
 
     controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));

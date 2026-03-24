@@ -87,6 +87,18 @@ public class Hood extends SubsystemBase {
     return lastCommanded;
   }
 
+  public void getSettings(Drive drive) {
+        ShooterInterpolation interpolation = new ShooterInterpolation();
+        double[] settings = interpolation.getSettings(drive);
+        double hood = settings[1];
+        setPosition(hood);
+        Logger.recordOutput("Hood/InterpolatedHood", hood);
+    }
+  
+  public Command autoHood(Drive drive) {
+    return Commands.run(() -> getSettings(drive), this);
+  }
+
   public Command setPositionCommand(double position) {
     return Commands.runOnce(() -> setPosition(position), this);
   }
@@ -107,13 +119,13 @@ public class Hood extends SubsystemBase {
     return Commands.runOnce(() -> setPosition(0.025), this);
   }
 
-  public Command activateDistanceControl() {
+  /*public Command activateDistanceControl() {
     return Commands.runOnce(() -> distanceControl());
   } 
 
   public Command stopDistanceControlCommand() {
     return Commands.runOnce(() -> stopDistanceControl());
-  } 
+  } */
 
 @Override
   public void periodic() {
@@ -126,13 +138,13 @@ public class Hood extends SubsystemBase {
       setPosition(lastCommanded);
     }
 
-    if (isDistanceControl) {
+    /* if (isDistanceControl) {
       final Translation2d blueHopper = new Translation2d(4.623, 4.01);
       double distance = Math.hypot((blueHopper.minus(drive.getPose().getTranslation())).getX(), (blueHopper.minus(drive.getPose().getTranslation())).getY());
       //Logger.recordOutput("Hood/DistanceToHopper", distance);
       lastCommanded = distance / 7; 
       setPosition(lastCommanded); // Example scaling factor
-    }
+    } */
 
     Logger.recordOutput("Hood/Position", lastCommanded);
 

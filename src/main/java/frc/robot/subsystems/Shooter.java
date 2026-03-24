@@ -19,6 +19,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.ShooterInterpolation;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
@@ -33,8 +34,8 @@ public class Shooter extends SubsystemBase{
     private TalonFXConfiguration gunConfig;
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
-        .withKP(0).withKI(0).withKD(0)
-        .withKS(0.1).withKV(0.1).withKA(0).
+        .withKP(0.4).withKI(0).withKD(0)
+        .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
     private double power = 0.0;
@@ -123,51 +124,22 @@ public class Shooter extends SubsystemBase{
         return Commands.run(() -> getSettings(drive));
     }
 
+    public void getPower(Drive drive) {
+        double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
+        double power = 12.133 * Math.pow(distance, 0.34);
+        setShooter2(power);
+    }
+
+    public Command setShooterCommand4(Drive drive) {
+        return Commands.run(() -> getPower(drive));
+    }
+
     @Override
     public void periodic() {
         Logger.recordOutput("Shooter/PowerShot-Strength", power);
         //Logger.recordOutput("Shooter/GunWheel Velocity", gunWheel.getVelocity().getValueAsDouble());
         //Logger.recordOutput("Shooter/Follower Velocity", follower.getVelocity().getValueAsDouble());
     }
-
-    
-public class ShooterInterpolation {
-    // A TreeMap stores data in order of the key (Distance)
-    private final TreeMap<Double, double[]> shotMap = new TreeMap<>();
-
-    public ShooterInterpolation() {
-        // Distance (Inches), {Power, Angle}
-        shotMap.put(20.0,  new double[]{55, -0.015});
-        shotMap.put(40.0, new double[]{55, -0.015});
-        shotMap.put(60.0, new double[]{63, -0.015});
-        shotMap.put(80.0, new double[]{65, -0.015});
-    }
-
-    public double[] getSettings(Drive drive) {
-        double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
-        // 1. Check if distance is exactly in the map or out of bounds
-        if (shotMap.containsKey(distance)) return shotMap.get(distance);
-        if (distance < shotMap.firstKey()) return shotMap.firstEntry().getValue();
-        if (distance > shotMap.lastKey()) return shotMap.lastEntry().getValue();
-
-        // 2. Get the points immediately below and above our current distance
-        Double lowKey = shotMap.floorKey(distance);
-        Double highKey = shotMap.ceilingKey(distance);
-
-        double[] lowVal = shotMap.get(lowKey);
-        double[] highVal = shotMap.get(highKey);
-
-        // 3. The Interpolation Math
-        double t = (distance - lowKey) / (highKey - lowKey);
-        
-        double interpolatedPower = lowVal[0] + t * (highVal[0] - lowVal[0]);
-        double interpolatedAngle = lowVal[1] + t * (highVal[1] - lowVal[1]);
-
-        Logger.recordOutput("Shooter/DistanceFromHopper", distance);
-
-        return new double[]{interpolatedPower, interpolatedAngle};
-    }
-}
     
 
 }
