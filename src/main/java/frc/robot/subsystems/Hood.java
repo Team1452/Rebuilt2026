@@ -38,6 +38,8 @@ public class Hood extends SubsystemBase {
   private boolean isUppies = false;
   private boolean isDownies = false;
   private boolean isDistanceControl = false;
+  private double lowest = -0.15;
+  private double highest = 0.27;
 
   /**
    * Create an open-loop linear actuator controller on the given PWM channel.
@@ -52,7 +54,7 @@ public class Hood extends SubsystemBase {
   }
 
   public void setPosition(double position) {
-    double v = MathUtil.clamp(position, -0.15, 0.27);
+    double v = MathUtil.clamp(position, lowest, highest);
     actuator.set(v);
     //actuator2.set(v);
     lastCommanded = v;
@@ -116,7 +118,7 @@ public class Hood extends SubsystemBase {
   }
 
   public Command goFlat() {
-    return Commands.runOnce(() -> setPosition(0.025), this);
+    return Commands.runOnce(() -> setPosition(lowest), this);
   }
 
   /*public Command activateDistanceControl() {

@@ -75,5 +75,12 @@ public class MultiCommands {
                 intake.setSuckerCommand(0)
                 ); 
     }
-    
+
+    public static Command goingUnder(Intake intake, Hood hood) {
+        return Commands.parallel(
+            intake.trenchTime(),
+            hood.goFlat()
+        );
+    }
+
 }

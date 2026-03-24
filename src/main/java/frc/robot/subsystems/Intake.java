@@ -21,6 +21,7 @@ public class Intake extends SubsystemBase{
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
     private final double deployRotations = 62.6;
+    private final double trenchRotations = 40.0;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
 
     
@@ -98,7 +99,13 @@ public class Intake extends SubsystemBase{
         return Commands.runOnce(() -> zeroPosition());
     }
 
+    public Command trenchTime() {
+        return Commands.runOnce(
+            () -> setAngle(trenchRotations).until(() -> rotator.getPosition().getValueAsDouble() > 85));
+    }
 
+
+    // changes the encoder position, does not actually move it
     public Command setRotatorPosition(double rotations) {
         return Commands.runOnce(() -> rotator.setPosition(rotations), this);
     }
