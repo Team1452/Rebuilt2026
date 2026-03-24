@@ -122,7 +122,7 @@ public class DriveCommands {
             ANGLE_KP,
             0.0,
             ANGLE_KD,
-            new TrapezoidProfile.Constraints(ANGLE_MAX_VELOCITY, ANGLE_MAX_ACCELERATION));
+            new TrapezoidProfile.Constraints(ANGLE_MAX_VELOCITY*2, ANGLE_MAX_ACCELERATION));
     angleController.enableContinuousInput(-Math.PI, Math.PI);
 
     // Construct command
@@ -315,19 +315,19 @@ public class DriveCommands {
     return () -> (blueHopper.getDistance(drive.getPose().getTranslation()));
   }
   //finds if in between zone
-  public static boolean isShootingZone(Drive drive){
-  final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+  public static boolean isShootingZone(Drive drive, Translation2d blueHopper, double minDistance, double maxDistance){
+  
 
   
     double distance = blueHopper.getDistance(drive.getPose().getTranslation());
-    return distance >= 0.933 && distance <= 3.233;
+    return distance >= minDistance && distance <= maxDistance;
   
 }
   
   public static Command turnGreen(Drive drive, LEDSubsystem ledSystem){
   
   return Commands.run(() -> {
-    boolean inZone = isShootingZone(drive);
+    boolean inZone = isShootingZone(drive, new Translation2d(4.6228, 4.01), 0.933, 3.233);
 
     // Only update the animation when the zone changes to avoid
     // constantly sending commands to the LED subsystem when the robot is near the boundary
@@ -345,7 +345,7 @@ public class DriveCommands {
   }, ledSystem)
   .beforeStarting(() -> {
     // make sure correct initial animation when the command is first scheduled
-    boolean inZone = isShootingZone(drive);
+    boolean inZone = isShootingZone(drive, new Translation2d(4.6228, 4.01), 3, 3.233);
     if (inZone) {
       ledSystem.setAnimation(AnimationType.Blue, 1);
     } else {
@@ -355,7 +355,60 @@ public class DriveCommands {
   });
 }
 
+// 1. Define this at the class level
+private static String previousState = ""; 
 
+public static Command shootingZones(Drive drive, LEDSubsystem ledSystem) {
+    Translation2d targetPos = new Translation2d(4.6228, 4.01);
+
+    return Commands.run(() -> {
+        // 2. Logic to determine current state
+        boolean inInner = isShootingZone(drive, targetPos, 0.508, 3.302);
+        boolean inOuter = isShootingZone(drive, targetPos, 3.302, 3.5);
+        
+        String currentState;
+        if (inInner) {
+    currentState = "INNER";
+    } else if (inOuter) {
+    currentState = "OUTER";
+    } else {
+    currentState = "NONE";
+}
+
+        // 3. The Change Detection check
+        if (!currentState.equals(previousState)) {
+            switch (currentState) {
+                case "INNER" -> ledSystem.setAnimation(AnimationType.Rainbow, 1);
+                case "OUTER" -> ledSystem.setAnimation(AnimationType.
+                Larson, 1);
+                case "NONE"  -> ledSystem.setAnimation(AnimationType.ColorFlow, 1);
+            }
+            previousState = currentState;
+        }
+    }, ledSystem)
+    .beforeStarting(() -> {
+        // initalize
+        // Determine where we are the momentthe button is pressed
+        boolean inInner = isShootingZone(drive, targetPos, 0.508, 3.302);
+        boolean inOuter = isShootingZone(drive, targetPos, 3.302, 3.5);
+        
+       
+if (inInner) {
+    previousState = "INNER";
+} else if (inOuter) {
+    previousState = "OUTER";
+} else {
+    previousState = "NONE";
+}
+
+        // Immediately set the LED so there is zero delay
+        switch (previousState) {
+            case "INNER" -> ledSystem.setAnimation(AnimationType.Rainbow, 1);
+            case "OUTER" -> ledSystem.setAnimation(AnimationType.Larson, 1);
+            case "NONE"  -> ledSystem.setAnimation(AnimationType.ColorFlow, 1);
+        }
+    });
+}
   public static Command getRunMyPathCommand(String string) {
     try {
         return AutoBuilder.followPath(
