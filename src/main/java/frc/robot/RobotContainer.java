@@ -64,7 +64,8 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
   private final Vision vision;
-
+  private final Intake intake = new Intake();
+  private final Shooter shooter = new Shooter();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -205,6 +206,18 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
+    
+    controller.povRight().onTrue(shooter.incrementPowerCommand(0.5));
+    controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.5));
+
+    // rotate intake in
+    controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.4))).onFalse(intake.setRotatorCommand(0));
+
+    // rotate intake out
+    controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.4))).onFalse(intake.setRotatorCommand(0));
+
+    controller.a().onTrue(intake.setSuckerCommand(0.5)).onFalse(intake.setSuckerCommand(0));
 
   }
 

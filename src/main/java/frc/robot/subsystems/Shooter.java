@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase{
     private TalonFXConfiguration gunConfig;
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
-        .withKP(0.4).withKI(0).withKD(0)
+        .withKP(0).withKI(0).withKD(0)
         .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
 
