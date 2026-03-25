@@ -37,6 +37,8 @@ import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -51,6 +53,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class Drive extends SubsystemBase {
   // TunerConstants doesn't include these constants, so they are declared locally
+  private final Field2d m_field = new Field2d();
   static final double ODOMETRY_FREQUENCY =
       new CANBus(TunerConstants.DrivetrainConstants.CANBusName).isNetworkFD() ? 250.0 : 100.0;
   public static final double DRIVE_BASE_RADIUS =
@@ -218,6 +221,9 @@ public class Drive extends SubsystemBase {
     // Logger.recordOutput("SwerveStates/Measured", getModuleStates());
     // Logger.recordOutput("SwerveChassisSpeeds/Measured", getChassisSpeeds());
     // Logger.recordOutput("Odometry/Robot", getPose());
+
+    SmartDashboard.putData("Field", m_field);
+    m_field.setRobotPose(getPose());
   }
 
   /**
