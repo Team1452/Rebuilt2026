@@ -66,6 +66,7 @@ public class RobotContainer {
   private final Vision vision;
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
+  private final Indexer indexer = new Indexer();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -208,6 +209,7 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     
+    // shooter power control
     controller.povRight().onTrue(shooter.incrementPowerCommand(0.5));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.5));
 
@@ -217,10 +219,16 @@ public class RobotContainer {
     // rotate intake out
     controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.2))).onFalse(intake.setRotatorCommand(0));
 
+    // suck in
     controller.a().onTrue(intake.setSuckerCommand(-0.75)).onFalse(intake.setSuckerCommand(0));
 
+    // zeroing and shiit
     controller.b().onTrue(intake.setRotatorPosition(90));
     controller.x().onTrue(intake.zeroCommand());
+
+    // spindexer
+    controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.6, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+
 
   }
 
