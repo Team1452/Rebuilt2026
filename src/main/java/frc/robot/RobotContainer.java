@@ -212,12 +212,15 @@ public class RobotContainer {
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-0.5));
 
     // rotate intake in
-    controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.4))).onFalse(intake.setRotatorCommand(0));
+    controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.2))).onFalse(intake.setRotatorCommand(0));
 
     // rotate intake out
-    controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.4))).onFalse(intake.setRotatorCommand(0));
+    controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.2))).onFalse(intake.setRotatorCommand(0));
 
-    controller.a().onTrue(intake.setSuckerCommand(0.5)).onFalse(intake.setSuckerCommand(0));
+    controller.a().onTrue(intake.setSuckerCommand(-0.75)).onFalse(intake.setSuckerCommand(0));
+
+    controller.b().onTrue(intake.setRotatorPosition(90));
+    controller.x().onTrue(intake.zeroCommand());
 
   }
 

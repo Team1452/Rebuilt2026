@@ -41,8 +41,8 @@ public class Shooter extends SubsystemBase{
     private double power = 0.0;
     
     public Shooter() {
-        gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus2);
-        follower = new TalonFX(TunerConstants.gunFollowerMotorID, TunerConstants.kCANBus2);
+        gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus);
+        follower = new TalonFX(TunerConstants.gunFollowerMotorID, TunerConstants.kCANBus);
 
         gunConfig = new TalonFXConfiguration();
         followerConfig = new TalonFXConfiguration();
@@ -50,7 +50,7 @@ public class Shooter extends SubsystemBase{
         gunConfig.Slot0 = gunGains;
         followerConfig.Slot0 = gunGains;
 
-        gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        gunConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         followerConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         
         gunWheel.getConfigurator().apply(gunConfig, 0.25);

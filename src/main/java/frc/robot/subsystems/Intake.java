@@ -20,14 +20,14 @@ public class Intake extends SubsystemBase{
     private TalonFX sucker;
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
-    private final double deployRotations = 62.6;
+    private final double deployRotations = 58;
     private final double trenchRotations = 40.0;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
 
     
     public Intake() {
-        rotator = new TalonFX(TunerConstants.rotatorMotorID, TunerConstants.kCANBus2);
-        sucker = new TalonFX(TunerConstants.suckerMotorID, TunerConstants.kCANBus2);
+        rotator = new TalonFX(TunerConstants.rotatorMotorID, TunerConstants.kCANBus);
+        sucker = new TalonFX(TunerConstants.suckerMotorID, TunerConstants.kCANBus);
         rotatorConfig = new TalonFXConfiguration();
         suckerConfig = new TalonFXConfiguration();
 
