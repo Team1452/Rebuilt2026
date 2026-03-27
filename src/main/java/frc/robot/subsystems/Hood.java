@@ -31,7 +31,6 @@ import org.littletonrobotics.junction.Logger;
 public class Hood extends SubsystemBase {
   private final PWMSparkMax actuator;
   //private final PWMSparkMax actuator2;
-  private final Drive drive;
 
   // Last commanded value (-1..1) used to estimate position when feedback is absent
   private double lastCommanded = 0.0;
@@ -47,10 +46,9 @@ public class Hood extends SubsystemBase {
    * @param pwmChannel PWM channel for the actuator (port number)
    */
 
-  public Hood(Drive drive) {
+  public Hood() {
     this.actuator = new PWMSparkMax(TunerConstants.Hood1PWMChannel);
     //this.actuator2 = new PWMSparkMax(TunerConstants.Hood2PWMChannel);
-    this.drive = drive;
   }
 
   public void setPosition(double position) {

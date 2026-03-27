@@ -67,6 +67,7 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final Shooter shooter = new Shooter();
   private final Indexer indexer = new Indexer();
+  private final Hood hood = new Hood();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -211,7 +212,7 @@ public class RobotContainer {
     
     // shooter power control
 
-    controller.povUp().onTrue(shooter.incrementPowerCommand(-100));
+    fightBox.button(1).onTrue(shooter.incrementPowerCommand(-100));
     controller.povRight().onTrue(shooter.incrementPowerCommand(1));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
 
@@ -225,17 +226,24 @@ public class RobotContainer {
     controller.a().onTrue(intake.setSuckerCommand(-0.75)).onFalse(intake.setSuckerCommand(0));
 
     // zeroing
-    controller.b().onTrue(intake.setRotatorPosition(90));
-    controller.x().onTrue(intake.zeroCommand());
+    fightBox
+        .button(9)
+        .onTrue(intake.setRotatorPosition(70));
+    fightBox
+        .button(10)
+        .onTrue(intake.zeroCommand());
 
     // spindexer
     controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.6, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
 
-    controller.povDown().toggleOnTrue(intake.JIGGLE());
+    // intake stuff
+    controller.y().toggleOnTrue(intake.JIGGLE());
+    controller.x().onTrue(intake.deployIntake());
+    controller.b().onTrue(intake.retractIntake());
 
-    controller.y().onTrue(intake.deployIntake());
-
-
+    // hood stuff
+    controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
   }
 
