@@ -199,7 +199,7 @@ public class RobotContainer {
             () -> -controller.getRightX()));
     
     controller
-        .b()
+        .rightStick()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -210,6 +210,8 @@ public class RobotContainer {
 
     
     // shooter power control
+
+    controller.povUp().onTrue(shooter.incrementPowerCommand(-100));
     controller.povRight().onTrue(shooter.incrementPowerCommand(1));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
 
@@ -222,12 +224,18 @@ public class RobotContainer {
     // suck in
     controller.a().onTrue(intake.setSuckerCommand(-0.75)).onFalse(intake.setSuckerCommand(0));
 
-    // zeroing and shiit
+    // zeroing
     controller.b().onTrue(intake.setRotatorPosition(90));
     controller.x().onTrue(intake.zeroCommand());
 
     // spindexer
     controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.6, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+
+    controller.povDown().toggleOnTrue(intake.JIGGLE());
+
+    controller.y().onTrue(intake.deployIntake());
+
+
 
   }
 

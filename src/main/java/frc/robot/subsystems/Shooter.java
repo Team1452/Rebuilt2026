@@ -41,8 +41,8 @@ public class Shooter extends SubsystemBase{
     private double power = 0.0;
     
     public Shooter() {
-        gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus);
-        follower = new TalonFX(TunerConstants.gunFollowerMotorID, TunerConstants.kCANBus);
+        gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus2);
+        follower = new TalonFX(TunerConstants.gunFollowerMotorID, TunerConstants.kCANBus2);
 
         gunConfig = new TalonFXConfiguration();
         followerConfig = new TalonFXConfiguration();

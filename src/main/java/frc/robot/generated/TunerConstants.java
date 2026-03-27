@@ -23,8 +23,8 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 public class TunerConstants {
 
     // canivores
-    public static final CANBus kCANBus = new CANBus("cow", "./logs/example.hoot");
-    public static final CANBus kCANBus2 = new CANBus("lamb", "./logs/example.hoot");
+    public static final CANBus kCANBus = new CANBus("lamb", "./logs/example.hoot");
+    public static final CANBus kCANBus2 = new CANBus("cow", "./logs/example.hoot");
 
     // pathplanner points
     public static final Pose2d climbShot = new Pose2d(1.553, 4.000, Rotation2d.fromDegrees(180));
