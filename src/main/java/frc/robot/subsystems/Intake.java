@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase{
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
     private final double deployRotations = 58;
-    private final double trenchRotations = 40.0;
+    private final double trenchRotations = 25.0;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
 
     
@@ -83,7 +83,7 @@ public class Intake extends SubsystemBase{
 
     public Command deployIntake() {
         return Commands.sequence(
-            setAngle(deployRotations).until(() -> rotator.getPosition().getValueAsDouble() > 85),
+            setAngle(deployRotations),
             setSuckerCommand(0.55)
             );
     }
@@ -101,7 +101,7 @@ public class Intake extends SubsystemBase{
 
     public Command trenchTime() {
         return Commands.runOnce(
-            () -> setAngle(trenchRotations).until(() -> rotator.getPosition().getValueAsDouble() > 85));
+            () -> setAngle(trenchRotations));
     }
 
 

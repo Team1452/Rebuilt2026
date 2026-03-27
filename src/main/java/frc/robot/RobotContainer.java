@@ -245,6 +245,9 @@ public class RobotContainer {
     controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
     controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
+    // trench mode
+    fightBox.button(2).onTrue(MultiCommands.goingUnder(intake, hood));
+
   }
 
   /**
