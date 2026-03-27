@@ -211,7 +211,6 @@ public class RobotContainer {
 
     
     // shooter power control
-
     fightBox.button(1).onTrue(shooter.incrementPowerCommand(-100));
     controller.povRight().onTrue(shooter.incrementPowerCommand(1));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));

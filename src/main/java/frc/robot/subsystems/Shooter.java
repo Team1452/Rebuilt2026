@@ -59,11 +59,11 @@ public class Shooter extends SubsystemBase{
         follower.setControl(new Follower(gunWheel.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
-    public void setShooter(double velocity) {
+    public void setShooterFractional(double velocity) {
         gunWheel.set(velocity);
     }
 
-    public void setShooter2(double rps) {
+    public void setShooterVelocity(double rps) {
         gunWheel.setControl(new VelocityVoltage(rps));
     }
 
@@ -74,7 +74,7 @@ public class Shooter extends SubsystemBase{
 
     public void incrementPower(double increment) {
         power = MathUtil.clamp(power + increment, 0, 300);
-        setShooter2(power);
+        setShooterFractional(power);
     }
 
     public Command incrementPowerCommand(double increment) {
@@ -82,14 +82,14 @@ public class Shooter extends SubsystemBase{
     }
 
     public Command shootPowerCommand() {
-        return Commands.runOnce(() -> setShooter(power), this);
+        return Commands.runOnce(() -> setShooterFractional(power), this);
     }
 
     public Command simpleShoot() {
         return Commands.sequence(
-            Commands.runOnce(() -> setShooter(0.1)), 
+            Commands.runOnce(() -> setShooterFractional(0.1)), 
             Commands.waitSeconds(2), 
-            Commands.runOnce(() -> setShooter(0)));
+            Commands.runOnce(() ->  setShooterFractional(0)));
     }
 
     public Command IBegTheeStop() {
@@ -98,40 +98,58 @@ public class Shooter extends SubsystemBase{
 
     public Command controllerShoot(double rps) {
         return Commands.sequence(
-            Commands.runOnce(() -> setShooter2(rps)), 
+            Commands.runOnce(() -> setShooterVelocity(rps)), 
             Commands.waitSeconds(2), 
-            Commands.runOnce(() -> setShooter2(0)));
+            Commands.runOnce(() -> setShooterVelocity(0)));
     }
 
-    public Command setShooterCommand(double fractional) {
-        return Commands.runOnce(() -> setShooter(fractional));
+    // shooting using fractional power
+    public Command setShooterFractionalCommand(double fractional) {
+        return Commands.runOnce(() -> setShooterFractional(fractional));
     }
 
-    public Command setShooterCommand2(double rps) {
-        return Commands.runOnce(() -> setShooter2(rps));
+    // shooting using velocity control
+    public Command setShooterCommand(double rps) {
+        return Commands.runOnce(() -> setShooterVelocity(rps));
     }
 
     public void getSettings(Drive drive) {
         ShooterInterpolation interpolation = new ShooterInterpolation();
         double[] settings = interpolation.getSettings(drive);
         double power = settings[0];
-        setShooter2(power);
+        setShooterFractional(power);
         Logger.recordOutput("Shooter/InterpolatedPower", power);
         //Logger.recordOutput("Shooter/InterpolatedAngle", settings[1]);
     }
 
-    public Command setShooterCommand3(Drive drive) {
+    // shooting using interpolation
+    public Command interpolatedShootingCommand(Drive drive) {
         return Commands.run(() -> getSettings(drive));
     }
 
     public void getPower(Drive drive) {
         double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
         double power = 12.133 * Math.pow(distance, 0.34);
-        setShooter2(power);
+        setShooterFractional(power);
     }
 
-    public Command setShooterCommand4(Drive drive) {
+    // shooting using distance calculation
+    public Command distanceShootingCommand(Drive drive) {
         return Commands.run(() -> getPower(drive));
+    }
+
+    public Command rampUpCommand(double rps){
+        return Commands.sequence(
+            Commands.runOnce(() -> setShooterVelocity(rps * 0.1)),
+            Commands.waitSeconds(0.5),
+            Commands.runOnce(() -> setShooterVelocity(rps * 0.3)),
+            Commands.waitSeconds(0.5),
+            Commands.runOnce(() -> setShooterVelocity(rps * 0.5)),
+            Commands.waitSeconds(0.5),
+            Commands.runOnce(() -> setShooterVelocity(rps * 0.75)),
+            Commands.waitSeconds(0.5),
+            Commands.runOnce(() -> setShooterVelocity(rps))
+        );
     }
 
     @Override

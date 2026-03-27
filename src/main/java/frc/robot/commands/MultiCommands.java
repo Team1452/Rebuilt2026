@@ -60,7 +60,7 @@ public class MultiCommands {
     public static Command goShootPosition(Shooter shooter, Indexer indexer, Hood hood) {
         return Commands.sequence(
             Commands.parallel(
-               shooter.setShooterCommand2(2.75),
+               shooter.setShooterCommand(2.75),
                 hood.setPositionCommand(-0.02)
         ), 
         Commands.waitSeconds(0.5),
