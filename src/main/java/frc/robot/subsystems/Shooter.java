@@ -38,8 +38,9 @@ public class Shooter extends SubsystemBase{
         .withKP(0.4).withKI(0).withKD(0)
         .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
-    SlewRateLimiter filter = new SlewRateLimiter(5);
+    SlewRateLimiter filter = new SlewRateLimiter(1);
     private double power = 0.0;
+    private double rampPower = 0;
     
     public Shooter() {
         gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus2);
@@ -57,7 +58,9 @@ public class Shooter extends SubsystemBase{
         gunWheel.getConfigurator().apply(gunConfig, 0.25);
         follower.getConfigurator().apply(followerConfig, 0.25);
 
-        follower.setControl(new Follower(gunWheel.getDeviceID(), MotorAlignmentValue.Opposed));
+        filter.reset(0);
+
+        //follower.setControl(new Follower(gunWheel.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
     public void setShooterFractional(double velocity) {
@@ -70,6 +73,7 @@ public class Shooter extends SubsystemBase{
 
     public void stopShooter() {
         filter.reset(0);
+        rampPower = 0;
         gunWheel.stopMotor();
     }
 
@@ -140,7 +144,15 @@ public class Shooter extends SubsystemBase{
     }
 
     public Command rampUpCommand(double rps){
-        return Commands.runOnce(() -> setShooterVelocity(filter.calculate(rps)));
+        return Commands.run(() -> setShooterVelocity(filter.calculate(rps)));
+    }
+
+    public void setRampPower(double rp) {
+        rampPower = rp;
+    }
+
+    public Command setRampPowerCommand(double rp) {
+        return Commands.runOnce(() -> setRampPower(rp));
     }
 
     @Override
@@ -148,6 +160,8 @@ public class Shooter extends SubsystemBase{
         Logger.recordOutput("Shooter/PowerShot-Strength", power);
         //Logger.recordOutput("Shooter/GunWheel Velocity", gunWheel.getVelocity().getValueAsDouble());
         //Logger.recordOutput("Shooter/Follower Velocity", follower.getVelocity().getValueAsDouble());
+
+        setShooterVelocity(filter.calculate(rampPower));
     }
     
 
