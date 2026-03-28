@@ -24,6 +24,7 @@ import frc.robot.subsystems.ShooterInterpolation;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import java.util.TreeMap;
 
@@ -38,7 +39,7 @@ public class Shooter extends SubsystemBase{
         .withKP(0.4).withKI(0).withKD(0)
         .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
-    SlewRateLimiter filter = new SlewRateLimiter(1);
+    SlewRateLimiter filter = new SlewRateLimiter(10);
     private double power = 0.0;
     private double rampPower = 0;
     
@@ -48,6 +49,9 @@ public class Shooter extends SubsystemBase{
 
         gunConfig = new TalonFXConfiguration();
         followerConfig = new TalonFXConfiguration();
+
+        gunConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        followerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
         gunConfig.Slot0 = gunGains;
         followerConfig.Slot0 = gunGains;
@@ -60,7 +64,7 @@ public class Shooter extends SubsystemBase{
 
         filter.reset(0);
 
-        //follower.setControl(new Follower(gunWheel.getDeviceID(), MotorAlignmentValue.Opposed));
+        follower.setControl(new Follower(gunWheel.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
     public void setShooterFractional(double velocity) {
@@ -72,14 +76,13 @@ public class Shooter extends SubsystemBase{
     }
 
     public void stopShooter() {
-        filter.reset(0);
+        //filter.reset(0);
         rampPower = 0;
         gunWheel.stopMotor();
     }
 
     public void incrementPower(double increment) {
-        power = MathUtil.clamp(power + increment, 0, 300);
-        setShooterFractional(power);
+        rampPower = MathUtil.clamp(rampPower + increment, 0, 300);
     }
 
     public Command incrementPowerCommand(double increment) {
@@ -157,7 +160,8 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
-        Logger.recordOutput("Shooter/PowerShot-Strength", power);
+        Logger.recordOutput("Shooter/RampPower-Strength", rampPower);
+        Logger.recordOutput("Shooter/Current-RPS", gunWheel.getVelocity().getValueAsDouble());
         //Logger.recordOutput("Shooter/GunWheel Velocity", gunWheel.getVelocity().getValueAsDouble());
         //Logger.recordOutput("Shooter/Follower Velocity", follower.getVelocity().getValueAsDouble());
 

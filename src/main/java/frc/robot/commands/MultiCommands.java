@@ -78,7 +78,7 @@ public class MultiCommands {
 
     public static Command goingUnder(Intake intake, Hood hood) {
         return Commands.parallel(
-            intake.trenchTime(),
+            intake.trenchMode(),
             hood.goFlat()
         );
     }

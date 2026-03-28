@@ -211,7 +211,7 @@ public class RobotContainer {
 
     
     // shooter power control
-    fightBox.button(1).onTrue(shooter.incrementPowerCommand(-100));
+    fightBox.button(1).onTrue(shooter.incrementPowerCommand(30));
     controller.povRight().onTrue(shooter.incrementPowerCommand(1));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
 
@@ -222,7 +222,7 @@ public class RobotContainer {
     controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.3))).onFalse(intake.setRotatorCommand(0));
 
     // suck in
-    controller.a().onTrue(intake.setSuckerCommand(-0.75)).onFalse(intake.setSuckerCommand(0));
+    controller.a().onTrue(intake.setSuckerCommand(0.8)).onFalse(intake.setSuckerCommand(0));
 
     // zeroing
     fightBox
@@ -233,7 +233,7 @@ public class RobotContainer {
         .onTrue(intake.zeroCommand());
 
     // spindexer
-    controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.6, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+    controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.4, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
 
     // intake stuff
     controller.y().toggleOnTrue(intake.JIGGLE());
