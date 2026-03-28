@@ -37,8 +37,8 @@ public class Hood extends SubsystemBase {
   private boolean isUppies = false;
   private boolean isDownies = false;
   private boolean isDistanceControl = false;
-  private double lowest = -0.15;
-  private double highest = 0.27;
+  private double lowest = -0.72;
+  private double highest = 0.5;
 
   /**
    * Create an open-loop linear actuator controller on the given PWM channel.

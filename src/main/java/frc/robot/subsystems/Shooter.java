@@ -4,6 +4,7 @@ import static frc.robot.util.PhoenixUtil.*;
 
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,10 +35,10 @@ public class Shooter extends SubsystemBase{
     private TalonFXConfiguration gunConfig;
     private TalonFXConfiguration followerConfig;
     private static final Slot0Configs gunGains = new Slot0Configs()
-        .withKP(0).withKI(0).withKD(0)
+        .withKP(0.4).withKI(0).withKD(0)
         .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
-
+    SlewRateLimiter filter = new SlewRateLimiter(5);
     private double power = 0.0;
     
     public Shooter() {
@@ -68,7 +69,7 @@ public class Shooter extends SubsystemBase{
     }
 
     public void stopShooter() {
-        gunWheel.set(0);
+        filter.reset(0);
         gunWheel.stopMotor();
     }
 
@@ -139,17 +140,7 @@ public class Shooter extends SubsystemBase{
     }
 
     public Command rampUpCommand(double rps){
-        return Commands.sequence(
-            Commands.runOnce(() -> setShooterVelocity(rps * 0.1)),
-            Commands.waitSeconds(0.5),
-            Commands.runOnce(() -> setShooterVelocity(rps * 0.3)),
-            Commands.waitSeconds(0.5),
-            Commands.runOnce(() -> setShooterVelocity(rps * 0.5)),
-            Commands.waitSeconds(0.5),
-            Commands.runOnce(() -> setShooterVelocity(rps * 0.75)),
-            Commands.waitSeconds(0.5),
-            Commands.runOnce(() -> setShooterVelocity(rps))
-        );
+        return Commands.runOnce(() -> setShooterVelocity(filter.calculate(rps)));
     }
 
     @Override

@@ -246,6 +246,7 @@ public class RobotContainer {
 
     // trench mode
     fightBox.button(2).onTrue(MultiCommands.goingUnder(intake, hood));
+    fightBox.button(3).onTrue(shooter.IBegTheeStop());
 
   }
 
