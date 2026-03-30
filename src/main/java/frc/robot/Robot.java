@@ -19,6 +19,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import com.pathplanner.lib.pathfinding.Pathfinding;
+import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,6 +31,7 @@ import com.pathplanner.lib.pathfinding.Pathfinding;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
+  private Shooter shooter;
 
   public Robot() {
     // Record metadata
@@ -108,7 +110,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    shooter.setRampPowerCommand(0);
+  }
 
   /** This function is called periodically when disabled. */
   @Override

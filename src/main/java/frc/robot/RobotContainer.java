@@ -211,7 +211,7 @@ public class RobotContainer {
 
     
     // shooter power control
-    fightBox.button(1).onTrue(shooter.incrementPowerCommand(30));
+    fightBox.button(1).onTrue(shooter.incrementPowerCommand(40));
     controller.povRight().onTrue(shooter.incrementPowerCommand(1));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
 
@@ -247,6 +247,7 @@ public class RobotContainer {
     // trench mode
     fightBox.button(2).onTrue(MultiCommands.goingUnder(intake, hood));
     fightBox.button(3).onTrue(shooter.IBegTheeStop());
+    fightBox.button(4).onTrue(hood.goFlat());
 
   }
 
