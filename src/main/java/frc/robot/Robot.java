@@ -31,7 +31,7 @@ import frc.robot.subsystems.Shooter;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
-  private Shooter shooter;
+  //private Shooter shooter;
 
   public Robot() {
     // Record metadata
@@ -111,7 +111,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    shooter.setRampPowerCommand(0);
+    //shooter.setRampPowerCommand(0);
   }
 
   /** This function is called periodically when disabled. */

@@ -125,7 +125,7 @@ public class Shooter extends SubsystemBase{
         ShooterInterpolation interpolation = new ShooterInterpolation();
         double[] settings = interpolation.getSettings(drive);
         double power = settings[0];
-        setShooterFractional(power);
+        rampPower = power;
         Logger.recordOutput("Shooter/InterpolatedPower", power);
         //Logger.recordOutput("Shooter/InterpolatedAngle", settings[1]);
     }
