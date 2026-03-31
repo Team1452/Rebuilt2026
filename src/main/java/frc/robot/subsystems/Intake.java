@@ -24,6 +24,7 @@ public class Intake extends SubsystemBase{
     private final double trenchRotations = 30.0;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
     private boolean isDeployed = false;
+    public double rotatorCurrent = 0.0;
 
     
     public Intake() {
@@ -132,10 +133,24 @@ public class Intake extends SubsystemBase{
             Commands.waitSeconds(0.5)
         );
     }
+    public Command unclogCommand(){
+        return Commands.sequence(
+            setSuckerCommand(-0.2),
+            Commands.waitSeconds(0.5),
+            setSuckerCommand(0.75)
+        );
+    }
+    
     @Override
     public void periodic() {
-        Logger.recordOutput("Intake/IntakeCurrent", sucker.getSupplyCurrent().getValueAsDouble());
-    }
+        rotatorCurrent = rotator.getSupplyCurrent().getValueAsDouble();
+        Logger.recordOutput("Intake/IntakeCurrent", rotatorCurrent);
+        if (rotatorCurrent > 80) {
+            System.out.println("Intake stalled! Current: " + rotatorCurrent);
+            unclogCommand();
+        } 
 
+
+    }
     
 }
