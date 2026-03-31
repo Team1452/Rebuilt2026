@@ -104,11 +104,11 @@ public class Shooter extends SubsystemBase{
         return Commands.runOnce(() -> stopShooter());
     }
 
-    public Command controllerShoot(double rps) {
+   public Command autoShootCommand(double rps, double waitTime) {
         return Commands.sequence(
-            Commands.runOnce(() -> setShooterVelocity(rps)), 
-            Commands.waitSeconds(2), 
-            Commands.runOnce(() -> setShooterVelocity(0)));
+            Commands.runOnce(() -> rampUpCommand(rps)), 
+            Commands.waitSeconds(waitTime), 
+            IBegTheeStop());
     }
 
     // shooting using fractional power

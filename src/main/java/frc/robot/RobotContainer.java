@@ -147,12 +147,17 @@ public class RobotContainer {
         break;
     }
   
-    /* NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
-    NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
-    NamedCommands.registerCommand("HoodActivate", hood.activateDistanceControl());
-    NamedCommands.registerCommand("HoodDown", hood.goFlat());
-    NamedCommands.registerCommand("Porknado", indexer.activatePorknado(1, 1));
-    NamedCommands.registerCommand("PushAndShoot", MultiCommands.PushAndShootCommand(indexer, shooter)); */
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
+
+    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, 5, 2.75));
+
+    NamedCommands.registerCommand("IntakeDeploy", intake.deployIntake());
+
+    NamedCommands.registerCommand("IntakeRetract", intake.retractIntake());
+
+    NamedCommands.registerCommand("Jiggle", intake.JIGGLE());
+
+    NamedCommands.registerCommand("TrenchMode", MultiCommands.goingUnder(intake, hood));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

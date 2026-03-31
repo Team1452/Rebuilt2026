@@ -30,13 +30,12 @@ public class MultiCommands {
 
     public MultiCommands() {}
 
-    public static Command PushAndShootCommand(Indexer indexer, Shooter shooter) {
+    public static Command autoShootCommand(Indexer indexer, Shooter shooter, double waitTime, double rps) {
         return Commands.sequence(
-            Commands.parallel(
-                shooter.setShooterCommand(0.6),
-                indexer.activatePorknado(0.35, 0.3)
-                ),
-            Commands.waitSeconds(2),
+            shooter.autoShootCommand(rps, waitTime),
+            Commands.waitSeconds(1),
+            indexer.activatePorknado(0.35, 0.3), 
+            Commands.waitSeconds(waitTime),
             Commands.parallel(
                 indexer.activatePorknado(0, 0),
                 shooter.IBegTheeStop())
