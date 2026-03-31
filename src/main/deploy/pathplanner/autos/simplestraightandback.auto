@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "suck and shoot load1"
+                  "pathName": "straight and back"
                 }
               },
               {
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "suck and shoot load2"
+            "pathName": "back and straight"
           }
         }
       ]

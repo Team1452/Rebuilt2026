@@ -149,9 +149,9 @@ public class RobotContainer {
   
     NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
 
-    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, 5, 2.75));
+    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, 8, 40));
 
-    NamedCommands.registerCommand("IntakeDeploy", intake.deployIntake());
+    NamedCommands.registerCommand("IntakeDeploy", MultiCommands.autoIntakeCommand(intake, 5));
 
     NamedCommands.registerCommand("IntakeRetract", intake.retractIntake());
 
@@ -228,6 +228,8 @@ public class RobotContainer {
 
     // suck in
     controller.a().onTrue(intake.setSuckerCommand(0.8)).onFalse(intake.setSuckerCommand(0));
+    fightBox.button(6).onTrue(intake.setSuckerCommand(-0.4)).onFalse(intake.setSuckerCommand(0));
+
 
     // zeroing
     fightBox

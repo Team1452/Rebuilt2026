@@ -40,7 +40,7 @@ public class MultiCommands {
 
     public static Command autoShootCommand(Indexer indexer, Shooter shooter, double waitTime, double rps) {
         return Commands.sequence(
-            shooter.autoShootCommand(rps, waitTime),
+            shooter.setRampPowerCommand(rps),
             Commands.waitSeconds(1),
             indexer.activatePorknado(-0.4, 0.3), 
             Commands.waitSeconds(waitTime),
@@ -83,6 +83,6 @@ public class MultiCommands {
             intake.trenchMode(),
             hood.goFlat()
         );
-    }
+    } 
 
 }

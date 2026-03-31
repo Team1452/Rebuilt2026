@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase{
     private TalonFX sucker;
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
-    private final double deployRotations = 58;
+    private final double deployRotations = 63.8;
     private final double trenchRotations = 30.0;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
     private boolean isDeployed = false;
@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase{
         rotatorConfig = new TalonFXConfiguration();
         suckerConfig = new TalonFXConfiguration();
 
-        rotatorConfig.Slot0.kP = 5.0;
+        rotatorConfig.Slot0.kP = 1.0;
         suckerConfig.Slot0.kP = 5.0;
 
         rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
@@ -110,7 +110,7 @@ public class Intake extends SubsystemBase{
         if (rotator.getPosition().getValueAsDouble() < 31) {
             return Commands.sequence(setAngle(trenchRotations)); 
         } else {
-            return null;
+            return Commands.none();
         }
     }
 
@@ -125,13 +125,17 @@ public class Intake extends SubsystemBase{
 
     public Command JIGGLE() {
         return Commands.repeatingSequence(
+            setSuckerCommand(-0.4),
             setAngle(40),
             Commands.waitSeconds(0.5),
-            setAngle(20),
+            setAngle(30),
             Commands.waitSeconds(0.5)
         );
     }
-
+    @Override
+    public void periodic() {
+        Logger.recordOutput("Intake/IntakeCurrent", sucker.getSupplyCurrent().getValueAsDouble());
+    }
 
     
 }

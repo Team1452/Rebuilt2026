@@ -111,7 +111,7 @@ public class Robot extends LoggedRobot {
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    //shooter.setRampPowerCommand(0);
+    //shooter.setRampPower(0);
   }
 
   /** This function is called periodically when disabled. */

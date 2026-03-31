@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "citrusLeftTrench"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "citrusLeftTrench"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeDeploy"
+                }
+              }
+            ]
           }
         },
         {

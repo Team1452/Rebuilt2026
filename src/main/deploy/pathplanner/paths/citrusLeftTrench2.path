@@ -95,7 +95,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1.2371580998942915,
-      "rotationDegrees": -87.59351640485352
+      "rotationDegrees": -87.59351640485353
     },
     {
       "waypointRelativePos": 2.1261809593023244,
@@ -126,7 +126,7 @@
     "rotation": -47.8403422357992
   },
   "reversed": false,
-  "folder": "autos",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -45.45187648867179
