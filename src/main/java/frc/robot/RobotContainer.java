@@ -240,6 +240,10 @@ public class RobotContainer {
     // spindexer
     controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.4, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
 
+    // lock on hopper
+    controller.leftTrigger().toggleOnTrue(
+            DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+
     // intake stuff
     controller.y().toggleOnTrue(intake.JIGGLE());
     controller.x().onTrue(intake.deployIntake());

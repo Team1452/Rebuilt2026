@@ -23,6 +23,7 @@ public class Intake extends SubsystemBase{
     private final double deployRotations = 58;
     private final double trenchRotations = 30.0;
     final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
+    private boolean isDeployed = false;
 
     
     public Intake() {
@@ -82,6 +83,7 @@ public class Intake extends SubsystemBase{
     }
 
     public Command deployIntake() {
+        isDeployed = true;
         return Commands.sequence(
             setAngle(deployRotations),
             setSuckerCommand(0.75)
@@ -89,10 +91,19 @@ public class Intake extends SubsystemBase{
     }
 
     public Command retractIntake() {
+        isDeployed = false;
         return Commands.sequence(
             stopSuckerCommand(),
             setAngle(0)
         );
+    }
+
+    public Command intaking() {
+        if (isDeployed == false) {
+            return deployIntake();
+        } else {
+            return retractIntake();
+        }
     }
 
     public Command trenchMode() {

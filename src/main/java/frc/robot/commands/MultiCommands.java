@@ -30,11 +30,19 @@ public class MultiCommands {
 
     public MultiCommands() {}
 
+    public static Command autoIntakeCommand(Intake intake, double waitTime) {
+        return Commands.sequence(
+            intake.deployIntake(),
+            Commands.waitSeconds(waitTime),
+            intake.stopSuckerCommand()
+        );
+    }
+
     public static Command autoShootCommand(Indexer indexer, Shooter shooter, double waitTime, double rps) {
         return Commands.sequence(
             shooter.autoShootCommand(rps, waitTime),
             Commands.waitSeconds(1),
-            indexer.activatePorknado(0.35, 0.3), 
+            indexer.activatePorknado(-0.4, 0.3), 
             Commands.waitSeconds(waitTime),
             Commands.parallel(
                 indexer.activatePorknado(0, 0),
@@ -42,18 +50,13 @@ public class MultiCommands {
             );
     }
 
-    public static Command defaultState(Intake intake, Climber climber) {
+    public static Command ShootAndJiggle(Intake intake, Indexer indexer) {
         return Commands.sequence(
-            intake.retractIntake(),
-            climber.retractCommand()
+            indexer.activatePorknado(-0.4, 0.7),
+            Commands.waitSeconds(2),
+            intake.JIGGLE()
         );
-    }
 
-    public static Command climbTIME(Intake intake, Climber climber) {
-        return Commands.sequence(
-            intake.retractIntake(),
-            climber.extendCommand()
-        );
     }
     
     public static Command goShootPosition(Shooter shooter, Indexer indexer, Hood hood) {
