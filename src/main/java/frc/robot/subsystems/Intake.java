@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -22,9 +23,11 @@ public class Intake extends SubsystemBase{
     private TalonFXConfiguration suckerConfig;
     private final double deployRotations = 63.8;
     private final double trenchRotations = 30.0;
-    final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
+    // final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
+    // private final com.ctre.phoenix6.controls.MotionMagicVoltage m_request = new com.ctre.phoenix6.controls.MotionMagicVoltage(0);
     private boolean isDeployed = false;
-    public double rotatorCurrent = 0.0;
+    private final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
+    public double suckerCurrent = 0.0;
 
     
     public Intake() {
@@ -33,8 +36,17 @@ public class Intake extends SubsystemBase{
         rotatorConfig = new TalonFXConfiguration();
         suckerConfig = new TalonFXConfiguration();
 
-        rotatorConfig.Slot0.kP = 1.0;
-        suckerConfig.Slot0.kP = 5.0;
+        // SLOT 0: Standard Movement (Fast)
+        rotatorConfig.Slot0.kP = 12.0; // Higher P for 125:1 ratio
+        rotatorConfig.Slot0.kV = 0.12;
+        rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 60; 
+        rotatorConfig.MotionMagic.MotionMagicAcceleration = 200;
+        rotatorConfig.MotionMagic.MotionMagicJerk = 1000;
+        // SLOT 1: Jiggle Movement (Slow)
+        rotatorConfig.Slot1.kP = 12.0;
+        rotatorConfig.Slot1.kV = 0.12;
+        rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 30; // Slow speed for jiggle
+        rotatorConfig.MotionMagic.MotionMagicAcceleration = 100;
 
         rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 		rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 71;
@@ -44,6 +56,9 @@ public class Intake extends SubsystemBase{
 
         rotator.getConfigurator().apply(rotatorConfig, 0.25);
         sucker.getConfigurator().apply(suckerConfig, 0.25);
+
+        rotator.getConfigurator().apply(rotatorConfig);
+        
     }
 
     public void setSucker(double speed) {
@@ -62,17 +77,30 @@ public class Intake extends SubsystemBase{
         rotator.setPosition(0);
     }
 
-    public void setIntakeAngle(double rotations) {
-        rotator.setControl(m_request.withPosition(rotations));
-        //Logger.recordOutput("Intake/CommandedAngleRot", rotations);
+    // public void setIntakeAngle(double rotations) {
+    //     rotator.setControl(m_request.withPosition(rotations));
+    //     //Logger.recordOutput("Intake/CommandedAngleRot", rotations);
+    // }
+    public void setIntakeAngle(double rotations, int slot) {
+        rotator.setControl(m_request.withPosition(rotations).withSlot(slot));
     }
+
+
+//     public void setIntakeAngle(double rotations, double velocity) {
+//     // Update the speed constraint dynamically if needed
+//     System.out.println("Moving to: " + rotations + " at speed: " + velocity);
+//     var mConfigs = new com.ctre.phoenix6.configs.MotionMagicConfigs();
+//     mConfigs.MotionMagicCruiseVelocity = velocity;
+//     rotator.getConfigurator().apply(mConfigs);
+//     rotator.setControl(m_request.withPosition(rotations));
+// }
 
     public Command setRotatorCommand(double speed) {
         return Commands.runOnce(() -> setRotator(speed), this);
     }
 
     public Command setAngle(double rotations) {
-        return Commands.runOnce(() -> setIntakeAngle(rotations), this);
+        return Commands.runOnce(() -> setIntakeAngle(rotations, 0), this); // Uses Slot 0 (Fast)
     }
 
     public Command setSuckerCommand(double speed) {
@@ -126,12 +154,11 @@ public class Intake extends SubsystemBase{
 
     public Command JIGGLE() {
         return Commands.repeatingSequence(
-            setSuckerCommand(-0.4),
-            setAngle(40),
+            Commands.runOnce(() -> setIntakeAngle(40, 1), this), // Uses Slot 1 (Slow)
             Commands.waitSeconds(0.5),
-            setAngle(30),
+            Commands.runOnce(() -> setIntakeAngle(30, 1), this), // Uses Slot 1 (Slow)
             Commands.waitSeconds(0.5)
-        );
+    );
     }
     public Command unclogCommand(){
         return Commands.sequence(
@@ -143,14 +170,12 @@ public class Intake extends SubsystemBase{
     
     @Override
     public void periodic() {
-        rotatorCurrent = rotator.getSupplyCurrent().getValueAsDouble();
-        Logger.recordOutput("Intake/IntakeCurrent", rotatorCurrent);
-        if (rotatorCurrent > 80) {
-            System.out.println("Intake stalled! Current: " + rotatorCurrent);
+        suckerCurrent = sucker.getSupplyCurrent().getValueAsDouble();
+        Logger.recordOutput("Intake/IntakeCurrent", suckerCurrent);
+        if (suckerCurrent > 80) {
+            System.out.println("Intake stalled! Current: " + suckerCurrent);
             unclogCommand();
         } 
-
-
     }
     
 }
