@@ -151,6 +151,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, 8, 40));
 
+    NamedCommands.registerCommand("ShootingAnywhere", shooter.interpolatedShootingCommand(drive).until(shooter.isAtSpeed(2)));
+
     NamedCommands.registerCommand("IntakeDeploy", MultiCommands.autoIntakeCommand(intake, 5));
 
     NamedCommands.registerCommand("IntakeRetract", intake.retractIntake());
@@ -269,7 +271,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-        return autoChooser.get();
+        return Commands.sequence(autoChooser.get(), MultiCommands.stopping(shooter, indexer, intake));
   }
 
 }
