@@ -27,6 +27,7 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import java.util.TreeMap;
+import java.util.function.BooleanSupplier;
 
 
 public class Shooter extends SubsystemBase{
@@ -156,6 +157,10 @@ public class Shooter extends SubsystemBase{
 
     public Command setRampPowerCommand(double rp) {
         return Commands.runOnce(() -> setRampPower(rp));
+    }
+
+    public BooleanSupplier isAtSpeed(double tolerance) {
+        return () -> (Math.abs(gunWheel.getVelocity().getValueAsDouble() - rampPower) < tolerance);
     }
 
     @Override

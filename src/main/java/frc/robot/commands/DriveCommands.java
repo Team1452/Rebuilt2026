@@ -34,6 +34,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import frc.robot.subsystems.LED.LEDSubsystem;
 
@@ -49,6 +50,11 @@ public class DriveCommands {
   private static final double WHEEL_RADIUS_RAMP_RATE = 0.05; // Rad/Sec^2
   final Translation2d blueHopper = new Translation2d(4.6228, 4.01); //hopper point
   private static boolean previousZone = false;
+
+  PathConstraints constraints = new PathConstraints(
+        3.0, 4.0,
+        Units.degreesToRadians(540), Units.degreesToRadians(720));
+
 
   private DriveCommands() {}
 
@@ -409,6 +415,37 @@ if (inInner) {
         }
     });
 }
+
+
+  public BooleanSupplier homeSide(Drive drive) {
+    final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+    return () -> drive.getPose().getTranslation().getX() < blueHopper.getX();
+  }
+
+  public Command trenchRunnerRight(Drive drive) {
+    if (homeSide(drive).getAsBoolean()) {
+      return AutoBuilder.pathfindThenFollowPath(
+          DriveCommands.loadPath("trench right to middle"),
+          constraints);
+    } else {
+      return AutoBuilder.pathfindThenFollowPath(
+        DriveCommands.loadPath("trench right to home"),
+        constraints);
+    }
+  }
+
+    public Command trenchRunnerLeft(Drive drive) {
+    if (homeSide(drive).getAsBoolean()) {
+      return AutoBuilder.pathfindThenFollowPath(
+          DriveCommands.loadPath("trench left to middle"),
+          constraints);
+    } else {
+      return AutoBuilder.pathfindThenFollowPath(
+        DriveCommands.loadPath("trench left to home"),
+        constraints);
+    }
+  }
+
   public static Command getRunMyPathCommand(String string) {
     try {
         return AutoBuilder.followPath(
@@ -426,6 +463,14 @@ if (inInner) {
     } catch (Exception e) {
         DriverStation.reportError("Failed to load path: " + pathName, false);
         return null;
+    }
+  }
+
+  public Translation2d getHopper() {
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      return new Translation2d(4.6228, 4.01);
+    } else {
+      return new Translation2d(4.6228, 4.01);
     }
   }
 

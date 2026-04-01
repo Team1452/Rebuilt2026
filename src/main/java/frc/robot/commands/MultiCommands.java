@@ -73,7 +73,7 @@ public class MultiCommands {
         return
             Commands.parallel(
                 indexer.activatePorknado(0, 0),
-                shooter.setShooterCommand(0.0),
+                shooter.IBegTheeStop(),
                 intake.setSuckerCommand(0)
                 ); 
     }

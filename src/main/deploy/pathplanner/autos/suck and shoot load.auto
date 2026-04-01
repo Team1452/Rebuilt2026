@@ -5,28 +5,27 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "suck and shoot load1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeDeploy"
-                }
-              }
-            ]
+            "pathName": "suck and shoot load1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "suck and shoot load2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]
