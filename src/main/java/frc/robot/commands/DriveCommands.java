@@ -304,36 +304,31 @@ public class DriveCommands {
   }
 
   public static Command centerOnHopperCommand(Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier){
-      final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
+      final Translation2d hopper = getHopper();
     // returns x supplier, y supplier and angle supplier that updates
-
-     return joystickDriveAtAngle(drive, xSupplier, ySupplier, () -> blueHopper.minus(drive.getPose().getTranslation()).getAngle());
+     return joystickDriveAtAngle(drive, xSupplier, ySupplier, () -> hopper.minus(drive.getPose().getTranslation()).getAngle());
 
   }
 
   public static BooleanSupplier isFacingHopper(Drive drive, double toleranceMeters){
-    final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
-    return () -> Math.abs(blueHopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
+    final Translation2d hopper = getHopper();
+    return () -> Math.abs(hopper.minus(drive.getPose().getTranslation()).getAngle().getDegrees()) < toleranceMeters;
   }
   //finds distance
   public static DoubleSupplier findDistance(Drive drive){
-      final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
-    return () -> (blueHopper.getDistance(drive.getPose().getTranslation()));
+      final Translation2d hopper = getHopper();
+    return () -> (hopper.getDistance(drive.getPose().getTranslation()));
   }
   //finds if in between zone
-  public static boolean isShootingZone(Drive drive, Translation2d blueHopper, double minDistance, double maxDistance){
-  
-
-  
-    double distance = blueHopper.getDistance(drive.getPose().getTranslation());
+  public static boolean isShootingZone(Drive drive, Translation2d hopper, double minDistance, double maxDistance){
+    double distance = hopper.getDistance(drive.getPose().getTranslation());
     return distance >= minDistance && distance <= maxDistance;
-  
-}
+  }
   
   public static Command turnGreen(Drive drive, LEDSubsystem ledSystem){
   
   return Commands.run(() -> {
-    boolean inZone = isShootingZone(drive, new Translation2d(4.6228, 4.01), 0.933, 3.233);
+    boolean inZone = isShootingZone(drive, getHopper(), 0.933, 3.233);
 
     // Only update the animation when the zone changes to avoid
     // constantly sending commands to the LED subsystem when the robot is near the boundary
@@ -418,8 +413,7 @@ if (inInner) {
 
 
   public BooleanSupplier homeSide(Drive drive) {
-    final Translation2d blueHopper = new Translation2d(4.6228, 4.01);
-    return () -> drive.getPose().getTranslation().getX() < blueHopper.getX();
+    return () -> drive.getPose().getTranslation().getX() < getHopper().getX();
   }
 
   public Command trenchRunnerRight(Drive drive) {
@@ -466,11 +460,11 @@ if (inInner) {
     }
   }
 
-  public Translation2d getHopper() {
+  public static Translation2d getHopper() {
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
       return new Translation2d(4.6228, 4.01);
     } else {
-      return new Translation2d(4.6228, 4.01);
+      return new Translation2d(11.92, 4.01);
     }
   }
 
