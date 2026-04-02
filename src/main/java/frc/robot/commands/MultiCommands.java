@@ -41,8 +41,9 @@ public class MultiCommands {
     public static Command autoShootCommand(Indexer indexer, Shooter shooter, double waitTime, double rps) {
         return Commands.sequence(
             shooter.setRampPowerCommand(rps),
-            Commands.waitSeconds(1),
-            indexer.activatePorknado(-0.4, 0.3), 
+            Commands.waitUntil(shooter.isAtSpeed(2)),
+            //Commands.waitSeconds(4),
+            indexer.activatePorknado(-0.4, 0.7), 
             Commands.waitSeconds(waitTime),
             Commands.parallel(
                 indexer.activatePorknado(0, 0),

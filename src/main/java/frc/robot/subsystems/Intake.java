@@ -39,13 +39,13 @@ public class Intake extends SubsystemBase{
         // SLOT 0: Standard Movement (Fast)
         rotatorConfig.Slot0.kP = 12.0; // Higher P for 125:1 ratio
         rotatorConfig.Slot0.kV = 0.12;
-        rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 60; 
-        rotatorConfig.MotionMagic.MotionMagicAcceleration = 200;
-        rotatorConfig.MotionMagic.MotionMagicJerk = 1000;
+        rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 120; 
+
         // SLOT 1: Jiggle Movement (Slow)
-        rotatorConfig.Slot1.kP = 12.0;
+        rotatorConfig.Slot1.kP = 15.0;
         rotatorConfig.Slot1.kV = 0.12;
-        rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 30; // Slow speed for jiggle
+
+        rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 60; // Slow speed for jiggle
         rotatorConfig.MotionMagic.MotionMagicAcceleration = 100;
 
         rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
@@ -115,6 +115,7 @@ public class Intake extends SubsystemBase{
         isDeployed = true;
         return Commands.sequence(
             setAngle(deployRotations),
+            Commands.waitSeconds(1),
             setSuckerCommand(0.75)
             );
     }
@@ -156,7 +157,7 @@ public class Intake extends SubsystemBase{
         return Commands.repeatingSequence(
             Commands.runOnce(() -> setIntakeAngle(40, 1), this), // Uses Slot 1 (Slow)
             Commands.waitSeconds(0.5),
-            Commands.runOnce(() -> setIntakeAngle(30, 1), this), // Uses Slot 1 (Slow)
+            Commands.runOnce(() -> setIntakeAngle(20, 1), this), // Uses Slot 1 (Slow)
             Commands.waitSeconds(0.5)
     );
     }

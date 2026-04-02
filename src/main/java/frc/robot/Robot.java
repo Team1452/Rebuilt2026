@@ -31,7 +31,7 @@ import frc.robot.subsystems.Shooter;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
-  private Shooter shooter;
+  //private Shooter shooter;
 
   public Robot() {
     // Record metadata
@@ -140,7 +140,7 @@ public class Robot extends LoggedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    shooter.IBegTheeStop().schedule();
+    // shooter.IBegTheeStop().schedule();
     
     if (autonomousCommand != null) {
       autonomousCommand.cancel();

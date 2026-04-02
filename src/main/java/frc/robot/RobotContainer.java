@@ -149,7 +149,7 @@ public class RobotContainer {
   
     NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
 
-    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, 8, 40));
+    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, 6, 50));
 
     NamedCommands.registerCommand("ShootingAnywhere", shooter.interpolatedShootingCommand(drive).until(shooter.isAtSpeed(2)));
 
