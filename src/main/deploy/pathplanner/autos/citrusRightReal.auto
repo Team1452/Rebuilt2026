@@ -17,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench"
+                  "pathName": "citrusRighttrench"
                 }
               },
               {
@@ -30,7 +30,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
@@ -55,7 +55,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench2"
+                  "pathName": "citrusRightTrench2"
                 }
               },
               {
@@ -68,7 +68,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {

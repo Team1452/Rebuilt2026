@@ -46,7 +46,7 @@ public class Intake extends SubsystemBase{
         rotatorConfig.Slot1.kV = 0.12;
 
         rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 60; // Slow speed for jiggle
-        rotatorConfig.MotionMagic.MotionMagicAcceleration = 100;
+        rotatorConfig.MotionMagic.MotionMagicAcceleration = 150;
 
         rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
 		rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 71;

@@ -48,13 +48,13 @@ public class Hood extends SubsystemBase {
 
   public Hood() {
     this.actuator = new PWMSparkMax(TunerConstants.Hood1PWMChannel);
-    //this.actuator2 = new PWMSparkMax(TunerConstants.Hood2PWMChannel);
+    this.actuator2 = new PWMSparkMax(TunerConstants.Hood2PWMChannel);
   }
 
   public void setPosition(double position) {
     double v = MathUtil.clamp(position, lowest, highest);
     actuator.set(v);
-    //actuator2.set(v);
+    actuator2.set(v);
     lastCommanded = v;
   }
 

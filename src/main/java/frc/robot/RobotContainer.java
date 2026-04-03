@@ -69,6 +69,7 @@ public class RobotContainer {
   private final Indexer indexer = new Indexer();
   private final Hood hood = new Hood();
 
+
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final CommandGenericHID fightBox = new CommandGenericHID(1);
@@ -159,7 +160,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Jiggle", intake.JIGGLE());
 
-    NamedCommands.registerCommand("TrenchMode", MultiCommands.goingUnder(intake, hood));
+    NamedCommands.registerCommand("TrenchMode", Commands.sequence(MultiCommands.goingUnder(intake, hood), Commands.waitSeconds(1)));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
