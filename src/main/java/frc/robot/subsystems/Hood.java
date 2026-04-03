@@ -30,7 +30,7 @@ import org.littletonrobotics.junction.Logger;
  */
 public class Hood extends SubsystemBase {
   private final PWMSparkMax actuator;
-  //private final PWMSparkMax actuator2;
+  private final PWMSparkMax actuator2;
 
   // Last commanded value (-1..1) used to estimate position when feedback is absent
   private double lastCommanded = 0.0;
