@@ -145,28 +145,6 @@ public class Shooter extends SubsystemBase{
         return Commands.run(() -> getSettings(drive));
     }
 
-<<<<<<< HEAD
-    public void getPowerLaw(Drive drive) {
-        double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
-        double power = 12.133 * Math.pow(distance, 0.34);
-        setShooter2(power);
-        Logger.recordOutput("Shooter/PowerLawEquation", power);
-    }
-
-    public Command setShooterCommand4(Drive drive) {
-        return Commands.run(() -> getPowerLaw(drive));
-    }
-
-    public void getPowerLinear(Drive drive) {
-        double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
-        double power = (0.2309 * distance) + 34.123;
-        setShooter2(power);
-        Logger.recordOutput("Shooter/PowerLawEquation", power);
-    }
-
-    public Command setShooterCommand5(Drive drive) {
-        return Commands.run(() -> getPowerLinear(drive));
-=======
     // shooting using interpolation
     public Command interpolatedPassingCommand(Drive drive) {
         return Commands.run(() -> getPassingSettings(drive));
@@ -181,7 +159,6 @@ public class Shooter extends SubsystemBase{
     // shooting using distance calculation
     public Command distanceShootingCommand(Drive drive) {
         return Commands.run(() -> getPower(drive));
->>>>>>> dizzle
     }
 
     public Command rampUpCommand(double rps){

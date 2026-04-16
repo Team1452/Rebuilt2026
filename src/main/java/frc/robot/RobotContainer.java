@@ -260,19 +260,23 @@ public class RobotContainer {
 
     controller.leftTrigger().whileFalse(shooter.IBegTheeStop());
 
-    // intake stuff
+    // intake stuff that Jiggles
     fightBox.button(4).whileTrue(intake.JIGGLE());
     fightBox.button(6).whileTrue(intake.JIGGLEHARD());
-
+     //
     fightBox.button(1).onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.3))).onFalse(intake.setRotatorCommand(0));
     fightBox.button(2).onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.3))).onFalse(intake.setRotatorCommand(0));
 
+      //makes shooter go backwords
     controller.leftBumper().whileTrue(shooter.setRampPowerCommand(-30));
-    controller.rightBumper().whileTrue(intake.setSuckerCommand(-0.5));
+    // makes intakego backwards
+    controller.rightBumper().whileTrue(intake.setSuckerCommand(-0.5)); 
+     
 
+    //deploys and retracts intake
     controller.x().onTrue(intake.deployIntake());
     controller.b().onTrue(intake.retractIntake());
-
+    
     controller.povUp().whileTrue(Commands.parallel(shooter.interpolatedPassingCommand(drive), hood.autoHood(drive)));
     controller.povUp().onFalse(shooter.IBegTheeStop());
 

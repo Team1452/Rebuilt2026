@@ -32,17 +32,6 @@ public class ShooterInterpolation {
 
     public ShooterInterpolation() {
         // Distance (Inches), {Power, Angle}
-<<<<<<< HEAD
-        shotMap.put(20.0,  new double[]{40, -0.15});
-        shotMap.put(40.0, new double[]{45.5, -0.15});
-        shotMap.put(60.0, new double[]{48, -0.15});
-        shotMap.put(80.0, new double[]{50.5, -0.15});
-        shotMap.put(100.0, new double[]{57, -0.065});
-        shotMap.put(120.0, new double[]{61, -0.065});
-        shotMap.put(140.0, new double[]{67, -0.065});
-        shotMap.put(160.0, new double[]{74, 0});
-        shotMap.put(180.0, new double[]{78, 0.065});
-=======
         shotMap.put(40.0,  new double[]{48, -0.365});
         shotMap.put(50.0, new double[]{50, -0.365});
         shotMap.put(60.0, new double[]{52, -0.365});
@@ -58,7 +47,6 @@ public class ShooterInterpolation {
         shotMap.put(160.0, new double[]{65, -0.11});
         shotMap.put(170.0, new double[]{68, -0.11});
         shotMap.put(300.0, new double[]{80, 0});
->>>>>>> dizzle
     }
 
     public double[] getSettings(Drive drive) {
