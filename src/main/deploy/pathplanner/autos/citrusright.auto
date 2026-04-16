@@ -5,27 +5,97 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "citrusRighttrench"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "TrenchMode"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "citrusRightTrench2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "citrusRighttrench"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeDeploy"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "Shoot"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Jiggle"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoLock"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "citrusRightTrench2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeDeploy"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Jiggle"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoLock"
+                }
+              }
+            ]
           }
         }
       ]
