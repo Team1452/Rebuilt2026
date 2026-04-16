@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase{
     private TalonFXConfiguration rotatorConfig;
     private TalonFXConfiguration suckerConfig;
     private final double deployRotations = 63.8;
-    private final double trenchRotations = 30.0;
+    private final double trenchRotations = 50.0;
     // final PositionTorqueCurrentFOC m_request = new PositionTorqueCurrentFOC(0);
     // private final com.ctre.phoenix6.controls.MotionMagicVoltage m_request = new com.ctre.phoenix6.controls.MotionMagicVoltage(0);
     private boolean isDeployed = false;
@@ -36,16 +36,16 @@ public class Intake extends SubsystemBase{
         rotatorConfig = new TalonFXConfiguration();
         suckerConfig = new TalonFXConfiguration();
 
-        // SLOT 0: Standard Movement (Fast)
+        // SLOT 0: Standard Movement
         rotatorConfig.Slot0.kP = 12.0; // Higher P for 125:1 ratio
         rotatorConfig.Slot0.kV = 0.12;
         rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 120; 
 
-        // SLOT 1: Jiggle Movement (Slow)
+        // SLOT 1: Jiggle Movement 
         rotatorConfig.Slot1.kP = 15.0;
-        rotatorConfig.Slot1.kV = 0.12;
+        rotatorConfig.Slot1.kV = 0.3;
 
-        rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 60; // Slow speed for jiggle
+        //rotatorConfig.MotionMagic.MotionMagicCruiseVelocity = 60; // Slow speed for jiggle
         rotatorConfig.MotionMagic.MotionMagicAcceleration = 150;
 
         rotatorConfig.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
@@ -161,6 +161,16 @@ public class Intake extends SubsystemBase{
             Commands.waitSeconds(0.5)
     );
     }
+
+    public Command JIGGLEHARD() {
+        return Commands.repeatingSequence(
+            Commands.runOnce(() -> setIntakeAngle(60, 0), this), 
+            Commands.waitSeconds(0.3),
+            Commands.runOnce(() -> setIntakeAngle(20, 0), this), 
+            Commands.waitSeconds(0.3)
+    );
+    }
+
     public Command unclogCommand(){
         return Commands.sequence(
             setSuckerCommand(-0.2),
@@ -171,12 +181,12 @@ public class Intake extends SubsystemBase{
     
     @Override
     public void periodic() {
-        suckerCurrent = sucker.getSupplyCurrent().getValueAsDouble();
-        Logger.recordOutput("Intake/IntakeCurrent", suckerCurrent);
-        if (suckerCurrent > 80) {
-            System.out.println("Intake stalled! Current: " + suckerCurrent);
-            unclogCommand();
-        } 
+        //suckerCurrent = sucker.getSupplyCurrent().getValueAsDouble();
+        //Logger.recordOutput("Intake/IntakeCurrent", suckerCurrent);
+        //if (suckerCurrent > 80) {
+          //  System.out.println("Intake stalled! Current: " + suckerCurrent);
+            //unclogCommand();
+        //} 
     }
     
 }

@@ -51,7 +51,7 @@ public class DriveCommands {
   final Translation2d blueHopper = new Translation2d(4.6228, 4.01); //hopper point
   private static boolean previousZone = false;
 
-  PathConstraints constraints = new PathConstraints(
+  private static PathConstraints constraints = new PathConstraints(
         3.0, 4.0,
         Units.degreesToRadians(540), Units.degreesToRadians(720));
 
@@ -319,6 +319,14 @@ public class DriveCommands {
       final Translation2d hopper = getHopper();
     return () -> (hopper.getDistance(drive.getPose().getTranslation()));
   }
+
+  public static DoubleSupplier findXDistance(Drive drive){
+    final Translation2d hopper = getHopper();
+    double x = hopper.getX();
+    return () -> (drive.getPose().getTranslation().getX() - x);
+
+  }
+
   //finds if in between zone
   public static boolean isShootingZone(Drive drive, Translation2d hopper, double minDistance, double maxDistance){
     double distance = hopper.getDistance(drive.getPose().getTranslation());
@@ -412,11 +420,11 @@ if (inInner) {
 }
 
 
-  public BooleanSupplier homeSide(Drive drive) {
+  public static BooleanSupplier homeSide(Drive drive) {
     return () -> drive.getPose().getTranslation().getX() < getHopper().getX();
   }
 
-  public Command trenchRunnerRight(Drive drive) {
+  public static Command trenchRunnerRight(Drive drive) {
     if (homeSide(drive).getAsBoolean()) {
       return AutoBuilder.pathfindThenFollowPath(
           DriveCommands.loadPath("trench right to middle"),
@@ -428,7 +436,7 @@ if (inInner) {
     }
   }
 
-    public Command trenchRunnerLeft(Drive drive) {
+    public static Command trenchRunnerLeft(Drive drive) {
     if (homeSide(drive).getAsBoolean()) {
       return AutoBuilder.pathfindThenFollowPath(
           DriveCommands.loadPath("trench left to middle"),

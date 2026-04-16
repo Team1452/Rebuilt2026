@@ -5,9 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "TrenchMode"
+            "pathName": "alliance1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "alliance2"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
           }
         },
         {
@@ -17,7 +29,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench"
+                  "pathName": "alliance3"
                 }
               },
               {
@@ -30,7 +42,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -42,57 +54,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Jiggle"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "AutoLock"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "citrusLeftTrench2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeDeploy"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "Jiggle"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoLock"
                 }
               }
             ]

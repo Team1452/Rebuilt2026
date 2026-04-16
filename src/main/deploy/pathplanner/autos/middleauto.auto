@@ -5,19 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "TrenchMode"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench"
+                  "pathName": "middle auto"
                 }
               },
               {
@@ -30,51 +24,13 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Jiggle"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoLock"
-                }
-              }
-            ]
+            "pathName": "middle auto2"
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "citrusLeftTrench2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IntakeDeploy"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {

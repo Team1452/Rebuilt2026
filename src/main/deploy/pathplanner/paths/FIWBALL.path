@@ -3,48 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.468123195380173,
-        "y": 5.187170356111645
+        "x": 2.3984185606060606,
+        "y": 5.506779495492652
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.468123195380173,
-        "y": 5.187170356111645
+        "x": 3.3984185606060606,
+        "y": 5.506779495492652
       },
       "isLocked": false,
-      "linkedName": "fib3"
+      "linkedName": "citrusLeft"
     },
     {
       "anchor": {
-        "x": 4.572925890279114,
-        "y": 5.634533205004812
+        "x": 2.3984185606060606,
+        "y": 7.572897727272727
       },
       "prevControl": {
-        "x": 6.547957170356111,
-        "y": 5.931325794032723
+        "x": 1.3984185606060606,
+        "y": 7.572897727272727
       },
       "nextControl": {
-        "x": 2.5978946102021174,
-        "y": 5.3377406159769
+        "x": 2.6484185606060606,
+        "y": 7.572897727272727
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.033001893939394,
-        "y": 4.0
+        "x": 4.229368434410311,
+        "y": 7.41186225503178
       },
       "prevControl": {
-        "x": 1.7830018939393941,
-        "y": 4.0
+        "x": 4.4719040594466435,
+        "y": 7.4724961612908665
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "climb"
+      "linkedName": "leftTrench"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.8512110726643629,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -61,10 +66,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "taxis + FIWB",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": -33.326067679128954
   },
   "useDefaultConstraints": true
 }

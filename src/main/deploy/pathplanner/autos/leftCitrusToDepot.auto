@@ -15,28 +15,28 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "citrusLeftTrench"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "IntakeDeploy"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "citrusLeftTrench"
                 }
               }
             ]
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Shoot"
+                  "name": "Shoot7s"
                 }
               },
               {
@@ -61,7 +61,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench2"
+                  "pathName": "citrusLeftDepot2"
                 }
               },
               {
@@ -74,7 +74,13 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "path",
+          "data": {
+            "pathName": "citrusLeftDepot3"
+          }
+        },
+        {
+          "type": "race",
           "data": {
             "commands": [
               {

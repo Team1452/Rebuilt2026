@@ -40,7 +40,7 @@ public class Shooter extends SubsystemBase{
         .withKP(0.4).withKI(0).withKD(0)
         .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
-    SlewRateLimiter filter = new SlewRateLimiter(10);
+    SlewRateLimiter filter = new SlewRateLimiter(55);
     private double power = 0.0;
     private double rampPower = 0;
     
@@ -131,9 +131,23 @@ public class Shooter extends SubsystemBase{
         //Logger.recordOutput("Shooter/InterpolatedAngle", settings[1]);
     }
 
+    public void getPassingSettings(Drive drive) {
+        ShooterInterpolation interpolation = new ShooterInterpolation();
+        double[] settings = interpolation.getPassingSettings(drive);
+        double power = settings[0];
+        rampPower = power + 2;
+        Logger.recordOutput("Shooter/InterpolatedPower", power);
+        //Logger.recordOutput("Shooter/InterpolatedAngle", settings[1]);
+    }
+
     // shooting using interpolation
     public Command interpolatedShootingCommand(Drive drive) {
         return Commands.run(() -> getSettings(drive));
+    }
+
+    // shooting using interpolation
+    public Command interpolatedPassingCommand(Drive drive) {
+        return Commands.run(() -> getPassingSettings(drive));
     }
 
     public void getPower(Drive drive) {

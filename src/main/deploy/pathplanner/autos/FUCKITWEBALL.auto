@@ -11,6 +11,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -59,9 +65,28 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "TrenchMode"
+                }
+              },
+              {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench2"
+                  "pathName": "FIWBALL"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "citrusLeftTrench"
                 }
               },
               {

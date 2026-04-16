@@ -148,9 +148,12 @@ public class RobotContainer {
         break;
     }
   
-    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0));
 
-    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, 6, 50));
+    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, drive, hood, 4));
+
+    NamedCommands.registerCommand("Shoot7s", MultiCommands.autoShootCommand(indexer, shooter, drive, hood, 6));
+
 
     NamedCommands.registerCommand("ShootingAnywhere", shooter.interpolatedShootingCommand(drive).until(shooter.isAtSpeed(2)));
 
@@ -219,7 +222,7 @@ public class RobotContainer {
 
     
     // shooter power control
-    fightBox.button(1).onTrue(shooter.incrementPowerCommand(40));
+    //fightBox.button(1).onTrue(shooter.incrementPowerCommand(40));
     controller.povRight().onTrue(shooter.incrementPowerCommand(1));
     controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
 
@@ -242,27 +245,52 @@ public class RobotContainer {
         .button(10)
         .onTrue(intake.zeroCommand());
 
-    // spindexer
-    controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.4, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
+    // spindexerr
+    controller.rightTrigger().onTrue(indexer.activatePorknado(-0.4, 0.7)).onFalse(indexer.activatePorknado(0, 0));
 
     // lock on hopper
-    controller.leftTrigger().toggleOnTrue(
-            DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+    controller.leftTrigger().whileTrue(
+        Commands.parallel(
+            shooter.interpolatedShootingCommand(drive), 
+            hood.autoHood(drive),
+            DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX())
+            ));
+
+    //controller.povUp().whileTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+
+    controller.leftTrigger().whileFalse(shooter.IBegTheeStop());
 
     // intake stuff
-    controller.y().toggleOnTrue(intake.JIGGLE());
+    fightBox.button(4).whileTrue(intake.JIGGLE());
+    fightBox.button(6).whileTrue(intake.JIGGLEHARD());
+
+    fightBox.button(1).onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.3))).onFalse(intake.setRotatorCommand(0));
+    fightBox.button(2).onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.3))).onFalse(intake.setRotatorCommand(0));
+
+    controller.leftBumper().whileTrue(shooter.setRampPowerCommand(-30));
+    controller.rightBumper().whileTrue(intake.setSuckerCommand(-0.5));
+
     controller.x().onTrue(intake.deployIntake());
     controller.b().onTrue(intake.retractIntake());
 
+    controller.povUp().whileTrue(Commands.parallel(shooter.interpolatedPassingCommand(drive), hood.autoHood(drive)));
+    controller.povUp().onFalse(shooter.IBegTheeStop());
+
     // hood stuff
-    controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
-    controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
+    //controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    //controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
 
     // trench mode
-    fightBox.button(2).onTrue(MultiCommands.goingUnder(intake, hood));
-    fightBox.button(3).onTrue(shooter.IBegTheeStop());
-    fightBox.button(4).onTrue(hood.setPositionCommand(-0.365));
-    fightBox.button(5).toggleOnTrue(shooter.interpolatedShootingCommand(drive));
+    //fightBox.button(4).onTrue(shooter.IBegTheeStop());
+    fightBox.button(3).onTrue(MultiCommands.goingUnder(intake, hood));
+
+    //fightBox.button(1).onTrue(DriveCommands.trenchRunnerLeft(drive));
+    //fightBox.button(2).onTrue(DriveCommands.trenchRunnerRight(drive));
+
+
+    //fightBox.button(3).onTrue(shooter.IBegTheeStop());
+    //fightBox.button(4).onTrue(hood.setPositionCommand(-0.365));
+    //fightBox.button(5).toggleOnTrue(Commands.parallel(shooter.interpolatedShootingCommand(drive), hood.autoHood(drive)));
 
   }
 

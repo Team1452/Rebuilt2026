@@ -22,6 +22,8 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.drive.*;;
+
 
 
 
@@ -38,9 +40,11 @@ public class MultiCommands {
         );
     }
 
-    public static Command autoShootCommand(Indexer indexer, Shooter shooter, double waitTime, double rps) {
+    public static Command autoShootCommand(Indexer indexer, Shooter shooter, Drive drive, Hood hood, double waitTime) {
         return Commands.sequence(
-            shooter.setRampPowerCommand(rps),
+            Commands.deadline(
+            shooter.interpolatedShootingCommand(drive).until(shooter.isAtSpeed(2)),
+            hood.autoHood(drive)),
             Commands.waitUntil(shooter.isAtSpeed(2)),
             //Commands.waitSeconds(4),
             indexer.activatePorknado(-0.4, 0.7), 
@@ -85,5 +89,9 @@ public class MultiCommands {
             hood.goFlat()
         );
     } 
+
+    public static Command vomit(Intake intake, Shooter shooter, Indexer indexer) {
+       return Commands.parallel(shooter.setRampPowerCommand(-30),intake.setSuckerCommand(-0.5), indexer.activatePorknado(0.5, -0.5));
+    }
 
 }
