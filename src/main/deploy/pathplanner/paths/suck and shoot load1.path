@@ -21,7 +21,11 @@
       },
       "prevControl": {
         "x": 6.200279649634238,
+<<<<<<< HEAD
         "y": 0.6630516910365046
+=======
+        "y": 0.6630516910365045
+>>>>>>> dizzle
       },
       "nextControl": {
         "x": 8.170796875,
@@ -82,7 +86,11 @@
     "rotation": -173.32481692054506
   },
   "reversed": false,
+<<<<<<< HEAD
   "folder": "autos",
+=======
+  "folder": null,
+>>>>>>> dizzle
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

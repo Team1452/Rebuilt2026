@@ -22,6 +22,8 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.drive.*;;
+
 
 
 
@@ -30,37 +32,42 @@ public class MultiCommands {
 
     public MultiCommands() {}
 
-    public static Command PushAndShootCommand(Indexer indexer, Shooter shooter) {
+    public static Command autoIntakeCommand(Intake intake, double waitTime) {
         return Commands.sequence(
-            Commands.parallel(
-                shooter.setShooterCommand(0.6),
-                indexer.activatePorknado(0.35, 0.3)
-                ),
-            Commands.waitSeconds(2),
+            intake.deployIntake(),
+            Commands.waitSeconds(waitTime),
+            intake.stopSuckerCommand()
+        );
+    }
+
+    public static Command autoShootCommand(Indexer indexer, Shooter shooter, Drive drive, Hood hood, double waitTime) {
+        return Commands.sequence(
+            Commands.deadline(
+            shooter.interpolatedShootingCommand(drive).until(shooter.isAtSpeed(2)),
+            hood.autoHood(drive)),
+            Commands.waitUntil(shooter.isAtSpeed(2)),
+            //Commands.waitSeconds(4),
+            indexer.activatePorknado(-0.4, 0.7), 
+            Commands.waitSeconds(waitTime),
             Commands.parallel(
                 indexer.activatePorknado(0, 0),
                 shooter.IBegTheeStop())
             );
     }
 
-    public static Command defaultState(Intake intake, Climber climber) {
+    public static Command ShootAndJiggle(Intake intake, Indexer indexer) {
         return Commands.sequence(
-            intake.retractIntake(),
-            climber.retractCommand()
+            indexer.activatePorknado(-0.4, 0.7),
+            Commands.waitSeconds(2),
+            intake.JIGGLE()
         );
-    }
 
-    public static Command climbTIME(Intake intake, Climber climber) {
-        return Commands.sequence(
-            intake.retractIntake(),
-            climber.extendCommand()
-        );
     }
     
     public static Command goShootPosition(Shooter shooter, Indexer indexer, Hood hood) {
         return Commands.sequence(
             Commands.parallel(
-               shooter.setShooterCommand2(2.75),
+               shooter.setShooterCommand(2.75),
                 hood.setPositionCommand(-0.02)
         ), 
         Commands.waitSeconds(0.5),
@@ -71,16 +78,20 @@ public class MultiCommands {
         return
             Commands.parallel(
                 indexer.activatePorknado(0, 0),
-                shooter.setShooterCommand(0.0),
+                shooter.IBegTheeStop(),
                 intake.setSuckerCommand(0)
                 ); 
     }
 
     public static Command goingUnder(Intake intake, Hood hood) {
         return Commands.parallel(
-            intake.trenchTime(),
+            intake.trenchMode(),
             hood.goFlat()
         );
+    } 
+
+    public static Command vomit(Intake intake, Shooter shooter, Indexer indexer) {
+       return Commands.parallel(shooter.setRampPowerCommand(-30),intake.setSuckerCommand(-0.5), indexer.activatePorknado(0.5, -0.5));
     }
 
 }

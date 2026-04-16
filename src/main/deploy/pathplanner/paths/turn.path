@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.468123195380173,
-        "y": 5.187170356111645
+        "x": 2.0,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.468123195380173,
-        "y": 5.187170356111645
-      },
-      "isLocked": false,
-      "linkedName": "fib3"
-    },
-    {
-      "anchor": {
-        "x": 4.572925890279114,
-        "y": 5.634533205004812
-      },
-      "prevControl": {
-        "x": 6.547957170356111,
-        "y": 5.931325794032723
-      },
-      "nextControl": {
-        "x": 2.5978946102021174,
-        "y": 5.3377406159769
+        "x": 2.25,
+        "y": 4.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.033001893939394,
+        "x": 4.0,
         "y": 4.0
       },
       "prevControl": {
-        "x": 1.7830018939393941,
+        "x": 3.75,
         "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "climb"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
-  "folder": "taxis + FIWB",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

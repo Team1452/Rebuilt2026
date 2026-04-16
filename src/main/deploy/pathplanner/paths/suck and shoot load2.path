@@ -36,12 +36,21 @@
         "y": 0.6548109809027778
       },
       "prevControl": {
+<<<<<<< HEAD
         "x": 8.034515449862347,
         "y": 0.8037039707209772
       },
       "nextControl": {
         "x": 7.434843532986111,
         "y": 0.3591043113425927
+=======
+        "x": 8.034515449862349,
+        "y": 0.8037039707209788
+      },
+      "nextControl": {
+        "x": 7.434843532986111,
+        "y": 0.35910431134259274
+>>>>>>> dizzle
       },
       "isLocked": false,
       "linkedName": null
@@ -82,7 +91,11 @@
     "rotation": -178.0617831323421
   },
   "reversed": false,
+<<<<<<< HEAD
   "folder": "autos",
+=======
+  "folder": null,
+>>>>>>> dizzle
   "idealStartingState": {
     "velocity": 0,
     "rotation": -173.32481692054506

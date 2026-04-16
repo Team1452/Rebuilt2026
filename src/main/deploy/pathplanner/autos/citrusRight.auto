@@ -5,29 +5,6 @@
     "data": {
       "commands": [
         {
-<<<<<<< HEAD
-          "type": "path",
-          "data": {
-            "pathName": "citrusLeftTrench"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "citrusLeftTrench2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-=======
           "type": "named",
           "data": {
             "name": "TrenchMode"
@@ -40,7 +17,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench"
+                  "pathName": "citrusRighttrench"
                 }
               },
               {
@@ -53,7 +30,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -84,7 +61,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "citrusLeftTrench2"
+                  "pathName": "citrusRightTrench2"
                 }
               },
               {
@@ -97,7 +74,7 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -119,7 +96,6 @@
                 }
               }
             ]
->>>>>>> dizzle
           }
         }
       ]

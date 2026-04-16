@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.468123195380173,
-        "y": 5.187170356111645
+        "x": 3.514212405102401,
+        "y": 4.0278387623587575
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.468123195380173,
-        "y": 5.187170356111645
-      },
-      "isLocked": false,
-      "linkedName": "fib3"
-    },
-    {
-      "anchor": {
-        "x": 4.572925890279114,
-        "y": 5.634533205004812
-      },
-      "prevControl": {
-        "x": 6.547957170356111,
-        "y": 5.931325794032723
-      },
-      "nextControl": {
-        "x": 2.5978946102021174,
-        "y": 5.3377406159769
+        "x": 3.764212405102401,
+        "y": 4.0278387623587575
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.033001893939394,
-        "y": 4.0
+        "x": 1.681322662870763,
+        "y": 4.0278387623587575
       },
       "prevControl": {
-        "x": 1.7830018939393941,
-        "y": 4.0
+        "x": 1.431322662870763,
+        "y": 4.0278387623587575
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "climb"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -61,10 +45,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "taxis + FIWB",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

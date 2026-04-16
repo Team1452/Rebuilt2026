@@ -62,13 +62,12 @@ import org.littletonrobotics.junction.Logger;
  */
 public class RobotContainer {
   // Subsystems
-  private final Indexer indexer = new Indexer();
   private final Drive drive;
   private final Vision vision;
-  private final Shooter shooter = new Shooter();
-  private final Hood hood;
   private final Intake intake = new Intake();
-  private final LEDSubsystem ledSystem = new LEDSubsystem();
+  private final Shooter shooter = new Shooter();
+  private final Indexer indexer = new Indexer();
+  private final Hood hood = new Hood();
 
 
   // Controller
@@ -114,8 +113,6 @@ public class RobotContainer {
         //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
         //         new ModuleIOTalonFXS(TunerConstants.BackRight));
 
-        hood = new Hood(drive);
-
         break;
 
       case SIM:
@@ -134,8 +131,6 @@ public class RobotContainer {
                 new VisionIOPhotonVisionSim(VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose));
                 //new VisionIOPhotonVisionSim(VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose));
 
-        hood = new Hood(drive);
-
         break;
 
       default:
@@ -150,17 +145,25 @@ public class RobotContainer {
 
         vision = new Vision(drive::addVisionMeasurement, new VisionIO() {}, new VisionIO() {}, new VisionIO() {}, new VisionIO() {});
 
-        hood = new Hood(drive);
-
         break;
     }
   
-    /* NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 5)));
-    NamedCommands.registerCommand("Shoot", shooter.controllerShoot(1));
-    NamedCommands.registerCommand("HoodActivate", hood.activateDistanceControl());
-    NamedCommands.registerCommand("HoodDown", hood.goFlat());
-    NamedCommands.registerCommand("Porknado", indexer.activatePorknado(1, 1));
-    NamedCommands.registerCommand("PushAndShoot", MultiCommands.PushAndShootCommand(indexer, shooter)); */
+    NamedCommands.registerCommand("AutoLock", DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0));
+
+    NamedCommands.registerCommand("Shoot", MultiCommands.autoShootCommand(indexer, shooter, drive, hood, 4));
+
+    NamedCommands.registerCommand("Shoot7s", MultiCommands.autoShootCommand(indexer, shooter, drive, hood, 6));
+
+
+    NamedCommands.registerCommand("ShootingAnywhere", shooter.interpolatedShootingCommand(drive).until(shooter.isAtSpeed(2)));
+
+    NamedCommands.registerCommand("IntakeDeploy", MultiCommands.autoIntakeCommand(intake, 5));
+
+    NamedCommands.registerCommand("IntakeRetract", intake.retractIntake());
+
+    NamedCommands.registerCommand("Jiggle", intake.JIGGLE());
+
+    NamedCommands.registerCommand("TrenchMode", Commands.sequence(MultiCommands.goingUnder(intake, hood), Commands.waitSeconds(1)));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -199,11 +202,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
-    PathConstraints constraints = new PathConstraints(
-        3.0, 4.0,
-        Units.degreesToRadians(540), Units.degreesToRadians(720));
-
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
@@ -211,86 +209,8 @@ public class RobotContainer {
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
-
-    // Toggle aligns to fixed coordinate -(hopper) -arbitrary value(adjust later) with A button
-
-    //controller.a().toggleOnTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
     
-    //controller.x().onTrue(Commands.parallel(intake.setSuckerCommand(0), indexer.setRollerCommand(0), shooter.setShooterCommand(0)));
-
-
-    controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
-    controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
-
-    controller.povRight().onTrue(shooter.incrementPowerCommand(1));
-    controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
-
-    // rotate intake in
-    controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.4))).onFalse(intake.setRotatorCommand(0));
-
-    // rotate intake out
-    controller.leftBumper().toggleOnTrue(shooter.setShooterCommand4(drive));
-
-    // activate indexer
-    //controller.rightTrigger().onTrue(Commands.sequence(shooter.setShooterCommand2(6.5), Commands.waitSeconds(1), indexer.activatePorknado(-0.4, 0.5))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
-    controller.rightTrigger().onTrue(Commands.sequence(indexer.activatePorknado(-0.6, 0.7))).onFalse(Commands.parallel(indexer.activatePorknado(0, 0), shooter.IBegTheeStop()));
-
-
-    // lock on target
-    controller.leftTrigger().toggleOnTrue(
-    Commands.parallel(
-        DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()),
-        Commands.runOnce(() -> ledSystem.setAnimation(AnimationType.Blue, 1)),
-        shooter.setShooterCommand3(drive),
-        hood.autoHood(drive)));
-
-
-    controller.a().onTrue(intake.setSuckerCommand(0.55)).onFalse(intake.setSuckerCommand(0));
-    controller.y().toggleOnTrue(intake.JIGGLE());
-
-    controller.x().onTrue(intake.deployIntake());
-    controller.b().onTrue(intake.retractIntake());
-
-    //controller.rightStick().onTrue(MultiCommands.goShootPosition(shooter, indexer, hood));
-
-    controller.leftStick().onTrue(MultiCommands.stopping(shooter, indexer, intake));
-
-     fightBox
-        .button(9)
-        .onTrue(intake.setRotatorPosition(70));
-    
-    fightBox
-        .button(10)
-        .onTrue(intake.zeroCommand());
-    fightBox
-        .button(1)
-        .onTrue(Commands.sequence(
-            DriveCommands.getRunMyPathCommand("lineShooter"), 
-            MultiCommands.goShootPosition(shooter,indexer,hood)));
-
-    fightBox
-        .button(2)
-        .toggleOnTrue(DriveCommands.turnGreen(drive, ledSystem));
-
-
-    fightBox
-        .button(3)
-        .onTrue(
-            AutoBuilder.pathfindThenFollowPath(
-                DriveCommands.loadPath("trench left to home"),
-                constraints)
-            );
-            
-          
-
-    // In RobotContainer.java
-//new Trigger(() -> Math.abs(controller.getLeftY()) > 0.1 || Math.abs(controller.getLeftX()) > 0.1)
-  //  .onTrue(new InstantCommand(drive::stop, drive));
-
-
-            
-   
-   controller
+    controller
         .rightStick()
         .onTrue(
             Commands.runOnce(
@@ -299,8 +219,78 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
                     drive)
                 .ignoringDisable(true));
+
     
-    
+    // shooter power control
+    //fightBox.button(1).onTrue(shooter.incrementPowerCommand(40));
+    controller.povRight().onTrue(shooter.incrementPowerCommand(1));
+    controller.povLeft().onTrue(shooter.incrementPowerCommand(-1));
+
+    // rotate intake in
+    controller.rightBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.3))).onFalse(intake.setRotatorCommand(0));
+
+    // rotate intake out
+    controller.leftBumper().onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.3))).onFalse(intake.setRotatorCommand(0));
+
+    // suck in
+    controller.a().onTrue(intake.setSuckerCommand(0.8)).onFalse(intake.setSuckerCommand(0));
+    fightBox.button(6).onTrue(intake.setSuckerCommand(-0.4)).onFalse(intake.setSuckerCommand(0));
+
+
+    // zeroing
+    fightBox
+        .button(9)
+        .onTrue(intake.setRotatorPosition(70));
+    fightBox
+        .button(10)
+        .onTrue(intake.zeroCommand());
+
+    // spindexerr
+    controller.rightTrigger().onTrue(indexer.activatePorknado(-0.4, 0.7)).onFalse(indexer.activatePorknado(0, 0));
+
+    // lock on hopper
+    controller.leftTrigger().whileTrue(
+        Commands.parallel(
+            shooter.interpolatedShootingCommand(drive), 
+            hood.autoHood(drive),
+            DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX())
+            ));
+
+    //controller.povUp().whileTrue(DriveCommands.centerOnHopperCommand(drive, () -> -controller.getLeftY(), () -> -controller.getLeftX()));
+
+    controller.leftTrigger().whileFalse(shooter.IBegTheeStop());
+
+    // intake stuff
+    fightBox.button(4).whileTrue(intake.JIGGLE());
+    fightBox.button(6).whileTrue(intake.JIGGLEHARD());
+
+    fightBox.button(1).onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(0.3))).onFalse(intake.setRotatorCommand(0));
+    fightBox.button(2).onTrue(Commands.sequence(intake.setSuckerCommand(0), intake.setRotatorCommand(-0.3))).onFalse(intake.setRotatorCommand(0));
+
+    controller.leftBumper().whileTrue(shooter.setRampPowerCommand(-30));
+    controller.rightBumper().whileTrue(intake.setSuckerCommand(-0.5));
+
+    controller.x().onTrue(intake.deployIntake());
+    controller.b().onTrue(intake.retractIntake());
+
+    controller.povUp().whileTrue(Commands.parallel(shooter.interpolatedPassingCommand(drive), hood.autoHood(drive)));
+    controller.povUp().onFalse(shooter.IBegTheeStop());
+
+    // hood stuff
+    //controller.povUp().onTrue(hood.up()).onFalse(hood.neutralCommand());
+    //controller.povDown().onTrue(hood.down()).onFalse(hood.neutralCommand());
+
+    // trench mode
+    //fightBox.button(4).onTrue(shooter.IBegTheeStop());
+    fightBox.button(3).onTrue(MultiCommands.goingUnder(intake, hood));
+
+    //fightBox.button(1).onTrue(DriveCommands.trenchRunnerLeft(drive));
+    //fightBox.button(2).onTrue(DriveCommands.trenchRunnerRight(drive));
+
+
+    //fightBox.button(3).onTrue(shooter.IBegTheeStop());
+    //fightBox.button(4).onTrue(hood.setPositionCommand(-0.365));
+    //fightBox.button(5).toggleOnTrue(Commands.parallel(shooter.interpolatedShootingCommand(drive), hood.autoHood(drive)));
 
   }
 
@@ -310,22 +300,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    // middle start
-    return Commands.sequence(
-        autoChooser.get(), 
-        //intake.deployIntake(),
-        //intake.setSuckerCommand(0),
-        //DriveCommands.centerOnHopperCommand(drive, () -> 0.0, () -> 0.0).until(DriveCommands.isFacingHopper(drive, 10)),
-        MultiCommands.goShootPosition(shooter, indexer, hood), 
-        Commands.waitSeconds(5),
-        //intake.retractIntake(),
-        MultiCommands.stopping(shooter, indexer, intake));
-        /*intake.deployIntake(),
-        DriveCommands.getRunMyPathCommand("FIWB1"))
-        DriveCommands.getRunMyPathCommand("FIWB3"),
-        DriveCommands.getRunMyPathCommand("FIWB4"),
-        MultiCommands.goShootPosition(shooter, indexer, hood)); */
+        return Commands.sequence(autoChooser.get(), MultiCommands.stopping(shooter, indexer, intake));
   }
 
 }

@@ -4,6 +4,7 @@ import static frc.robot.util.PhoenixUtil.*;
 
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,8 +24,10 @@ import frc.robot.subsystems.ShooterInterpolation;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 import java.util.TreeMap;
+import java.util.function.BooleanSupplier;
 
 
 public class Shooter extends SubsystemBase{
@@ -37,8 +40,9 @@ public class Shooter extends SubsystemBase{
         .withKP(0.4).withKI(0).withKD(0)
         .withKS(0.1).withKV(0.125).withKA(0).
         withStaticFeedforwardSign(StaticFeedforwardSignValue.UseClosedLoopSign);
-
+    SlewRateLimiter filter = new SlewRateLimiter(55);
     private double power = 0.0;
+    private double rampPower = 0;
     
     public Shooter() {
         gunWheel = new TalonFX(TunerConstants.gunWheelMotorID,  TunerConstants.kCANBus2);
@@ -47,34 +51,39 @@ public class Shooter extends SubsystemBase{
         gunConfig = new TalonFXConfiguration();
         followerConfig = new TalonFXConfiguration();
 
+        gunConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        followerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+
         gunConfig.Slot0 = gunGains;
         followerConfig.Slot0 = gunGains;
 
-        gunConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        gunConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         followerConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         
         gunWheel.getConfigurator().apply(gunConfig, 0.25);
         follower.getConfigurator().apply(followerConfig, 0.25);
 
+        filter.reset(0);
+
         follower.setControl(new Follower(gunWheel.getDeviceID(), MotorAlignmentValue.Opposed));
     }
 
-    public void setShooter(double velocity) {
+    public void setShooterFractional(double velocity) {
         gunWheel.set(velocity);
     }
 
-    public void setShooter2(double rps) {
+    public void setShooterVelocity(double rps) {
         gunWheel.setControl(new VelocityVoltage(rps));
     }
 
     public void stopShooter() {
-        gunWheel.set(0);
+        //filter.reset(0);
+        rampPower = 0;
         gunWheel.stopMotor();
     }
 
     public void incrementPower(double increment) {
-        power = MathUtil.clamp(power + increment, 0, 300);
-        setShooter2(power);
+        rampPower = MathUtil.clamp(rampPower + increment, 0, 300);
     }
 
     public Command incrementPowerCommand(double increment) {
@@ -82,48 +91,61 @@ public class Shooter extends SubsystemBase{
     }
 
     public Command shootPowerCommand() {
-        return Commands.runOnce(() -> setShooter(power), this);
+        return Commands.runOnce(() -> setShooterFractional(power), this);
     }
 
     public Command simpleShoot() {
         return Commands.sequence(
-            Commands.runOnce(() -> setShooter(0.1)), 
+            Commands.runOnce(() -> setShooterFractional(0.1)), 
             Commands.waitSeconds(2), 
-            Commands.runOnce(() -> setShooter(0)));
+            Commands.runOnce(() ->  setShooterFractional(0)));
     }
 
     public Command IBegTheeStop() {
         return Commands.runOnce(() -> stopShooter());
     }
 
-    public Command controllerShoot(double rps) {
+   public Command autoShootCommand(double rps, double waitTime) {
         return Commands.sequence(
-            Commands.runOnce(() -> setShooter2(rps)), 
-            Commands.waitSeconds(2), 
-            Commands.runOnce(() -> setShooter2(0)));
+            Commands.runOnce(() -> rampUpCommand(rps)), 
+            Commands.waitSeconds(waitTime), 
+            IBegTheeStop());
     }
 
-    public Command setShooterCommand(double fractional) {
-        return Commands.runOnce(() -> setShooter(fractional));
+    // shooting using fractional power
+    public Command setShooterFractionalCommand(double fractional) {
+        return Commands.runOnce(() -> setShooterFractional(fractional));
     }
 
-    public Command setShooterCommand2(double rps) {
-        return Commands.runOnce(() -> setShooter2(rps));
+    // shooting using velocity control
+    public Command setShooterCommand(double rps) {
+        return Commands.runOnce(() -> setShooterVelocity(rps));
     }
 
     public void getSettings(Drive drive) {
         ShooterInterpolation interpolation = new ShooterInterpolation();
         double[] settings = interpolation.getSettings(drive);
         double power = settings[0];
-        setShooter2(power);
+        rampPower = power;
         Logger.recordOutput("Shooter/InterpolatedPower", power);
         //Logger.recordOutput("Shooter/InterpolatedAngle", settings[1]);
     }
 
-    public Command setShooterCommand3(Drive drive) {
+    public void getPassingSettings(Drive drive) {
+        ShooterInterpolation interpolation = new ShooterInterpolation();
+        double[] settings = interpolation.getPassingSettings(drive);
+        double power = settings[0];
+        rampPower = power + 2;
+        Logger.recordOutput("Shooter/InterpolatedPower", power);
+        //Logger.recordOutput("Shooter/InterpolatedAngle", settings[1]);
+    }
+
+    // shooting using interpolation
+    public Command interpolatedShootingCommand(Drive drive) {
         return Commands.run(() -> getSettings(drive));
     }
 
+<<<<<<< HEAD
     public void getPowerLaw(Drive drive) {
         double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
         double power = 12.133 * Math.pow(distance, 0.34);
@@ -144,13 +166,48 @@ public class Shooter extends SubsystemBase{
 
     public Command setShooterCommand5(Drive drive) {
         return Commands.run(() -> getPowerLinear(drive));
+=======
+    // shooting using interpolation
+    public Command interpolatedPassingCommand(Drive drive) {
+        return Commands.run(() -> getPassingSettings(drive));
+    }
+
+    public void getPower(Drive drive) {
+        double distance = (DriveCommands.findDistance(drive).getAsDouble() * 39.3701) - 37;
+        double power = 12.133 * Math.pow(distance, 0.34);
+        setShooterFractional(power);
+    }
+
+    // shooting using distance calculation
+    public Command distanceShootingCommand(Drive drive) {
+        return Commands.run(() -> getPower(drive));
+>>>>>>> dizzle
+    }
+
+    public Command rampUpCommand(double rps){
+        return Commands.run(() -> setShooterVelocity(filter.calculate(rps)));
+    }
+
+    public void setRampPower(double rp) {
+        rampPower = rp;
+    }
+
+    public Command setRampPowerCommand(double rp) {
+        return Commands.runOnce(() -> setRampPower(rp));
+    }
+
+    public BooleanSupplier isAtSpeed(double tolerance) {
+        return () -> (Math.abs(gunWheel.getVelocity().getValueAsDouble() - rampPower) < tolerance);
     }
 
     @Override
     public void periodic() {
-        Logger.recordOutput("Shooter/PowerShot-Strength", power);
+        Logger.recordOutput("Shooter/RampPower-Strength", rampPower);
+        Logger.recordOutput("Shooter/Current-RPS", gunWheel.getVelocity().getValueAsDouble());
         //Logger.recordOutput("Shooter/GunWheel Velocity", gunWheel.getVelocity().getValueAsDouble());
         //Logger.recordOutput("Shooter/Follower Velocity", follower.getVelocity().getValueAsDouble());
+
+        setShooterVelocity(filter.calculate(rampPower));
     }
     
 
