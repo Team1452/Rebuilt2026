@@ -31,7 +31,7 @@ public class Intake extends SubsystemBase{
 
     
     public Intake() {
-        rotator = new TalonFX(TunerConstants.rotatorMotorID, TunerConstants.kCANBus2);
+        rotator = new TalonFX(TunerConstants.rotatorMotorID, TunerConstants.kCANBus);
         sucker = new TalonFX(TunerConstants.suckerMotorID, TunerConstants.kCANBus2);
         rotatorConfig = new TalonFXConfiguration();
         suckerConfig = new TalonFXConfiguration();
